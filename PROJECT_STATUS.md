@@ -4,12 +4,12 @@
 
 ## ACTIVE WORK
 
-- Owner: NONE
-- Device: NONE
-- Task: NONE
-- Started: —
-- Base commit: —
-- Working tree state: —
+- Owner: ChatGPT
+- Device: REMOTE / ChatGPT
+- Task: 建立所有 GitHub 專案共用的 START_PROJECT / FINISH_PROJECT 一次性安裝器
+- Started: 2026-08-22 12:27 +08:00
+- Base commit: current GitHub HEAD at task start
+- Working tree state: N/A for ChatGPT remote edit
 - Lock type: SOFT LOCK
 
 規則：開始實際修改前 claim Owner；Cursor claim 時必須同時填 `Device: OFFICE / HOME` 與當下 `Working tree state: CLEAN / DIRTY / UNKNOWN`。提交前再次確認 Owner、Device、branch HEAD、最新 changelog。若另一方或另一台裝置有新變更：STOP → SYNC → DIFF / REVIEW。
@@ -45,7 +45,18 @@
 - These scripts are project-agnostic and intended to replace `START_EGYPT / FINISH_EGYPT` after local OFFICE/HOME installation and validation.
 - No automatic commit is allowed.
 - No force push / hard reset is allowed.
-- Local installation, global command aliases, 19:00 OFFICE scheduling, and HOME setup are later steps and are not yet configured.
+
+## GENERIC PROJECT SYNC — STEP 2
+
+- `Install-ProjectWorkflow.ps1`: created.
+- Runs once per Windows computer with `OFFICE` or `HOME`.
+- Copies the generic scripts to `%USERPROFILE%\.project-workflow`.
+- Creates machine-user commands `START_PROJECT.cmd` and `FINISH_PROJECT.cmd` in that folder.
+- Adds the workflow folder to the current user's PATH without requiring admin rights.
+- Saves device identity once with Git global config `workflow.device=OFFICE/HOME`.
+- After installation, the commands are intended to work from any Git repository on that computer.
+- Local installation has NOT yet been executed on OFFICE or HOME; both remain UNKNOWN until actually tested.
+- 19:00 OFFICE scheduling remains a later step and is NOT configured yet.
 
 ## P0 STATUS
 
