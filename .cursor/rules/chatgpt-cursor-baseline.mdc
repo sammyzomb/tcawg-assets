@@ -1,0 +1,22 @@
+---
+description: ChatGPT × Cursor collaboration baseline for Egypt CAI12A
+alwaysApply: true
+---
+
+Before working on the Egypt / CAI12A project, always read these files in order:
+
+1. `CHATGPT_CURSOR_BASELINE.md`
+2. `IMPORTANT_TODO.md`
+3. `PROJECT_CHANGELOG.md`
+
+Rules:
+
+- Treat GitHub as the shared source of truth.
+- Run `git pull` before local work.
+- Do not re-implement a fix already committed by ChatGPT; verify it first.
+- If Cursor changes CSS, JS, HTML, external resource references, project rules, or the CMS paste version, update `PROJECT_CHANGELOG.md` in the same work session.
+- If a TODO status changes, update `IMPORTANT_TODO.md`.
+- Do not generate the final CMS paste HTML until required tests and status updates are complete, unless the user explicitly asks for a test-only paste version.
+- Preserve the approved global exception that hides `#sidebar` and `#sidebar-share-btn`.
+- The user should not be asked to manually merge CSS/JS or edit code. Cursor should produce the complete CMS paste HTML.
+- When handing work back to ChatGPT, leave exact test results, remaining issues, generated paste filename, and commit SHA in `PROJECT_CHANGELOG.md`.
