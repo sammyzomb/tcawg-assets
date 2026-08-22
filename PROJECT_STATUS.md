@@ -4,12 +4,12 @@
 
 ## ACTIVE WORK
 
-- Owner: ChatGPT
-- Device: REMOTE / ChatGPT
-- Task: 加入 Cursor-Office / Cursor-Home 雙裝置協作，以及忘記 Push / 忘記 Pull recovery 流程
-- Started: 2026-08-22 11:57 +08:00
-- Base commit: current GitHub HEAD at task start
-- Working tree state: N/A for ChatGPT remote edit
+- Owner: NONE
+- Device: NONE
+- Task: NONE
+- Started: —
+- Base commit: —
+- Working tree state: —
 - Lock type: SOFT LOCK
 
 規則：開始實際修改前 claim Owner；Cursor claim 時必須同時填 `Device: OFFICE / HOME` 與當下 `Working tree state: CLEAN / DIRTY / UNKNOWN`。提交前再次確認 Owner、Device、branch HEAD、最新 changelog。若另一方或另一台裝置有新變更：STOP → SYNC → DIFF / REVIEW。
@@ -28,6 +28,7 @@
 - Latest mobile change: dynamic viewport (`dvh`) overlay and removal of stale safeTop/safeBot dependency from primary mobile sticky layout / floating controls
 - Local browser test: NOT TESTED
 - Level B real-device test: NOT TESTED
+- Latest workflow change: Cursor-Office / Cursor-Home + Forgot Push / Pull Recovery established
 
 ## CURSOR DEVICE STATE
 
@@ -61,11 +62,13 @@ GitHub Development 不等於官網 LIVE。LIVE→Code=`UNKNOWN` 時，本次修�
 1. 確認自己是哪一台：`Device = OFFICE` 或 `HOME`。
 2. `git status`。
 3. 檢查 local branch 是否有 uncommitted changes / untracked files。
-4. `git fetch` 或等效 remote refresh，確認 local HEAD 與 remote HEAD 是否一致。
-5. 只有 working tree clean 且已確認 remote state 後，才執行安全 pull / fast-forward。
-6. pull 後再讀八份核心文件與最新 changelog。
-7. 確認 ACTIVE WORK Owner / Device。
-8. 才開始測試或修改。
+4. 檢查 local commits 是否尚未 push。
+5. `git fetch` 或等效 remote refresh，確認 local HEAD 與 remote HEAD 關係。
+6. 分類同步狀態：`SYNCED / LOCAL_DIRTY / LOCAL_AHEAD / REMOTE_AHEAD / DIVERGED / UNKNOWN / RECOVERY_REQUIRED`。
+7. 只有安全同步後才 pull / fast-forward。
+8. pull 後讀八份核心文件與最新 changelog。
+9. 確認 ACTIVE WORK Owner / Device。
+10. 才開始測試或修改。
 
 忘記 Push / Pull 的完整處理以 `CURSOR_MULTI_DEVICE_RECOVERY.md` 為準。
 
