@@ -15,24 +15,32 @@ Before any work, read in order:
 5. `RELEASE_REGISTRY.md`
 6. `DEPLOYMENT_CHECKLIST.md`
 7. `MOBILE_COMMUTE_WORKFLOW.md`
+8. `CURSOR_MULTI_DEVICE_RECOVERY.md`
 
 Core rules:
 
-1. Run `git status` before `git pull`. Never pull blindly over uncommitted changes.
-2. Respect `PROJECT_STATUS.md` ACTIVE WORK. Owner is a SOFT LOCK, not an atomic lock.
-3. When claiming work, record Owner / Task / Started / Base commit.
-4. Before commit/push, re-check latest `PROJECT_STATUS.md`, remote/branch HEAD and latest `PROJECT_CHANGELOG.md`. If another party changed relevant state, STOP → SYNC → DIFF/REVIEW before submitting.
-5. GitHub code is the development source; the live website is the LIVE fact source. Never infer LIVE from newest filenames or commits.
-6. Respect LIVE→Code correlation. If `UNKNOWN`, a website screenshot may guide a Development fix, but do not claim the Development code is the exact code currently running live.
-7. Use explicit lifecycle states only: `ANALYSIS_ONLY`, `IN_PROGRESS`, `CODE_FIXED`, `LOCAL_TESTED`, `PASTE_GENERATED`, `USER_PASTED`, `LIVE_VERIFIED`.
-8. Tests use only `PASS`, `FAIL`, `NOT TESTED`, `BLOCKED`.
-9. Level A = Cursor local/browser validation. Level B = required real-device testing for mobile P0 viewport/sticky/browser-toolbar/mobile-scroll fixes. Level C = conditional device/browser testing. DevTools emulation is not Level B.
-10. Before production paste generation, assign a unique release ID and bind exact CSS URL, JS URL, CMS paste file, images, Desktop Vimeo, Mobile Vimeo, commits, tests and rollback target in `RELEASE_REGISTRY.md`.
-11. A frozen release must not silently change. `LIVE_VERIFIED` releases are immutable; material changes require a new release.
-12. Before first managed deployment while CURRENT LIVE is `UNKNOWN`, the user must save the complete current CMS `行程特色` content as a rollback baseline before replacing it.
-13. After any actual modification, synchronize `PROJECT_CHANGELOG.md`, `PROJECT_STATUS.md`, `IMPORTANT_TODO.md` if affected, and `RELEASE_REGISTRY.md` if affected.
-14. When handing off, release Owner back to `NONE`.
-15. Preserve `#sidebar,#sidebar-share-btn{display:none !important}` as an approved exception, preserve `#eg-experience` scoping, Desktop/Mobile Vimeo split, and Reduced Motion.
-16. The user does not manually merge CSS/JS. Cursor performs local validation and creates the complete CMS paste HTML. Only user confirmation can establish `USER_PASTED` / `LIVE_VERIFIED`.
-17. If documents conflict, use the domain-specific authority table in `CHATGPT_CURSOR_BASELINE.md`; do not apply a generic one-size-fits-all ranking.
-18. If Owner is stale, follow `STALE OWNER RECOVERY` in the baseline rather than leaving the project locked forever.
+1. First identify this Cursor device as `OFFICE` or `HOME`.
+2. Run `git status` before pull or edits. Check modified/staged/untracked files and whether local commits are unpushed.
+3. Refresh remote state with `git fetch` or equivalent, then classify this device as `SYNCED`, `LOCAL_DIRTY`, `LOCAL_AHEAD`, `REMOTE_AHEAD`, `DIVERGED`, `UNKNOWN`, or `RECOVERY_REQUIRED`.
+4. Never blindly pull over uncommitted work. A clean working tree alone is not enough; remote state must also be checked.
+5. `commit != push`. GitHub and the other Cursor device cannot see unpushed commits or uncommitted files.
+6. If HOME/OFFICE may contain unpushed overlapping work, follow `CURSOR_MULTI_DEVICE_RECOVERY.md` before modifying the same task.
+7. Respect `PROJECT_STATUS.md` ACTIVE WORK. Owner is a SOFT LOCK, not an atomic lock.
+8. When Cursor claims work, record Owner=`Cursor`, Device=`OFFICE/HOME`, Task, Started, Base commit, and Working tree state.
+9. Before commit/push, re-check latest `PROJECT_STATUS.md`, Device/Owner, remote HEAD after fetch, and latest `PROJECT_CHANGELOG.md`. If another party/device changed relevant state, STOP → SYNC → DIFF/REVIEW before submitting.
+10. Never use `reset --hard` for unknown local work and never force push over another device/ChatGPT commits unless the user explicitly directs a fully reviewed recovery operation.
+11. GitHub code is the pushed development source; the live website is the LIVE fact source. Never infer LIVE from newest filenames or commits.
+12. Respect LIVE→Code correlation. If `UNKNOWN`, a website screenshot may guide a Development fix, but do not claim the Development code is the exact code currently running live.
+13. Use explicit lifecycle states only: `ANALYSIS_ONLY`, `IN_PROGRESS`, `CODE_FIXED`, `LOCAL_TESTED`, `PASTE_GENERATED`, `USER_PASTED`, `LIVE_VERIFIED`.
+14. Tests use only `PASS`, `FAIL`, `NOT TESTED`, `BLOCKED`.
+15. Level A = Cursor local/browser validation. Level B = required real-device testing for mobile P0 viewport/sticky/browser-toolbar/mobile-scroll fixes. Level C = conditional device/browser testing. DevTools emulation is not Level B.
+16. Before production paste generation, assign a unique release ID and bind exact CSS URL, JS URL, CMS paste file, images, Desktop Vimeo, Mobile Vimeo, commits, tests and rollback target in `RELEASE_REGISTRY.md`.
+17. A frozen release must not silently change. `LIVE_VERIFIED` releases are immutable; material changes require a new release.
+18. Before first managed deployment while CURRENT LIVE is `UNKNOWN`, the user must save the complete current CMS `行程特色` content as a rollback baseline before replacing it.
+19. After any actual modification, synchronize `PROJECT_CHANGELOG.md`, `PROJECT_STATUS.md`, `IMPORTANT_TODO.md` if affected, and `RELEASE_REGISTRY.md` if affected.
+20. Cursor handoff must state Device and `Push status: PUSHED / NOT PUSHED`.
+21. When handing off after pushed/synchronized work, release Owner back to `NONE`.
+22. Preserve `#sidebar,#sidebar-share-btn{display:none !important}` as an approved exception, preserve `#eg-experience` scoping, Desktop/Mobile Vimeo split, and Reduced Motion.
+23. The user does not manually merge CSS/JS. Cursor performs local validation and creates the complete CMS paste HTML. Only user confirmation can establish `USER_PASTED` / `LIVE_VERIFIED`.
+24. If documents conflict, use the domain-specific authority table in `CHATGPT_CURSOR_BASELINE.md`.
+25. If Owner is stale, follow `STALE OWNER RECOVERY`; if local/remote state is uncertain, follow `CURSOR_MULTI_DEVICE_RECOVERY.md`.
