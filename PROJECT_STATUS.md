@@ -4,12 +4,12 @@
 
 ## ACTIVE WORK
 
-- Owner: NONE
-- Device: NONE
-- Task: NONE
-- Started: —
-- Base commit: —
-- Working tree state: —
+- Owner: ChatGPT
+- Device: REMOTE / ChatGPT
+- Task: 建立 OFFICE / HOME Cursor START_EGYPT / FINISH_EGYPT 自動防呆與 pre-push 保護
+- Started: 2026-08-22 12:12 +08:00
+- Base commit: current GitHub HEAD at task start
+- Working tree state: N/A for ChatGPT remote edit
 - Lock type: SOFT LOCK
 
 規則：開始實際修改前 claim Owner；Cursor claim 時必須同時填 `Device: OFFICE / HOME` 與當下 `Working tree state: CLEAN / DIRTY / UNKNOWN`。提交前再次確認 Owner、Device、branch HEAD、最新 changelog。若另一方或另一台裝置有新變更：STOP → SYNC → DIFF / REVIEW。
