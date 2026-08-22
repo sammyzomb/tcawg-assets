@@ -4,12 +4,12 @@
 
 ## ACTIVE WORK
 
-- Owner: ChatGPT
-- Device: REMOTE / ChatGPT
-- Task: 建立所有 GitHub 專案共用的 START_PROJECT / FINISH_PROJECT 一次性安裝器
-- Started: 2026-08-22 12:27 +08:00
-- Base commit: current GitHub HEAD at task start
-- Working tree state: N/A for ChatGPT remote edit
+- Owner: NONE
+- Device: NONE
+- Task: NONE
+- Started: —
+- Base commit: —
+- Working tree state: —
 - Lock type: SOFT LOCK
 
 規則：開始實際修改前 claim Owner；Cursor claim 時必須同時填 `Device: OFFICE / HOME` 與當下 `Working tree state: CLEAN / DIRTY / UNKNOWN`。提交前再次確認 Owner、Device、branch HEAD、最新 changelog。若另一方或另一台裝置有新變更：STOP → SYNC → DIFF / REVIEW。
@@ -28,7 +28,7 @@
 - Latest mobile change: dynamic viewport (`dvh`) overlay and removal of stale safeTop/safeBot dependency from primary mobile sticky layout / floating controls
 - Local browser test: NOT TESTED
 - Level B real-device test: NOT TESTED
-- Latest workflow change: generic cross-project scripts `tools/project-workflow/Start-Project.ps1` and `Finish-Project.ps1` created; Egypt-specific scripts retained temporarily until migration is validated
+- Latest workflow change: generic cross-project scripts plus one-time Windows installer created; Egypt-specific scripts retained temporarily until migration is validated
 
 ## CURSOR DEVICE STATE
 
@@ -36,7 +36,7 @@
 - Cursor-Home: sync state UNKNOWN until next `git status` + remote comparison
 - Rule: GitHub only contains pushed commits; an unpushed commit or uncommitted change on one device is **not visible** to the other device or ChatGPT.
 - Do not write `CLEAN` / `SYNCED` from memory. Each device must establish its own state when opened.
-- Generic device identity will use one machine-wide setting: `workflow.device=OFFICE` or `workflow.device=HOME`.
+- Generic device identity uses one machine-wide setting: `workflow.device=OFFICE` or `workflow.device=HOME`.
 
 ## GENERIC PROJECT SYNC — STEP 1
 
@@ -50,13 +50,15 @@
 
 - `Install-ProjectWorkflow.ps1`: created.
 - Runs once per Windows computer with `OFFICE` or `HOME`.
-- Copies the generic scripts to `%USERPROFILE%\.project-workflow`.
-- Creates machine-user commands `START_PROJECT.cmd` and `FINISH_PROJECT.cmd` in that folder.
+- Copies generic scripts to `%USERPROFILE%\.project-workflow`.
+- Creates user commands `START_PROJECT.cmd` and `FINISH_PROJECT.cmd`.
 - Adds the workflow folder to the current user's PATH without requiring admin rights.
 - Saves device identity once with Git global config `workflow.device=OFFICE/HOME`.
-- After installation, the commands are intended to work from any Git repository on that computer.
-- Local installation has NOT yet been executed on OFFICE or HOME; both remain UNKNOWN until actually tested.
-- 19:00 OFFICE scheduling remains a later step and is NOT configured yet.
+- After installation, commands are intended to work from any Git repository on that computer.
+- Static review: PASS.
+- OFFICE installation: NOT TESTED.
+- HOME installation: NOT TESTED.
+- 19:00 OFFICE scheduling: NOT CONFIGURED yet.
 
 ## P0 STATUS
 
