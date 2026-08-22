@@ -6,10 +6,10 @@
 
 ## ACTIVE WORK
 
-- Owner: NONE
-- Task: NONE
-- Started: —
-- Base commit: —
+- Owner: ChatGPT
+- Task: 完善三方協作制度、版本控管、上線與回滾流程
+- Started: 2026-08-22 10:48 +08:00
+- Base commit: `f4fb26782256af2e2b9743e8e2036c7f9fb8a164`
 
 規則：
 - 只有 `NONE` 時，ChatGPT 或 Cursor 才可開始新的實際修改。
@@ -55,12 +55,8 @@
 
 - 不再用「最新版」作為交接用語。
 - 每一個準備上線的版本應有明確 release ID，例如：`R20260822-01`。
-- release ID 必須對應：
-  - CSS 檔
-  - JS 檔
-  - CMS paste HTML
-  - code commit / related commits
-  - 測試狀態
+- release ID 必須對應：CSS、JS、CMS paste HTML、相關 commits、測試狀態。
+- release 詳細綁定記錄統一寫在 `RELEASE_REGISTRY.md`。
 - 若尚未確定 release ID，填 `UNASSIGNED`，不要自行猜測。
 
 ## CURSOR START CHECK
@@ -70,11 +66,7 @@ Cursor 每次開始前必須：
 1. `git status`
 2. 若 working tree 乾淨，才 `git pull`
 3. 若有未提交修改：停止直接 pull，先確認本機差異來源
-4. pull 後重新讀：
-   - `PROJECT_STATUS.md`
-   - `CHATGPT_CURSOR_BASELINE.md`
-   - `IMPORTANT_TODO.md`
-   - `PROJECT_CHANGELOG.md`
+4. pull 後重新讀：`PROJECT_STATUS.md`、`CHATGPT_CURSOR_BASELINE.md`、`IMPORTANT_TODO.md`、`PROJECT_CHANGELOG.md`、`RELEASE_REGISTRY.md`
 5. 確認 ACTIVE WORK Owner 狀態後才開始修改
 
 ## CMS PASTE GATE
@@ -83,6 +75,7 @@ Cursor 產生正式貼上版前必須確認：
 
 - Development status 至少為 `LOCAL_TESTED`
 - P0 狀態已完成，或使用者明確要求產生測試版
+- 已建立 / 更新目標 release 於 `RELEASE_REGISTRY.md`
 - CMS HTML 引用的 CSS 是本 release 指定版本
 - CMS HTML 引用的 JS 是本 release 指定版本
 - 圖片來源確認
@@ -90,6 +83,7 @@ Cursor 產生正式貼上版前必須確認：
 - Mobile Vimeo 確認
 - `IMPORTANT_TODO.md` 已同步
 - `PROJECT_CHANGELOG.md` 已同步
+- `DEPLOYMENT_CHECKLIST.md` 的 PRE-PUBLISH 項目已確認
 
 ## LIVE GATE
 
@@ -101,3 +95,12 @@ Cursor 產生正式貼上版前必須確認：
 - 將狀態由 `PASTE_GENERATED` / `USER_PASTED` 推進到 `LIVE_VERIFIED`
 
 ChatGPT 或 Cursor 不得因為 GitHub 已 commit、Cursor 已測試、或貼上版已產生，就自行宣告版本已正式上線。
+
+## UNKNOWN LIVE RULE
+
+當 CURRENT LIVE WEBSITE 為 `UNKNOWN`：
+
+- 不得猜測目前官網引用哪支 CSS / JS。
+- 不得用 GitHub 最新檔名回填 LIVE。
+- 任何新 release 仍可開發與測試，但在正式貼上前必須保留可回復的上一份 CMS 內容或其他可用備份。
+- 第一次由使用者確認正式頁面後，立即把該 release 登記到 `RELEASE_REGISTRY.md` 並更新本檔 CURRENT LIVE WEBSITE。
