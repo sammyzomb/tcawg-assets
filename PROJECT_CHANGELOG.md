@@ -25,6 +25,36 @@
 
 ---
 
+## 2026-08-22 10:28 +08:00 — 建立 ChatGPT × Cursor 協作基準
+
+- 修改者：ChatGPT
+- 修改目的：建立 ChatGPT 與 Cursor 的共同工作標準，讓兩邊可以無縫交接，避免重複修改、互相覆蓋或遺漏待辦與測試結果。
+- 修改檔案：
+  - `CHATGPT_CURSOR_BASELINE.md`（新增）
+  - `.cursor/rules/chatgpt-cursor-baseline.mdc`（新增）
+  - `PROJECT_CHANGELOG.md`（本次同步更新）
+- 實際變更內容：
+  - 建立三份核心文件的閱讀順序：協作基準 → 重要待辦 → 修改紀錄。
+  - 定義 ChatGPT、Cursor、使用者各自負責的工作。
+  - 明確指定 GitHub 為共同真實來源。
+  - 規定 ChatGPT 已提交的修正，Cursor pull 後先驗證，不得重做同一修正。
+  - 規定 Cursor 已提交的修正，ChatGPT 下次先重新讀 GitHub 再繼續。
+  - 建立 ChatGPT → Cursor 與 Cursor → ChatGPT 的標準交接格式。
+  - 建立 P0 / P1 / P2 / Design 的共同優先級定義。
+  - 規定正式官網貼上版的產生條件。
+  - Cursor `alwaysApply` 規則會要求每次先讀三份核心文件。
+- 為什麼修改：使用者希望建立一份基準表，讓 ChatGPT 與 Cursor 可以以同一套標準共同工作。
+- 影響範圍：Both（工作流程，不直接改變目前前台 CSS / JS 行為）。
+- 測試狀態：文件 / Cursor 規則建立完成；不涉及前台執行測試。
+- 官網貼上版是否需要重新產生：否。
+- 尚未完成 / 後續待辦：P0 / P1 / P2 技術事項仍依 `IMPORTANT_TODO.md` 處理。
+- 對應 commit SHA：
+  - `88f19bad9c5fed4c0306420e344759b1b1a59aca` — 建立協作基準表
+  - `44632aa504c6d78b79913cd8d8ec842b5e824032` — 建立 Cursor alwaysApply 協作規則
+  - 本 changelog 更新 commit 由本次提交產生
+
+---
+
 ## 2026-08-22 10:19 +08:00 — 建立強制修改紀錄機制
 
 - 修改者：ChatGPT
