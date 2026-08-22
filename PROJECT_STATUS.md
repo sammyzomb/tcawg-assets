@@ -2,20 +2,21 @@
 
 > 這是三方（使用者 / ChatGPT / Cursor）的中央狀態表。
 > 用途：只記「現在是什麼狀態」，不要在這裡放長篇技術說明。
-> 每次開始工作前先讀本檔，再讀 `CHATGPT_CURSOR_BASELINE.md`、`IMPORTANT_TODO.md`、`PROJECT_CHANGELOG.md`。
+> 每次開始工作前先讀本檔，再讀 `CHATGPT_CURSOR_BASELINE.md`、`IMPORTANT_TODO.md`、`PROJECT_CHANGELOG.md`、`RELEASE_REGISTRY.md`、`DEPLOYMENT_CHECKLIST.md`。
 
 ## ACTIVE WORK
 
-- Owner: ChatGPT
-- Task: 完善三方協作制度、版本控管、上線與回滾流程
-- Started: 2026-08-22 10:48 +08:00
-- Base commit: `f4fb26782256af2e2b9743e8e2036c7f9fb8a164`
+- Owner: NONE
+- Task: NONE
+- Started: —
+- Base commit: —
 
 規則：
 - 只有 `NONE` 時，ChatGPT 或 Cursor 才可開始新的實際修改。
 - 開始修改前，先把 Owner 改成 `ChatGPT` 或 `Cursor`，並填 Task / Started / Base commit。
 - 修改完成、提交、交接完畢後，Owner 改回 `NONE`。
-- 若看到另一方為 Owner，不要同時修改同一問題；先讀 changelog 並等待該工作完成或由使用者明確改派。
+- 若看到另一方為 Owner，不要同時修改同一問題；先讀 changelog。
+- 若 Owner 為遺留狀態，依 `CHATGPT_CURSOR_BASELINE.md` 的 `STALE OWNER RECOVERY` 規則處理；使用者明確「繼續 / 接手 / 改派」可解除僵局。
 
 ## CURRENT DEVELOPMENT
 
@@ -24,7 +25,7 @@
 - Development CSS: `eg-v2-20260822.css`
 - Development JS: `eg-v2-20260822.js`
 - CMS paste file: UNKNOWN / not confirmed in GitHub
-- Latest known coordination state: P0 mobile fixes are still pending
+- Latest known coordination state: 三方協作 / release / deployment / rollback 制度已完善；P0 mobile fixes still pending
 
 ## CURRENT LIVE WEBSITE
 
@@ -36,12 +37,10 @@
 - Live verified by user: NO / NOT RECORDED
 - Live verified time: —
 
-**重要：GitHub 最新版本不等於官網目前上線版本。**
-只有使用者實際把 Cursor 產生的貼上版 HTML 貼入官網後台，並確認前台正常，才可把狀態改成 `LIVE_VERIFIED`。
+**GitHub 最新版本不等於官網目前上線版本。**
+只有使用者實際貼入官網並確認正式前台正常，才可成為 `LIVE_VERIFIED`。
 
 ## ALLOWED STATUS VALUES
-
-依序使用以下狀態，不要只寫模糊的「完成」：
 
 1. `ANALYSIS_ONLY` — 只有檢查 / 分析，尚未修改程式
 2. `IN_PROGRESS` — 正在修改
@@ -51,56 +50,61 @@
 6. `USER_PASTED` — 使用者已貼入官網後台
 7. `LIVE_VERIFIED` — 使用者已確認正式官網前台正常
 
+測試結果只使用：`PASS` / `FAIL` / `NOT TESTED` / `BLOCKED`。
+
 ## RELEASE / VERSION RULE
 
-- 不再用「最新版」作為交接用語。
-- 每一個準備上線的版本應有明確 release ID，例如：`R20260822-01`。
-- release ID 必須對應：CSS、JS、CMS paste HTML、相關 commits、測試狀態。
-- release 詳細綁定記錄統一寫在 `RELEASE_REGISTRY.md`。
-- 若尚未確定 release ID，填 `UNASSIGNED`，不要自行猜測。
+- 不用「最新版」作為交接用語。
+- Release ID：`RYYYYMMDD-NN`。
+- release 綁定資料統一寫在 `RELEASE_REGISTRY.md`。
+- `PASTE_GENERATED` 後發生實質程式 / 資源變更，必須重新 freeze / test，原則上建立新 release。
+- `LIVE_VERIFIED` release 不得重新定義。
+- 尚未確定 release ID 時填 `UNASSIGNED`。
 
 ## CURSOR START CHECK
 
-Cursor 每次開始前必須：
-
 1. `git status`
-2. 若 working tree 乾淨，才 `git pull`
-3. 若有未提交修改：停止直接 pull，先確認本機差異來源
-4. pull 後重新讀：`PROJECT_STATUS.md`、`CHATGPT_CURSOR_BASELINE.md`、`IMPORTANT_TODO.md`、`PROJECT_CHANGELOG.md`、`RELEASE_REGISTRY.md`
-5. 確認 ACTIVE WORK Owner 狀態後才開始修改
+2. working tree 乾淨才 `git pull`
+3. 有未提交修改時不得盲目 pull
+4. pull 後依序讀六份核心文件：
+   - `PROJECT_STATUS.md`
+   - `CHATGPT_CURSOR_BASELINE.md`
+   - `IMPORTANT_TODO.md`
+   - `PROJECT_CHANGELOG.md`
+   - `RELEASE_REGISTRY.md`
+   - `DEPLOYMENT_CHECKLIST.md`
+5. 確認 ACTIVE WORK Owner
+6. 才開始修改 / 測試
 
 ## CMS PASTE GATE
 
-Cursor 產生正式貼上版前必須確認：
+Cursor 產生正式貼上版前必須：
 
-- Development status 至少為 `LOCAL_TESTED`
-- P0 狀態已完成，或使用者明確要求產生測試版
-- 已建立 / 更新目標 release 於 `RELEASE_REGISTRY.md`
-- CMS HTML 引用的 CSS 是本 release 指定版本
-- CMS HTML 引用的 JS 是本 release 指定版本
+- Development status 至少 `LOCAL_TESTED`
+- P0 完成，或使用者明確要求測試版
+- 已登記目標 release
+- CMS HTML 的 CSS / JS 與 release registry 完全一致
 - 圖片來源確認
 - Desktop Vimeo 確認
 - Mobile Vimeo 確認
-- `IMPORTANT_TODO.md` 已同步
-- `PROJECT_CHANGELOG.md` 已同步
-- `DEPLOYMENT_CHECKLIST.md` 的 PRE-PUBLISH 項目已確認
+- TODO / changelog / status / release registry 已同步
+- `DEPLOYMENT_CHECKLIST.md` 的 PRE-PUBLISH / rollback 條件已確認
 
 ## LIVE GATE
 
-以下動作只有使用者能最終確認：
+只有使用者能觸發：
 
-- 將貼上版 HTML 貼入官網後台
-- 確認正式前台載入正常
-- 確認桌面 / 手機實際官網正常
-- 將狀態由 `PASTE_GENERATED` / `USER_PASTED` 推進到 `LIVE_VERIFIED`
+- `USER_PASTED`：使用者回報已貼 CMS
+- `LIVE_VERIFIED`：使用者再確認正式前台正常
 
-ChatGPT 或 Cursor 不得因為 GitHub 已 commit、Cursor 已測試、或貼上版已產生，就自行宣告版本已正式上線。
+ChatGPT / Cursor 只依使用者回報代為更新 GitHub 控制文件，不得自行推定。
 
 ## UNKNOWN LIVE RULE
 
-當 CURRENT LIVE WEBSITE 為 `UNKNOWN`：
+當 CURRENT LIVE 為 `UNKNOWN`：
 
 - 不得猜測目前官網引用哪支 CSS / JS。
-- 不得用 GitHub 最新檔名回填 LIVE。
-- 任何新 release 仍可開發與測試，但在正式貼上前必須保留可回復的上一份 CMS 內容或其他可用備份。
-- 第一次由使用者確認正式頁面後，立即把該 release 登記到 `RELEASE_REGISTRY.md` 並更新本檔 CURRENT LIVE WEBSITE。
+- 不得用 GitHub 最新檔名或日期回填 LIVE。
+- 新 release 可繼續開發 / 測試。
+- 第一次正式替換前，優先保存目前官網後台 CMS 原內容，作為 emergency rollback backup。
+- 使用者第一次確認新版本 LIVE 後，立即更新 `RELEASE_REGISTRY.md` 與本檔。
