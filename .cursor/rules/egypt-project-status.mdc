@@ -1,48 +1,140 @@
 ---
-description: Mandatory project-state and handoff control for Egypt CAI12A
+description: Mandatory project-state, release, deployment and handoff control for Egypt CAI12A
 alwaysApply: true
 ---
 
-# Egypt CAI12A project status control
+# Egypt CAI12A project control
 
 For any task involving Egypt / CAI12A:
 
-1. Before doing any work, read these files in this order:
-   - `PROJECT_STATUS.md`
-   - `CHATGPT_CURSOR_BASELINE.md`
-   - `IMPORTANT_TODO.md`
-   - `PROJECT_CHANGELOG.md`
+## 1. Mandatory reading order
 
-2. Before `git pull`, run `git status`.
-   - If the working tree is clean, pull latest changes.
-   - If there are uncommitted local changes, DO NOT pull blindly. Inspect and preserve or resolve those changes first.
+Before doing any work, read in this order:
 
-3. Before editing, check `PROJECT_STATUS.md` → ACTIVE WORK.
-   - If Owner is `NONE`, claim the task by setting Owner=`Cursor`, plus Task / Started / Base commit.
-   - If Owner is `ChatGPT`, do not independently implement the same task. Pull/read the latest changelog first and wait for handoff or explicit user reassignment.
-   - If Owner is `Cursor`, continue only if this session owns the task.
+1. `PROJECT_STATUS.md`
+2. `CHATGPT_CURSOR_BASELINE.md`
+3. `IMPORTANT_TODO.md`
+4. `PROJECT_CHANGELOG.md`
+5. `RELEASE_REGISTRY.md`
+6. `DEPLOYMENT_CHECKLIST.md`
 
-4. Do not use the words "latest" or "completed" as authoritative status by themselves.
-   - Use the exact release ID when assigned.
-   - Use one of: `ANALYSIS_ONLY`, `IN_PROGRESS`, `CODE_FIXED`, `LOCAL_TESTED`, `PASTE_GENERATED`, `USER_PASTED`, `LIVE_VERIFIED`.
+If these files conflict, follow the authority order defined in `CHATGPT_CURSOR_BASELINE.md`. Do not silently choose whichever instruction is more convenient.
 
-5. GitHub latest code is NOT proof of what is live on the website.
-   - Only the user can confirm `USER_PASTED` and final `LIVE_VERIFIED` state.
-   - Never mark a release live merely because code was committed or local testing passed.
+## 2. Safe local start
 
-6. Before generating a CMS paste HTML, verify that its CSS URL, JS URL, images and Desktop/Mobile Vimeo references all match the intended release.
+Before `git pull`, run `git status`.
 
-7. After actual modifications:
-   - update `PROJECT_CHANGELOG.md`
-   - update `IMPORTANT_TODO.md` if status changed
-   - update `PROJECT_STATUS.md`
-   - when work is handed off, set ACTIVE WORK Owner back to `NONE`
+- Clean working tree → pull latest changes.
+- Uncommitted local changes → DO NOT pull blindly. Inspect, preserve, commit, stash only when appropriate, or otherwise resolve deliberately.
+- After pull, re-read the six control files because remote coordination state may have changed.
 
-8. Changelog commit rule:
-   - Do not create an infinite self-referencing commit-SHA loop.
-   - Record the related code commit SHA when known, or write `same change set / see git history` when the changelog is committed together with the change.
+## 3. ACTIVE WORK ownership
 
-9. Preserve the approved exception:
-   `#sidebar,#sidebar-share-btn{display:none !important}`
+Before editing, check `PROJECT_STATUS.md` → ACTIVE WORK.
 
-10. The user does not manually edit CSS/JS. Cursor remains responsible for local validation and producing the final CMS paste HTML after code reaches the required gate.
+- Owner=`NONE` → claim task as `Cursor`, record Task / Started / Base commit.
+- Owner=`ChatGPT` → do not independently implement the same task; read changelog/status and wait for handoff or explicit user reassignment.
+- Owner=`Cursor` → continue only when the current session owns that task.
+- Never overwrite another active owner merely because the local branch is behind.
+
+## 4. Authoritative status language
+
+Do not use "latest" or "completed" as authoritative status by themselves.
+
+Use exact release ID when assigned and explicit lifecycle states:
+
+- `ANALYSIS_ONLY`
+- `IN_PROGRESS`
+- `CODE_FIXED`
+- `LOCAL_TESTED`
+- `PASTE_GENERATED`
+- `USER_PASTED`
+- `LIVE_VERIFIED`
+
+Release registry additionally permits `DEV`, `ROLLED_BACK`, `ABANDONED` where appropriate.
+
+## 5. GitHub is not LIVE proof
+
+GitHub latest code is NOT proof of what is live on the website.
+
+- Only the user can confirm the CMS paste occurred.
+- Only user confirmation can establish final `LIVE_VERIFIED`.
+- If current LIVE is `UNKNOWN`, leave it `UNKNOWN`; never infer it from file dates or newest commits.
+
+## 6. Release control
+
+Before a production paste file is generated:
+
+- assign a unique release ID (`RYYYYMMDD-NN`)
+- create/update its entry in `RELEASE_REGISTRY.md`
+- bind exact CSS file + URL
+- bind exact JS file + URL
+- bind exact CMS paste HTML filename
+- record images state
+- record Desktop Vimeo
+- record Mobile Vimeo
+- record related commits and tests
+
+Once a release is frozen for paste, any material CSS/JS/HTML/resource change requires a new release ID or an explicit unfreeze/retest cycle. Never silently mutate a `LIVE_VERIFIED` release.
+
+## 7. CMS paste gate
+
+Before generating the CMS paste HTML, follow `DEPLOYMENT_CHECKLIST.md` and verify:
+
+- development status at least `LOCAL_TESTED`, unless explicitly producing a test-only paste
+- P0 requirements satisfied or clearly waived for a test build
+- CSS URL exactly matches release registry
+- JS URL exactly matches release registry
+- images confirmed
+- Desktop/Mobile Vimeo confirmed
+- TODO, changelog, status and release registry synchronized
+
+After generation set status `PASTE_GENERATED`; this is NOT LIVE.
+
+## 8. Backup / rollback safety
+
+Before asking the user to paste a new release:
+
+- identify the prior rollback release or a saved CMS content backup
+- if unknown, explicitly record `ROLLBACK TARGET UNKNOWN`
+- when LIVE is currently unknown, instruct the workflow to preserve the current CMS content before replacement
+- never describe rollback as simply "previous version"; specify a release ID or exact backup artifact
+
+## 9. Test honesty
+
+Never mark an environment PASS unless it was actually tested.
+
+Use explicit results such as:
+
+- PASS
+- FAIL
+- NOT TESTED
+- BLOCKED
+
+Browser simulation is not equivalent to physical-device verification. Record which one was performed.
+
+## 10. Mandatory state synchronization after edits
+
+After actual modifications:
+
+- update `PROJECT_CHANGELOG.md`
+- update `IMPORTANT_TODO.md` if status changed
+- update `PROJECT_STATUS.md`
+- update `RELEASE_REGISTRY.md` if a release is affected
+- ensure `DEPLOYMENT_CHECKLIST.md` gate status is respected
+- when work is handed off, set ACTIVE WORK Owner back to `NONE`
+
+## 11. Changelog commit rule
+
+Do not create an infinite self-referencing commit-SHA loop.
+
+- Record related code commit SHA when known.
+- If documentation/changelog is in the same change set, use `same change set / see git history`.
+
+## 12. Approved project constraints
+
+Preserve the approved exception:
+
+`#sidebar,#sidebar-share-btn{display:none !important}`
+
+The user does not manually edit CSS/JS. Cursor remains responsible for local validation and producing the final CMS paste HTML after code reaches the required gate. The user is responsible for the final CMS paste and LIVE verification.
