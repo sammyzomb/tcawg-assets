@@ -1,0 +1,67 @@
+/* CAI12A Egypt — mobile-only P0 stabilization overlay
+   Scope: <=767px only. Load AFTER eg-v2-20260822.css.
+   Purpose: align mobile CSS viewport sizing with JS dynamic viewport behavior,
+   remove stale safeTop/safeBot layout dependency from sticky scenes,
+   and leave desktop rules untouched. */
+
+@media (max-width:767px){
+  /* Use dynamic viewport on mobile. Existing svh rules remain fallback when dvh is unsupported. */
+  #eg-experience .scene-track[data-scene="eg-gate"],
+  #eg-experience .scene-track[data-scene="eg-gate"] .scene--hero{
+    min-height:100dvh;
+    height:100dvh;
+  }
+
+  /* Animated sticky scenes: keep the frame tied to the visible mobile viewport.
+     Do not use --eg-safe-top/--eg-safe-bot here because the legacy JS values can become stale
+     while browser chrome expands/collapses. */
+  #eg-experience .scene-track[data-scene="eg-pyramids"] .scene,
+  #eg-experience .scene-track[data-scene="eg-nile-journey"] .scene,
+  #eg-experience .scene-track[data-scene="eg-gods"] .scene,
+  #eg-experience .scene-track[data-scene="eg-luxor"] .scene,
+  #eg-experience .scene-track[data-scene="eg-abusimbel"] .scene,
+  #eg-experience .scene-track[data-scene="eg-red-sea"] .scene,
+  #eg-experience .scene-track[data-scene="eg-timeline"] .scene{
+    top:0;
+    height:100dvh;
+    min-height:0;
+  }
+
+  /* Track travel also uses dvh so CSS travel length follows the same dynamic viewport concept
+     as window.innerHeight used by the existing scene progress JS. */
+  #eg-experience .scene-track[data-scene="eg-pyramids"]{height:320dvh}
+  #eg-experience .scene-track[data-scene="eg-nile-journey"]{height:300dvh}
+  #eg-experience .scene-track[data-scene="eg-gods"]{height:360dvh}
+  #eg-experience .scene-track[data-scene="eg-luxor"]{height:340dvh}
+  #eg-experience .scene-track[data-scene="eg-abusimbel"]{height:580dvh}
+  #eg-experience .scene-track[data-scene="eg-red-sea"]{height:340dvh}
+  #eg-experience .scene-track[data-scene="eg-timeline"]{height:420dvh}
+
+  /* New feature scenes keep their existing mobile composition but stop depending on stale
+     safeTop for sticky positioning. Museum and route stay natural-flow as designed. */
+  #eg-experience .scene-track.feature-track:not([data-scene="eg-museum"]):not([data-scene="eg-route"]){height:180dvh}
+  #eg-experience .scene-track.feature-track:not([data-scene="eg-museum"]):not([data-scene="eg-route"]) .feature-scene{
+    top:0;
+    height:100dvh;
+    min-height:0;
+  }
+  #eg-experience .scene-track[data-scene="eg-route"]{min-height:100dvh}
+  #eg-experience #eg-museum .scene__photo{height:min(calc(var(--eg-vw,100vw)*1.4146),78dvh)}
+
+  /* Hero uses the device safe-area env directly instead of legacy detected fixed-bar values. */
+  #eg-experience #eg-gate .hero__frame{
+    padding-top:calc(4.5rem + env(safe-area-inset-top,0px));
+    padding-bottom:calc(5.8rem + env(safe-area-inset-bottom,0px));
+  }
+
+  /* Floating controls remain inside the visible/safe viewport without inheriting stale site-dock values. */
+  #eg-experience .eg-quick{
+    bottom:calc(10px + env(safe-area-inset-bottom,0px));
+  }
+  #eg-experience .story-nav{
+    bottom:calc(1.1rem + 52px + env(safe-area-inset-bottom,0px));
+  }
+  #eg-experience .eg-toast{
+    bottom:calc(86px + env(safe-area-inset-bottom,0px));
+  }
+}
