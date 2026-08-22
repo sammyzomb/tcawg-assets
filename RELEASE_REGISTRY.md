@@ -1,60 +1,38 @@
 # RELEASE REGISTRY — 埃及活動頁 / CAI12A
 
-> 用途：每一個準備測試、準備貼上、已貼上或已正式上線的 release，都必須在這裡有唯一記錄。
-> 禁止用「最新版」代替 release ID。
+> 每一個準備測試、貼上或上線的 release 都必須有唯一記錄。禁止用「最新版」代替 release ID。
 
 ## Release ID 規則
 
-格式：`RYYYYMMDD-NN`
+格式：`RYYYYMMDD-NN`，例如 `R20260822-01`。同一天依序 `-02`、`-03`。
 
-例如：`R20260822-01`
+## Release 狀態
 
-同一天第二個 release 使用 `-02`，依序遞增。
+`DEV / LOCAL_TESTED / PASTE_GENERATED / USER_PASTED / LIVE_VERIFIED / ROLLED_BACK / ABANDONED`
 
-## 每筆 release 必填欄位
+每筆 release 必須綁定：建立者、Base commit、相關 commits、CSS 檔與 URL、JS 檔與 URL、CMS paste、圖片、Desktop/Mobile Vimeo、測試、已知問題、production paste 許可、貼上時間、LIVE 驗證時間、rollback target。
 
-- Release ID
-- 狀態：`DEV` / `LOCAL_TESTED` / `PASTE_GENERATED` / `USER_PASTED` / `LIVE_VERIFIED` / `ROLLED_BACK` / `ABANDONED`
-- 建立者：ChatGPT / Cursor
-- Base commit
-- 相關 code commits
-- CSS 檔名與正式引用 URL（若尚未確定寫 `UNKNOWN`）
-- JS 檔名與正式引用 URL（若尚未確定寫 `UNKNOWN`）
-- CMS paste HTML 檔名
-- 圖片來源狀態
-- Desktop Vimeo ID / URL
-- Mobile Vimeo ID / URL
-- 測試環境與結果
-- 已知問題 / 例外
-- 是否允許正式貼上：YES / NO
-- 使用者貼上時間
-- LIVE 驗證時間
-- 前一個可回滾 release
-
-## Release 狀態規則
-
-- `DEV`：仍在開發，禁止正式貼上。
-- `LOCAL_TESTED`：Cursor 已本機測試，但尚未產正式貼上版。
-- `PASTE_GENERATED`：貼上版已產生，可交給使用者，但不等於已上線。
-- `USER_PASTED`：使用者已貼 CMS，尚待正式前台確認。
-- `LIVE_VERIFIED`：只有使用者確認正式網站正常後才可使用。
-- `ROLLED_BACK`：此 release 曾貼上但已回退。
-- `ABANDONED`：此 release 不再使用。
-
-## 目前 release
-
-### DEVELOPMENT
+## 目前 DEVELOPMENT
 
 - Release ID: `UNASSIGNED`
 - Status: `DEV`
-- CSS: `eg-v2-20260822.css`
+- Base CSS: `eg-v2-20260822.css`
+- Mobile overlay CSS: `eg-mobile-p0-20260822.css`
+- Load order: `eg-v2-20260822.css` → `eg-mobile-p0-20260822.css`
 - JS: `eg-v2-20260822.js`
 - CMS paste HTML: `UNKNOWN`
-- Base / related commit: `UNKNOWN`
+- Base commit before mobile task: `4f43fc641db9c12380727d7c1f4a4a31c54dbab0`
+- Related mobile commits:
+  - `c23bbc76c1965af3d1dbf6b188a094506f05ada9` — claim mobile task / set IN_PROGRESS
+  - `d70194bbe9cac2c72808b75ec9a7bff5eac49df9` — add mobile-only P0 viewport stabilization overlay
+- Tests: Static review only; local browser `NOT TESTED`; real-device Level B `NOT TESTED`
+- Known issues:
+  - Overlay addresses mobile viewport / stale safe-area layout dependency without changing desktop rules.
+  - Existing JS mobile scroll-frame workload remains a separate P0 follow-up.
+  - LIVE→Code correlation remains `UNKNOWN`.
 - Allow production paste: NO
-- Notes: P0 mobile issues still pending; current LIVE version has not yet been confirmed.
 
-### CURRENT LIVE
+## CURRENT LIVE
 
 - Release ID: `UNKNOWN`
 - Status: `UNKNOWN`
@@ -72,8 +50,8 @@
 - Created by:
 - Base commit:
 - Related commits:
-- CSS file:
-- CSS URL:
+- CSS file(s):
+- CSS URL(s):
 - JS file:
 - JS URL:
 - CMS paste HTML:
@@ -92,6 +70,6 @@
 
 1. 同一 release ID 不得重新綁定另一組 CSS / JS。
 2. 已 `LIVE_VERIFIED` 的 release 不得事後改內容；有修改就建立新 release。
-3. 不得以 GitHub 檔名日期推測官網 LIVE。
-4. CMS paste HTML 的 CSS / JS 引用必須與 release registry 完全一致。
-5. 回滾時要明確標記回到哪個已知 release，不得只說「回上一版」。
+3. 不得由 GitHub 檔名日期推測官網 LIVE。
+4. CMS paste HTML 的 CSS / JS 引用必須與本 registry 完全一致，包含多 CSS 的載入順序。
+5. 回滾必須指定 release ID 或確切 backup，不得只寫「上一版」。
