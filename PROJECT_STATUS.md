@@ -4,23 +4,34 @@
 
 ## ACTIVE WORK
 
-- Owner: ChatGPT
-- Task: 手機版 P0 調整；桌面版不動。先處理 mobile viewport / safe-area 視覺影響與 mobile track 高度一致性。
-- Started: 2026-08-22 11:24 +08:00
-- Base commit: `4f43fc641db9c12380727d7c1f4a4a31c54dbab0`
+- Owner: NONE
+- Task: NONE
+- Started: —
+- Base commit: —
 - Lock type: SOFT LOCK
 
-規則：Owner 是協作 soft lock，不是 Git 原子鎖。提交實際修改前再次確認 Owner、branch HEAD、最新 changelog；若另一方有新變更，STOP → SYNC → DIFF / REVIEW。
+規則：開始實際修改前 claim Owner；提交前再次確認 Owner、branch HEAD、最新 changelog。若另一方有新變更：STOP → SYNC → DIFF / REVIEW。
 
 ## CURRENT DEVELOPMENT
 
-- Development status: IN_PROGRESS
+- Development status: CODE_FIXED
 - Development release: UNASSIGNED
-- Development CSS: `eg-v2-20260822.css` + planned mobile override
+- Base CSS: `eg-v2-20260822.css`
+- Mobile overlay CSS: `eg-mobile-p0-20260822.css`
+- Required CSS load order: `eg-v2-20260822.css` → `eg-mobile-p0-20260822.css`
 - Development JS: `eg-v2-20260822.js`
-- CMS paste file: UNKNOWN / not confirmed in GitHub
-- Scope: Mobile only (`max-width:767px`); Desktop behavior must remain unchanged
-- P0 status: viewport/safe-area mobile mitigation in progress; JS scroll-performance optimization remains pending unless separately changed
+- CMS paste file: UNKNOWN / not generated for this change
+- Scope: **Mobile only (`max-width:767px`)**
+- Desktop: intentionally unchanged; must be regression-tested by Cursor
+- Latest mobile change: dynamic viewport (`dvh`) overlay and removal of stale safeTop/safeBot dependency from primary mobile sticky layout / floating controls
+- Local browser test: NOT TESTED
+- Level B real-device test: NOT TESTED
+
+## P0 STATUS
+
+- Mobile viewport CSS/JS basis mismatch: **MITIGATED IN DEVELOPMENT** by mobile-only `dvh` overlay; awaiting Cursor + real-device validation before TODO completion.
+- `safeTop/safeBot` stale-value layout impact: **MITIGATED IN MOBILE CSS** for primary sticky scenes and floating controls; root JS logic itself remains pending.
+- Mobile scroll-frame computation load: **PENDING**; existing JS still updates multiple scene functions per scroll RAF.
 
 ## CURRENT LIVE WEBSITE
 
@@ -31,26 +42,20 @@
 - Live CMS paste file: UNKNOWN
 - Live→Code correlation: UNKNOWN
 - Live verified by user: NO / NOT RECORDED
-- Live verified time: —
 
-GitHub Development 不等於目前官網 LIVE。LIVE→Code=`UNKNOWN` 時，可針對 Development 修正，但不得宣稱已直接修改正式官網正在執行的同一份程式。
+GitHub Development 不等於官網 LIVE。LIVE→Code=`UNKNOWN` 時，本次修正只能描述為 Development 修正，不能宣稱正式官網已套用。
 
-## STATUS VALUES
+## CURSOR NEXT ACTION
 
-`ANALYSIS_ONLY → IN_PROGRESS → CODE_FIXED → LOCAL_TESTED → PASTE_GENERATED → USER_PASTED → LIVE_VERIFIED`
-
-測試只使用：`PASS / FAIL / NOT TESTED / BLOCKED`。
-
-## TEST GATES
-
-- Level A：Cursor 本機 Chrome / Edge、390px、767/768、1024/1440、console、scroll、Hero、Reduced Motion。
-- Level B：涉及 mobile viewport / sticky / browser toolbar / mobile scroll P0 時，至少一台真實手機；特定 iPhone Safari / Android Chrome 問題需對應實機。
-- Level C：iPhone Chrome、Samsung Internet、其他條件式環境。
-
-## MOBILE COMMUTE RULE
-
-手機階段 ChatGPT 可依使用者明確指示修改 GitHub；未經本機驗證最多到 `CODE_FIXED`。Cursor 回電腦後先 `git status`，安全才 pull，讀交接後先驗證、不重做。
+1. `git status`；working tree clean 才 `git pull`。
+2. 讀最新 `PROJECT_CHANGELOG.md` 的 `Mobile Commute / ChatGPT` 交接。
+3. 不重做 overlay；先確認 `eg-mobile-p0-20260822.css` 在主 CSS 後載入的預覽環境。
+4. Level A：Desktop Chrome/Edge 回歸、390px、767/768、console、慢/快/回捲、Hero、Reduced Motion。
+5. Level B：真實手機測試網址列/工具列展開→收合→再展開、sticky、快速/慢速/回捲。
+6. 確認桌面完全沒有變化。
+7. 驗證後才能升 `LOCAL_TESTED`。
+8. 之後才建立 release，並由 Cursor 產新的 CMS paste HTML。
 
 ## FIRST MANAGED DEPLOYMENT BACKUP
 
-CURRENT LIVE 仍為 `UNKNOWN`。第一次制度化上線前，使用者需先保存官網後台現行完整「行程特色」內容作 rollback baseline；成功建立第一個 `LIVE_VERIFIED` release 後，回填 LIVE release / CSS / JS / CMS paste，並把 LIVE→Code correlation 改為 `KNOWN`。
+CURRENT LIVE 仍為 `UNKNOWN`。第一次制度化上線前，使用者需先保存官網後台現行完整「行程特色」內容作 rollback baseline；成功建立第一個 `LIVE_VERIFIED` release 後，再回填 LIVE release / CSS / JS / CMS paste 並將 LIVE→Code 改為 `KNOWN`。
