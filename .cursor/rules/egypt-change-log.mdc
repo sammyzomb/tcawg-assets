@@ -1,0 +1,39 @@
+---
+description: Mandatory change logging for Egypt CAI12A project
+alwaysApply: true
+---
+
+# Egypt CAI12A mandatory change log rule
+
+For any task involving the Egypt / CAI12A project:
+
+1. Before editing, read both:
+   - `IMPORTANT_TODO.md`
+   - `PROJECT_CHANGELOG.md`
+
+2. After any actual modification to CSS, JS, HTML, external asset references, Vimeo references, CMS paste output, or project rules, you MUST update `PROJECT_CHANGELOG.md` in the same work session.
+
+3. Every changelog entry must include:
+   - date/time in Asia/Taipei
+   - modifier (Cursor / ChatGPT / human)
+   - purpose
+   - files changed
+   - exact summary of changes
+   - reason
+   - affected platform: Desktop / Mobile / Both
+   - test status
+   - whether CMS paste HTML must be regenerated
+   - remaining follow-up work
+   - commit SHA when available
+
+4. Do not use vague entries such as "mobile fix" or "CSS optimization".
+
+5. If a TODO item is completed, also update its status in `IMPORTANT_TODO.md` when practical.
+
+6. The user does not manually edit CSS or JS. After code changes are validated, Cursor is responsible for producing a complete new CMS paste HTML for the user.
+
+7. Preserve the approved exception:
+   `#sidebar,#sidebar-share-btn{display:none !important}`
+   This is intentional and must not be restored unless the user explicitly changes that decision.
+
+8. Never finish an Egypt project modification without leaving enough written state for another Cursor session to continue after `git pull`.
