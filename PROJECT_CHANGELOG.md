@@ -31,6 +31,37 @@
 
 ---
 
+## 2026-08-22 10:56 +08:00 — 納入手機通勤修改流程
+
+- 修改者：ChatGPT
+- 修改目的：讓使用者上下班只能使用手機 ChatGPT 時，仍能安全繼續埃及網頁調整，並在回到電腦後由 Cursor 無縫接手驗證與產貼上版。
+- 修改檔案：
+  - `MOBILE_COMMUTE_WORKFLOW.md`（新增）
+  - `.cursor/rules/mobile-commute-workflow.mdc`（新增）
+  - `PROJECT_STATUS.md`
+  - `PROJECT_CHANGELOG.md`
+- 實際變更內容：
+  - 新增正式 Mobile Commute Workflow，定義手機階段的「只檢查」與「直接修 GitHub」兩種流程。
+  - 規定 ChatGPT 手機階段可依使用者明確指示直接修改 GitHub、commit、更新 status / TODO / changelog / release。
+  - 規定未經使用者本機 / Cursor 瀏覽器驗證時，手機階段程式修改最多只能標記 `CODE_FIXED`，不得冒充 `LOCAL_TESTED`。
+  - 規定手機截圖可作為實機視覺觀察，但不能單獨證明 console、其他 breakpoint、桌面、其他瀏覽器或完整 scroll 流程 PASS。
+  - 建立 `Mobile Commute / ChatGPT` 標準交接格式，要求記錄 files / commit / Desktop-Mobile 影響 / 測試狀態 / Cursor required actions / paste regeneration / remaining TODO。
+  - Cursor 回到電腦後必須 `git status` → 安全 pull → 讀交接 → 先驗證、不重做 ChatGPT 已完成修正 → 通過後才升 `LOCAL_TESTED`。
+  - 正式 CMS paste 仍由 Cursor 通過正常 Gate 後產生；`USER_PASTED` / `LIVE_VERIFIED` 仍只能依使用者回報更新。
+  - `PROJECT_STATUS.md` 現在將 `MOBILE_COMMUTE_WORKFLOW.md` 納入核心閱讀清單，並新增 Mobile Commute Rule。
+- 為什麼修改：使用者上下班通勤時只能用手機，但仍希望可以繼續網頁修改；需要把手機 ChatGPT 修改與回電腦 Cursor 驗證之間的責任邊界與交接程序正式化，避免未測版本被誤認為可上線版本。
+- 影響範圍：Workflow；不改目前埃及前台 CSS / JS 行為。
+- 測試狀態：Workflow 文件 / Cursor rule `PASS`；前台功能 `NOT TESTED`，因本次沒有修改前台 CSS / JS。
+- 官網貼上版是否需要重新產生：否。
+- 尚未完成 / 後續待辦：P0 / P1 / P2 技術修正仍依 `IMPORTANT_TODO.md`；CURRENT LIVE 仍為 `UNKNOWN`。
+- 相關 commits：
+  - `4c38d49c15563c798acd554cae29efd56cf901c3` — 新增 `MOBILE_COMMUTE_WORKFLOW.md`
+  - `a5778779bd8c99b8340e7f56f04911df169f7f6e` — 新增 Cursor mobile commute rule
+  - `875d1b9d4ef8c272e856507b5a0b346e25e22298` — 將手機通勤流程整合到 `PROJECT_STATUS.md`
+  - 本 changelog 更新：same change set / see git history
+
+---
+
 ## 2026-08-22 10:48 +08:00 — 完善三方協作、Release、上線與回滾制度
 
 - 修改者：ChatGPT
@@ -150,4 +181,4 @@
 - 目前 P2：Mobile CSS 覆寫整理、`--ff-serif` 未定義。
 - 正式上線前仍需由 Cursor 重新產生官網貼上版 HTML。
 
-詳細內容請以六份核心控制文件為準。
+詳細內容請以七份核心控制文件為準。
