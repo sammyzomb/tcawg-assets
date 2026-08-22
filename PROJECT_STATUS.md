@@ -2,7 +2,7 @@
 
 > 這是三方（使用者 / ChatGPT / Cursor）的中央狀態表。
 > 用途：只記「現在是什麼狀態」，不要在這裡放長篇技術說明。
-> 每次開始工作前先讀本檔，再讀 `CHATGPT_CURSOR_BASELINE.md`、`IMPORTANT_TODO.md`、`PROJECT_CHANGELOG.md`、`RELEASE_REGISTRY.md`、`DEPLOYMENT_CHECKLIST.md`。
+> 每次開始工作前先讀本檔，再讀 `CHATGPT_CURSOR_BASELINE.md`、`IMPORTANT_TODO.md`、`PROJECT_CHANGELOG.md`、`RELEASE_REGISTRY.md`、`DEPLOYMENT_CHECKLIST.md`、`MOBILE_COMMUTE_WORKFLOW.md`。
 
 ## ACTIVE WORK
 
@@ -25,7 +25,7 @@
 - Development CSS: `eg-v2-20260822.css`
 - Development JS: `eg-v2-20260822.js`
 - CMS paste file: UNKNOWN / not confirmed in GitHub
-- Latest known coordination state: 三方協作 / release / deployment / rollback 制度已完善；P0 mobile fixes still pending
+- Latest known coordination state: 三方協作 / release / deployment / rollback / mobile commute workflow 已建立；P0 mobile fixes still pending
 
 ## CURRENT LIVE WEBSITE
 
@@ -66,15 +66,28 @@
 1. `git status`
 2. working tree 乾淨才 `git pull`
 3. 有未提交修改時不得盲目 pull
-4. pull 後依序讀六份核心文件：
+4. pull 後依序讀七份核心文件：
    - `PROJECT_STATUS.md`
    - `CHATGPT_CURSOR_BASELINE.md`
    - `IMPORTANT_TODO.md`
    - `PROJECT_CHANGELOG.md`
    - `RELEASE_REGISTRY.md`
    - `DEPLOYMENT_CHECKLIST.md`
+   - `MOBILE_COMMUTE_WORKFLOW.md`
 5. 確認 ACTIVE WORK Owner
 6. 才開始修改 / 測試
+
+## MOBILE COMMUTE RULE
+
+當使用者只能用手機時：
+
+- 可由 ChatGPT 依使用者指示讀 GitHub、分析、直接修改與 commit。
+- 手機階段的程式修改在未經本機驗證前，Development status 最多標記 `CODE_FIXED`。
+- `LOCAL_TESTED` 必須由 Cursor / 本機實際瀏覽器驗證後才能成立。
+- ChatGPT 手機修改後必須在 changelog 留下 `Mobile Commute / ChatGPT` 交接資訊。
+- Cursor 回到電腦後先 pull / 讀交接 / 驗證，不重做同一修正。
+- 正式 CMS paste 仍依正常 Gate 由 Cursor 驗證後產生。
+- 詳細程序以 `MOBILE_COMMUTE_WORKFLOW.md` 為準。
 
 ## CMS PASTE GATE
 
