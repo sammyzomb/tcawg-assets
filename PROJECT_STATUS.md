@@ -1,16 +1,18 @@
 # PROJECT STATUS — 埃及活動頁 / CAI12A
 
-> 三方（使用者 / ChatGPT / Cursor）中央狀態表。開始工作前依序讀：`PROJECT_STATUS.md`、`CHATGPT_CURSOR_BASELINE.md`、`IMPORTANT_TODO.md`、`PROJECT_CHANGELOG.md`、`RELEASE_REGISTRY.md`、`DEPLOYMENT_CHECKLIST.md`、`MOBILE_COMMUTE_WORKFLOW.md`。
+> 三方（使用者 / ChatGPT / Cursor）中央狀態表。開始工作前依序讀：`PROJECT_STATUS.md`、`CHATGPT_CURSOR_BASELINE.md`、`IMPORTANT_TODO.md`、`PROJECT_CHANGELOG.md`、`RELEASE_REGISTRY.md`、`DEPLOYMENT_CHECKLIST.md`、`MOBILE_COMMUTE_WORKFLOW.md`、`CURSOR_MULTI_DEVICE_RECOVERY.md`。
 
 ## ACTIVE WORK
 
-- Owner: NONE
-- Task: NONE
-- Started: —
-- Base commit: —
+- Owner: ChatGPT
+- Device: REMOTE / ChatGPT
+- Task: 加入 Cursor-Office / Cursor-Home 雙裝置協作，以及忘記 Push / 忘記 Pull recovery 流程
+- Started: 2026-08-22 11:57 +08:00
+- Base commit: current GitHub HEAD at task start
+- Working tree state: N/A for ChatGPT remote edit
 - Lock type: SOFT LOCK
 
-規則：開始實際修改前 claim Owner；提交前再次確認 Owner、branch HEAD、最新 changelog。若另一方有新變更：STOP → SYNC → DIFF / REVIEW。
+規則：開始實際修改前 claim Owner；Cursor claim 時必須同時填 `Device: OFFICE / HOME` 與當下 `Working tree state: CLEAN / DIRTY / UNKNOWN`。提交前再次確認 Owner、Device、branch HEAD、最新 changelog。若另一方或另一台裝置有新變更：STOP → SYNC → DIFF / REVIEW。
 
 ## CURRENT DEVELOPMENT
 
@@ -26,6 +28,13 @@
 - Latest mobile change: dynamic viewport (`dvh`) overlay and removal of stale safeTop/safeBot dependency from primary mobile sticky layout / floating controls
 - Local browser test: NOT TESTED
 - Level B real-device test: NOT TESTED
+
+## CURSOR DEVICE STATE
+
+- Cursor-Office: sync state UNKNOWN until next `git status` + remote comparison
+- Cursor-Home: sync state UNKNOWN until next `git status` + remote comparison
+- Rule: GitHub only contains pushed commits; an unpushed commit or uncommitted change on one device is **not visible** to the other device or ChatGPT.
+- Do not write `CLEAN` / `SYNCED` from memory. Each device must establish its own state when opened.
 
 ## P0 STATUS
 
@@ -45,9 +54,24 @@
 
 GitHub Development 不等於官網 LIVE。LIVE→Code=`UNKNOWN` 時，本次修正只能描述為 Development 修正，不能宣稱正式官網已套用。
 
-## CURSOR NEXT ACTION
+## CURSOR NORMAL START CHECK
 
-1. `git status`；working tree clean 才 `git pull`。
+每一台 Cursor（OFFICE / HOME）都必須獨立執行：
+
+1. 確認自己是哪一台：`Device = OFFICE` 或 `HOME`。
+2. `git status`。
+3. 檢查 local branch 是否有 uncommitted changes / untracked files。
+4. `git fetch` 或等效 remote refresh，確認 local HEAD 與 remote HEAD 是否一致。
+5. 只有 working tree clean 且已確認 remote state 後，才執行安全 pull / fast-forward。
+6. pull 後再讀八份核心文件與最新 changelog。
+7. 確認 ACTIVE WORK Owner / Device。
+8. 才開始測試或修改。
+
+忘記 Push / Pull 的完整處理以 `CURSOR_MULTI_DEVICE_RECOVERY.md` 為準。
+
+## CURSOR NEXT ACTION — MOBILE P0
+
+1. 在實際要使用的 Cursor 裝置先執行上面的 NORMAL START CHECK。
 2. 讀最新 `PROJECT_CHANGELOG.md` 的 `Mobile Commute / ChatGPT` 交接。
 3. 不重做 overlay；先確認 `eg-mobile-p0-20260822.css` 在主 CSS 後載入的預覽環境。
 4. Level A：Desktop Chrome/Edge 回歸、390px、767/768、console、慢/快/回捲、Hero、Reduced Motion。
