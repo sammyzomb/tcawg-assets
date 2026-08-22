@@ -5,6 +5,50 @@
 
 ---
 
+## 2026-08-22 11:57 +08:00 — 加入 Cursor-Office / Cursor-Home 與 Forgot Push / Pull Recovery
+
+- 修改者：ChatGPT
+- 修改目的：支援使用者在公司電腦與家裡筆電各自使用 Cursor，並防止其中一台忘記 push / pull 時造成版本覆蓋、遺失本機工作或錯誤重做。
+- 修改檔案：
+  - `PROJECT_STATUS.md`
+  - `CHATGPT_CURSOR_BASELINE.md`
+  - `CURSOR_MULTI_DEVICE_RECOVERY.md`（新增）
+  - `MOBILE_COMMUTE_WORKFLOW.md`
+  - `.cursor/rules/egypt-project-status.mdc`
+  - `PROJECT_CHANGELOG.md`
+- 實際變更：
+  - Cursor 執行環境正式分成 `Device=OFFICE` 與 `Device=HOME`；三方角色仍為 使用者 / ChatGPT / Cursor。
+  - ACTIVE WORK 在 Cursor claim 時必須記錄 Owner、Device、Task、Started、Base commit、Working tree state。
+  - 新增裝置同步狀態：`SYNCED / LOCAL_DIRTY / LOCAL_AHEAD / REMOTE_AHEAD / DIVERGED / UNKNOWN / RECOVERY_REQUIRED`。
+  - 每台 Cursor 開始工作前固定改為：Device identification → `git status` → 檢查 uncommitted/untracked/local unpushed commits → `git fetch` → local/remote compare → recovery/safe pull → 讀八份核心文件 → claim Owner。
+  - 明確規定 `commit != push`；GitHub、ChatGPT、另一台 Cursor 都看不到未 push commit 或未 commit 修改。
+  - Forgot Push Recovery：上一台有 local commit 或 DIRTY working tree 時，另一台不得假設 GitHub 已完整，也不得直接重做/覆蓋重疊任務；原裝置可用時先 status/fetch/compare，再安全 push 或 merge。
+  - 原裝置暫時不可用時，重疊任務標 `RECOVERY_REQUIRED`；若使用者明確選擇放棄未 push 工作重做，必須留下紀錄，舊裝置日後不得直接 push 舊內容。
+  - Forgot Pull Recovery：尚未修改時可 clean+fetch+pull；已在舊 base 修改時必須 STOP、保存 diff、fetch、compare，再 merge/review；已 commit 到舊 base 時先比較 local/remote commits，不可直接 push。
+  - Push 前新增最後防呆：status + fetch + remote HEAD + Owner/Device + changelog + outgoing commits 再確認。
+  - 明確禁止未知 DIRTY 狀態使用 `reset --hard`、禁止 force push 蓋掉另一台/ChatGPT、禁止用 OneDrive/Dropbox/NAS 同步整個 `.git` 工作目錄代替 GitHub。
+  - Cursor 交接新增必填：`Device` 與 `Push status: PUSHED / NOT PUSHED`。
+  - 手機通勤交接同步調整：ChatGPT 週末修改後，OFFICE 或 HOME 任一台接手前都必須先做 Multi-Device sync audit，而不是直接 pull。
+- 為什麼修改：使用者補充同一專案會在公司與家裡兩台 Cursor 操作，且可能發生忘記 push / pull；原流程只防單一本機 dirty tree，無法處理另一台存在不可見本機工作的情況。
+- 影響範圍：Workflow only；本次未修改埃及前台 CSS / JS / HTML 功能。
+- 測試狀態：
+  - Workflow 邏輯交叉檢查：PASS
+  - 前台 CSS / JS：NOT TESTED（本次無前台功能修改）
+- 官網貼上版是否需要重新產生：否。
+- 尚未完成 / 後續待辦：
+  - Cursor-Office sync state 目前 `UNKNOWN`，需該電腦實際開啟後才能確認。
+  - Cursor-Home sync state 目前 `UNKNOWN`，需該筆電實際開啟後才能確認。
+  - 手機 P0 overlay 仍維持 `CODE_FIXED / NOT TESTED`，等待任一已安全同步的 Cursor 裝置接手驗證。
+- 相關 commits：
+  - `c42c7d9332b82c0c157591b18cf9170e0d57f17b` — claim task / add device state to status
+  - `70cb0199616479b4520b2ee6061d78c6e7238974` — add `CURSOR_MULTI_DEVICE_RECOVERY.md`
+  - `7f171f359745f40108c88a883bddeb072280a55f` — update three-party baseline for dual Cursor devices
+  - `555495710dbbe0f13427189072365b3f85c9996f` — update Cursor master rule
+  - `c497aa2d9b426097a786c2bfdcb5a09ebe20d67d` — align mobile commute handoff
+  - 本 changelog 更新：same change set / see git history
+
+---
+
 ## 2026-08-22 11:24 +08:00 — Mobile Commute / ChatGPT：手機版 P0 第一階段調整，桌面不動
 
 - 修改者：ChatGPT
@@ -34,7 +78,7 @@
 - Mobile impact：預期改善 viewport / sticky / browser toolbar 收合時的高度一致性與 stale safe-area 造成的偏移。
 - 官網貼上版是否需要重新產生：`YES`，但**現在不要產正式版**；Cursor 驗證後才產，並確保 overlay CSS 在主 CSS 後載入。
 - Cursor required actions：
-  1. `git status`，working tree clean 才 `git pull`。
+  1. 先依 `CURSOR_MULTI_DEVICE_RECOVERY.md` 確認 OFFICE/HOME 本機與 remote 同步狀態。
   2. 讀 `PROJECT_STATUS.md`、本 changelog、`RELEASE_REGISTRY.md`。
   3. 不重做本次 CSS overlay，先驗證。
   4. Level A：Desktop Chrome/Edge 基本回歸、390px、767/768、console、慢/快/回捲、Hero source switching、Reduced Motion。
@@ -46,10 +90,9 @@
   - 手機 scroll frame 仍會更新多個 scene update function，P0 效能優化仍待後續 JS 修正。
   - CURRENT LIVE / LIVE→Code 仍為 `UNKNOWN`。
 - 相關 commits：
-  - `c23bbc76c1965af3d1dbf6b188a094506f05ada9` — claim mobile task / IN_PROGRESS
-  - `d70194bbe9cac2c72808b75ec9a7bff5eac49df9` — add mobile-only viewport stabilization overlay
-  - `15cb435a44fc210a524c9cdfa78732a59b2402df` — register overlay in development registry
-  - 本 changelog 更新：same change set / see git history
+  - `c23bbc76c1965af3d1dbf6b188a094506f05ada9`
+  - `d70194bbe9cac2c72808b75ec9a7bff5eac49df9`
+  - `15cb435a44fc210a524c9cdfa78732a59b2402df`
 
 ---
 
@@ -58,7 +101,6 @@
 - 修改者：ChatGPT
 - 主要內容：建立 LIVE→Code `KNOWN/UNKNOWN`、SOFT LOCK 二次檢查、分領域權威、首次 CMS backup 責任、Level A/B/C 測試 Gate，並將 Cursor alwaysApply 收斂為 Master Rule + Mobile Rule。
 - 測試狀態：三方協議 `PASS`；前台 CSS / JS `NOT TESTED`。
-- 相關 commits：`b2c90b4b518ce77d7ecd2eafb985558c39f4ccb4`、`63078f13cc3dfe12521cda906f9a0505ce466057`、`0235c6b807b17c9836dcda565ca4816fd8983f1f`、`975306eea377a8e913ffb6581f5d251102784f02`、`c0bbf0157fb6d5d3ae4fdbb6fdfec7ccd04c8b11`、`74409286bc6d71ca3d4ad2d6e5f954ad8fef4e2d`。
 
 ---
 
@@ -66,7 +108,6 @@
 
 - 修改者：ChatGPT
 - 主要內容：新增 `MOBILE_COMMUTE_WORKFLOW.md`，建立手機 `CODE_FIXED → Cursor 驗證 → LOCAL_TESTED` 交接與截圖證據邊界。
-- 相關 commits：`4c38d49c15563c798acd554cae29efd56cf901c3`、`a5778779bd8c99b8340e7f56f04911df169f7f6e`、`875d1b9d4ef8c272e856507b5a0b346e25e22298`。
 
 ---
 
