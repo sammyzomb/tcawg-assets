@@ -5,6 +5,36 @@
 
 ---
 
+## 2026-08-22 12:25 +08:00 — 通用化第一步：建立 START_PROJECT / FINISH_PROJECT
+
+- 修改者：ChatGPT
+- 使用者要求：將原本埃及專用的同步防呆機制升級成所有 GitHub 專案都可共用的三方 / 三地工作流程，並一步一步完成。
+- 本步範圍：只建立通用同步層，不設定 OFFICE/HOME 實體電腦、不建立 19:00 Windows 排程、不修改埃及前台。
+- 新增：
+  - `tools/project-workflow/Start-Project.ps1`
+  - `tools/project-workflow/Finish-Project.ps1`
+- 通用化內容：
+  - 腳本自動作用於「目前所在的 Git repository」，不再綁定 CAI12A / Egypt。
+  - 裝置身分改採 machine-wide `workflow.device=OFFICE/HOME` 概念，適合一台電腦管理多個專案。
+  - `START_PROJECT`：檢查 working tree、fetch、判斷 `SYNCED / LOCAL_DIRTY / LOCAL_AHEAD / REMOTE_AHEAD / DIVERGED`；只有 clean + remote-ahead 時允許 safe fast-forward。
+  - `FINISH_PROJECT`：不自動 commit；只有 clean + local-ahead + remote 未前進時才自動 push，並於 push 後再次 fetch 驗證已 `SYNCED`。
+  - DIRTY / DIVERGED / remote-ahead / detached HEAD / fetch failure 都採 BLOCKED，不自動 reset、不 force push、不猜測衝突處理。
+- 舊 `START_EGYPT / FINISH_EGYPT`：暫時保留，等通用版本在 OFFICE/HOME 完成安裝與驗證後再退役，避免現在就切斷既有 recovery path。
+- `PROJECT_STATUS.md`：已更新為 generic workflow Step 1 完成，Owner 回 `NONE`。
+- 測試：
+  - 靜態邏輯檢查：PASS
+  - OFFICE 實機執行：NOT TESTED
+  - HOME 實機執行：NOT TESTED
+- 不影響：埃及 CSS / JS / CMS / LIVE。
+- 下一步：只做 OFFICE/HOME 共用的「一次性安裝方式」，讓兩台電腦都能直接呼叫 `START_PROJECT / FINISH_PROJECT`；尚未執行。
+- 相關 commits：
+  - `d82e2a10a38046d9c4acf715f93a61f0aebecb02` — add generic START_PROJECT
+  - `57c14174837d6886ef88ec9cb81449d77a8db189` — add generic FINISH_PROJECT
+  - `4a07009490f77f5267cf433cbddb4b21f5d03be4` — update project status / release owner
+  - 本 changelog：same change set / see git history
+
+---
+
 ## 2026-08-22 11:57 +08:00 — 加入 Cursor-Office / Cursor-Home 與 Forgot Push / Pull Recovery
 
 - 修改者：ChatGPT
