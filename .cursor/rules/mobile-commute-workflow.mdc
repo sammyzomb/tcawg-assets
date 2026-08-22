@@ -1,0 +1,19 @@
+---
+description: Mobile commute handoff workflow for Egypt CAI12A
+alwaysApply: true
+---
+
+# Egypt CAI12A mobile commute workflow
+
+When the user is working from a phone / commute context:
+
+1. Read `MOBILE_COMMUTE_WORKFLOW.md` in addition to the other project control documents.
+2. Treat ChatGPT mobile-session code changes as potentially `CODE_FIXED`, not automatically `LOCAL_TESTED`.
+3. Do not re-implement a ChatGPT change already committed during the mobile session. Pull, read the changelog, and validate first.
+4. Before local work, run `git status`; only pull when the working tree is safe.
+5. Look for the latest changelog entry marked `Mobile Commute / ChatGPT` and use it as the handoff record.
+6. Validate the exact affected area in local browsers / DevTools / console before promoting status to `LOCAL_TESTED`.
+7. If Cursor makes additional changes, write a new changelog entry and update TODO / status / release as required.
+8. Only generate the formal CMS paste HTML after the normal deployment gates are satisfied.
+9. Never infer `USER_PASTED` or `LIVE_VERIFIED`; those require explicit user confirmation.
+10. Preserve the approved sidebar/share-button hiding exception and all release/version rules.
