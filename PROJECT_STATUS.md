@@ -4,12 +4,12 @@
 
 ## ACTIVE WORK
 
-- Owner: ChatGPT
-- Device: REMOTE / ChatGPT
-- Task: 建立 OFFICE / HOME Cursor START_EGYPT / FINISH_EGYPT 自動防呆與 pre-push 保護
-- Started: 2026-08-22 12:12 +08:00
-- Base commit: current GitHub HEAD at task start
-- Working tree state: N/A for ChatGPT remote edit
+- Owner: NONE
+- Device: NONE
+- Task: NONE
+- Started: —
+- Base commit: —
+- Working tree state: —
 - Lock type: SOFT LOCK
 
 規則：開始實際修改前 claim Owner；Cursor claim 時必須同時填 `Device: OFFICE / HOME` 與當下 `Working tree state: CLEAN / DIRTY / UNKNOWN`。提交前再次確認 Owner、Device、branch HEAD、最新 changelog。若另一方或另一台裝置有新變更：STOP → SYNC → DIFF / REVIEW。
@@ -28,7 +28,7 @@
 - Latest mobile change: dynamic viewport (`dvh`) overlay and removal of stale safeTop/safeBot dependency from primary mobile sticky layout / floating controls
 - Local browser test: NOT TESTED
 - Level B real-device test: NOT TESTED
-- Latest workflow change: Cursor-Office / Cursor-Home + Forgot Push / Pull Recovery established
+- Latest workflow change: generic cross-project scripts `tools/project-workflow/Start-Project.ps1` and `Finish-Project.ps1` created; Egypt-specific scripts retained temporarily until migration is validated
 
 ## CURSOR DEVICE STATE
 
@@ -36,6 +36,16 @@
 - Cursor-Home: sync state UNKNOWN until next `git status` + remote comparison
 - Rule: GitHub only contains pushed commits; an unpushed commit or uncommitted change on one device is **not visible** to the other device or ChatGPT.
 - Do not write `CLEAN` / `SYNCED` from memory. Each device must establish its own state when opened.
+- Generic device identity will use one machine-wide setting: `workflow.device=OFFICE` or `workflow.device=HOME`.
+
+## GENERIC PROJECT SYNC — STEP 1
+
+- `Start-Project.ps1`: created; operates on the current Git repository, checks dirty/ahead/behind/diverged, fetches remote, and only fast-forwards when safe.
+- `Finish-Project.ps1`: created; refuses dirty/diverged/remote-ahead states, auto-pushes only clean local-ahead commits, and verifies post-push synchronization.
+- These scripts are project-agnostic and intended to replace `START_EGYPT / FINISH_EGYPT` after local OFFICE/HOME installation and validation.
+- No automatic commit is allowed.
+- No force push / hard reset is allowed.
+- Local installation, global command aliases, 19:00 OFFICE scheduling, and HOME setup are later steps and are not yet configured.
 
 ## P0 STATUS
 
