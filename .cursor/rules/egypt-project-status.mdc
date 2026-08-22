@@ -1,0 +1,48 @@
+---
+description: Mandatory project-state and handoff control for Egypt CAI12A
+alwaysApply: true
+---
+
+# Egypt CAI12A project status control
+
+For any task involving Egypt / CAI12A:
+
+1. Before doing any work, read these files in this order:
+   - `PROJECT_STATUS.md`
+   - `CHATGPT_CURSOR_BASELINE.md`
+   - `IMPORTANT_TODO.md`
+   - `PROJECT_CHANGELOG.md`
+
+2. Before `git pull`, run `git status`.
+   - If the working tree is clean, pull latest changes.
+   - If there are uncommitted local changes, DO NOT pull blindly. Inspect and preserve or resolve those changes first.
+
+3. Before editing, check `PROJECT_STATUS.md` → ACTIVE WORK.
+   - If Owner is `NONE`, claim the task by setting Owner=`Cursor`, plus Task / Started / Base commit.
+   - If Owner is `ChatGPT`, do not independently implement the same task. Pull/read the latest changelog first and wait for handoff or explicit user reassignment.
+   - If Owner is `Cursor`, continue only if this session owns the task.
+
+4. Do not use the words "latest" or "completed" as authoritative status by themselves.
+   - Use the exact release ID when assigned.
+   - Use one of: `ANALYSIS_ONLY`, `IN_PROGRESS`, `CODE_FIXED`, `LOCAL_TESTED`, `PASTE_GENERATED`, `USER_PASTED`, `LIVE_VERIFIED`.
+
+5. GitHub latest code is NOT proof of what is live on the website.
+   - Only the user can confirm `USER_PASTED` and final `LIVE_VERIFIED` state.
+   - Never mark a release live merely because code was committed or local testing passed.
+
+6. Before generating a CMS paste HTML, verify that its CSS URL, JS URL, images and Desktop/Mobile Vimeo references all match the intended release.
+
+7. After actual modifications:
+   - update `PROJECT_CHANGELOG.md`
+   - update `IMPORTANT_TODO.md` if status changed
+   - update `PROJECT_STATUS.md`
+   - when work is handed off, set ACTIVE WORK Owner back to `NONE`
+
+8. Changelog commit rule:
+   - Do not create an infinite self-referencing commit-SHA loop.
+   - Record the related code commit SHA when known, or write `same change set / see git history` when the changelog is committed together with the change.
+
+9. Preserve the approved exception:
+   `#sidebar,#sidebar-share-btn{display:none !important}`
+
+10. The user does not manually edit CSS/JS. Cursor remains responsible for local validation and producing the final CMS paste HTML after code reaches the required gate.
