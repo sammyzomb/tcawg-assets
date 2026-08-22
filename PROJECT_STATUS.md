@@ -6,10 +6,10 @@
 
 ## ACTIVE WORK
 
-- Owner: ChatGPT
-- Task: 完善三方協議：LIVE→CODE 對應、Owner soft-lock 二次檢查、首次 CMS 備份責任、測試 Gate 分級、Cursor 規則收斂、最終交叉檢查
-- Started: 2026-08-22 11:12 +08:00
-- Base commit: current GitHub HEAD at task start
+- Owner: NONE
+- Task: NONE
+- Started: —
+- Base commit: —
 - Lock type: SOFT LOCK
 
 規則：
@@ -29,7 +29,7 @@
 - Development CSS: `eg-v2-20260822.css`
 - Development JS: `eg-v2-20260822.js`
 - CMS paste file: UNKNOWN / not confirmed in GitHub
-- Latest known coordination state: 三方協作 / release / deployment / rollback / mobile commute workflow 已建立；本次正在補強協議；P0 mobile fixes still pending
+- Latest known coordination state: 三方協作制度最終完善與交叉檢查完成；Cursor rules 已收斂為 Master Rule + Mobile Rule；P0 mobile fixes still pending
 
 ## CURRENT LIVE WEBSITE
 
