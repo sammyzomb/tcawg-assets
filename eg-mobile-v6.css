@@ -74,6 +74,7 @@
   position: relative;
   width: 100%;
   overflow: hidden;
+  scroll-margin-top: calc(var(--egm-top) + 12px);
 }
 
 #eg-mobile-experience .egm-scene + .egm-scene {
@@ -704,15 +705,25 @@
 /* Gods — layout D */
 #eg-mobile-experience .egm-gods {
   background: linear-gradient(180deg, var(--egm-nile-deep) 0%, var(--egm-nile-blue) 100%);
+  color: #fff;
 }
 
 #eg-mobile-experience .egm-gods__head {
-  padding: 0;
+  padding: 0.35rem var(--egm-pad-x) 0;
+}
+
+#eg-mobile-experience .egm-gods .egm-kicker {
+  color: var(--egm-gold);
+}
+
+#eg-mobile-experience .egm-gods .egm-title {
+  color: #fff;
+  line-height: 1.3;
 }
 
 #eg-mobile-experience .egm-gods__carousel {
   position: relative;
-  margin-top: 1.25rem;
+  margin-top: 1rem;
   min-height: 0;
   touch-action: pan-y;
 }
@@ -734,7 +745,16 @@
   position: relative;
   aspect-ratio: 16 / 10;
   min-height: clamp(180px, 48vw, 240px);
-  background: var(--egm-warm-gray);
+  background: var(--egm-nile-deep);
+}
+
+#eg-mobile-experience .egm-god-card__media::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 45%;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(14, 42, 56, 0.88) 100%);
 }
 
 #eg-mobile-experience .egm-god-card__photo {
@@ -746,7 +766,8 @@
 #eg-mobile-experience .egm-god-card__fig {
   position: absolute;
   right: 12px;
-  bottom: -28px;
+  bottom: 8px;
+  z-index: 2;
   width: 72px;
   height: auto;
   filter: drop-shadow(0 8px 16px rgba(8, 24, 32, 0.45));
@@ -754,14 +775,16 @@
 }
 
 #eg-mobile-experience .egm-god-card__text {
-  padding: 1.35rem 1.15rem 1.25rem;
+  padding: 1.15rem 1.15rem 1.25rem;
   text-align: center;
+  background: rgba(14, 42, 56, 0.96);
 }
 
 #eg-mobile-experience .egm-god-card__en {
   margin: 0;
   font: 600 1.1rem/1.2 "Segoe UI", sans-serif;
   letter-spacing: 0.08em;
+  color: #fff;
 }
 
 #eg-mobile-experience .egm-god-card__zh {
@@ -1399,9 +1422,14 @@
     border-radius: 0 !important;
   }
 
+  #eg-mobile-experience .egm-gods.egm-layout--graphic {
+    padding-top: clamp(36px, 9vw, 52px) !important;
+  }
+
   #eg-mobile-experience .egm-nile__copy,
   #eg-mobile-experience .egm-luxor__card,
-  #eg-mobile-experience .egm-pyramids__head {
+  #eg-mobile-experience .egm-pyramids__head,
+  #eg-mobile-experience .egm-gods__head {
     margin-left: var(--egm-pad-x);
     margin-right: var(--egm-pad-x);
   }
