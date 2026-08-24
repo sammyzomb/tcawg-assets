@@ -1,6 +1,7 @@
 /* CAI12A Mobile V6 — visual polish · scoped to #eg-mobile-experience */
 #eg-mobile-experience {
-  --egm-top: 95px;
+  /* 官網：頁首 95px + 報名列 54px */
+  --egm-top: 149px;
   --egm-bot: 72px;
   --egm-gold: #c9a962;
   --egm-sand: #f4efe4;
@@ -110,6 +111,12 @@
 }
 
 #eg-mobile-experience .egm-reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* 首屏 hero 不等 IO，避免一進頁標題全透明 */
+#eg-mobile-experience .egm-hero__copy.egm-reveal {
   opacity: 1;
   transform: none;
 }
@@ -1114,4 +1121,35 @@
 #eg-mobile-experience .egm-quick__line {
   font-weight: 700;
   font-size: 0.62rem;
+}
+
+/*
+ * 官網全站有 #travelview .wrap .feature .content img { height:auto !important }
+ * 會把 object-fit:cover 的全屏圖壓扁，版面整個垮掉。只反制手機殼內的 cover 圖。
+ */
+#travelview .wrap .feature .content #eg-mobile-experience .egm-media img,
+#travelview .wrap .feature .content #eg-mobile-experience .egm-hero__img,
+#travelview .wrap .feature .content #eg-mobile-experience .egm-pyramids__photo,
+#travelview .wrap .feature .content #eg-mobile-experience .egm-timeline__photo,
+#travelview .wrap .feature .content #eg-mobile-experience .egm-museum__hero img,
+#travelview .wrap .feature .content #eg-mobile-experience .egm-route__highlights img,
+#travelview .wrap .feature .content #eg-mobile-experience .egm-journey__photo img,
+#travelview .wrap .feature .content #eg-mobile-experience .egm-abu__photo img,
+#travelview .wrap .feature .content #eg-mobile-experience .egm-redsea__photo img,
+#travelview .wrap .feature .content #eg-mobile-experience .egm-nile__media img,
+#travelview .wrap .feature .content #eg-mobile-experience .egm-luxor__media img,
+#travelview .wrap .feature .content #eg-mobile-experience .egm-god-card__photo {
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+#travelview .wrap .feature .content #eg-mobile-experience .egm-museum__track img,
+#travelview .wrap .feature .content #eg-mobile-experience .egm-route__track img,
+#travelview .wrap .feature .content #eg-mobile-experience .egm-god-card__fig {
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: cover !important;
 }
