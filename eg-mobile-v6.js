@@ -12,7 +12,8 @@ var EGM_DOM_HTML="<nav class=\"egm-nav\" id=\"egm-nav\" aria-label=\"場景導�
 
 
   function isMobile() {
-    return window.matchMedia('(max-width:' + MOBILE_MAX + 'px)').matches;
+    return window.innerWidth <= MOBILE_MAX ||
+      window.matchMedia('(max-width:' + MOBILE_MAX + 'px)').matches;
   }
 
   function root() {
@@ -266,6 +267,7 @@ var EGM_DOM_HTML="<nav class=\"egm-nav\" id=\"egm-nav\" aria-label=\"場景導�
     initTimeline(el);
     initNav(el);
     initQuick(el);
+    window.__EGM_V6_READY__ = true;
   }
 
   function loadDom(cb) {
@@ -296,10 +298,15 @@ var EGM_DOM_HTML="<nav class=\"egm-nav\" id=\"egm-nav\" aria-label=\"場景導�
     });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', start);
-  } else {
+  function scheduleStart() {
     start();
+    window.addEventListener('load', start, { once: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', scheduleStart);
+  } else {
+    scheduleStart();
   }
 
   window.addEventListener('resize', function () {
