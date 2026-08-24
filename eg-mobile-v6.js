@@ -186,10 +186,12 @@ var EGM_DOM_HTML="<nav class=\"egm-nav\" id=\"egm-nav\" aria-label=\"場景導�
     var dots = el.querySelector('#egm-gods-dots');
     if (!wrap) return;
     var cards = [].slice.call(wrap.querySelectorAll('.egm-god-card'));
-    var names = cards.map(function (c) { return c.dataset.god; });
     var cur = 0;
     var startX = 0;
     var tracking = false;
+    var timer = null;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var AUTO_MS = 3200;
 
     function show(i) {
       cur = (i + cards.length) % cards.length;
@@ -209,11 +211,27 @@ var EGM_DOM_HTML="<nav class=\"egm-nav\" id=\"egm-nav\" aria-label=\"場景導�
       }
     }
 
+    function stopAuto() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    function startAuto() {
+      stopAuto();
+      if (reduce || cards.length < 2) return;
+      timer = setInterval(function () { show(cur + 1); }, AUTO_MS);
+    }
+
     show(0);
 
     if (dots) {
       dots.querySelectorAll('button').forEach(function (btn, i) {
-        btn.addEventListener('click', function () { show(i); });
+        btn.addEventListener('click', function () {
+          show(i);
+          startAuto();
+        });
       });
     }
 
@@ -221,6 +239,7 @@ var EGM_DOM_HTML="<nav class=\"egm-nav\" id=\"egm-nav\" aria-label=\"場景導�
       if (!e.touches || !e.touches[0]) return;
       startX = e.touches[0].clientX;
       tracking = true;
+      stopAuto();
     }, { passive: true });
 
     wrap.addEventListener('touchend', function (e) {
@@ -228,9 +247,26 @@ var EGM_DOM_HTML="<nav class=\"egm-nav\" id=\"egm-nav\" aria-label=\"場景導�
       tracking = false;
       var endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : startX;
       var dx = endX - startX;
-      if (Math.abs(dx) < 40) return;
-      show(dx < 0 ? cur + 1 : cur - 1);
+      if (Math.abs(dx) >= 40) show(dx < 0 ? cur + 1 : cur - 1);
+      startAuto();
     }, { passive: true });
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) startAuto();
+          else stopAuto();
+        });
+      }, { threshold: 0.35 });
+      io.observe(wrap);
+    } else {
+      startAuto();
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stopAuto();
+      else startAuto();
+    });
   }
 
   function initAbu(el) {
