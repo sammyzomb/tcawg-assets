@@ -1236,23 +1236,46 @@
     padding-right: 0 !important;
   }
 
-  /* 卡片／圖文區大圖：左右貼齊螢幕，文字仍保留 --egm-pad-x */
-  #eg-mobile-experience .egm-nile__media,
-  #eg-mobile-experience .egm-luxor__media,
-  #eg-mobile-experience .egm-pyramids__card {
-    margin-left: calc(-1 * var(--egm-pad-x));
-    margin-right: calc(-1 * var(--egm-pad-x));
-    width: calc(100% + 2 * var(--egm-pad-x));
-    max-width: none;
-    border-radius: 0;
+  #travelview .container,
+  #travelview .wrap,
+  #travelview #feature .content {
+    max-width: none !important;
   }
 
+  /* 卡片／圖文：大圖滿版，文字區才留 --egm-pad-x */
+  #eg-mobile-experience .egm-layout--card,
+  #eg-mobile-experience .egm-layout--graphic {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  #eg-mobile-experience .egm-media:not(.egm-media--hero) {
+    border-radius: 0 !important;
+  }
+
+  #eg-mobile-experience .egm-nile__media,
+  #eg-mobile-experience .egm-luxor__media,
+  #eg-mobile-experience .egm-pyramids__card,
   #eg-mobile-experience .egm-museum__hero,
   #eg-mobile-experience .egm-timeline__hero {
-    margin-left: 0;
-    margin-right: 0;
-    width: 100%;
-    max-width: none;
-    border-radius: 0;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    border-radius: 0 !important;
+  }
+
+  #eg-mobile-experience .egm-nile__copy,
+  #eg-mobile-experience .egm-luxor__card,
+  #eg-mobile-experience .egm-pyramids__head {
+    margin-left: var(--egm-pad-x);
+    margin-right: var(--egm-pad-x);
+  }
+
+  #eg-mobile-experience .egm-museum__copy,
+  #eg-mobile-experience .egm-route__head,
+  #eg-mobile-experience .egm-route__body {
+    padding-left: var(--egm-pad-x);
+    padding-right: var(--egm-pad-x);
   }
 }
