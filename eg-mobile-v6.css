@@ -404,16 +404,39 @@
   right: 0;
   top: 14%;
   bottom: 34%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
   pointer-events: none;
 }
 
 #eg-mobile-experience .egm-pyr-svg {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
   width: min(240px, 68vw);
   height: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(10px) scale(0.94);
+  transition: opacity 0.45s var(--egm-ease), transform 0.45s var(--egm-ease), visibility 0s linear 0.45s;
+}
+
+#eg-mobile-experience .egm-pyr-svg.is-on {
   opacity: 0.92;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0) scale(1);
+  transition: opacity 0.55s var(--egm-ease), transform 0.55s var(--egm-ease), visibility 0s;
+}
+
+#eg-mobile-experience .egm-pyr-svg.is-on.is-in {
+  animation: egm-pyr-pop 0.65s var(--egm-ease) both;
+}
+
+@keyframes egm-pyr-pop {
+  from { opacity: 0; transform: translateX(-50%) translateY(16px) scale(0.9); }
+  to { opacity: 0.92; transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+#eg-mobile-experience .egm-pyr-svg[hidden]:not(.is-on) {
+  display: none !important;
 }
 
 #eg-mobile-experience .egm-pyr-svg path {
@@ -1284,6 +1307,17 @@
   max-height: 96% !important;
   object-fit: contain !important;
   object-position: bottom right !important;
+}
+
+#travelview .wrap .feature .content #eg-mobile-experience .egm-pyr-svg:not(.is-on) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+#travelview .wrap .feature .content #eg-mobile-experience .egm-pyr-svg.is-on {
+  display: block !important;
+  visibility: visible !important;
 }
 
 /* 官網 CMS 外殼：手機隱藏重複「行程特色」標題與區塊 padding，避免 hero 上方 beige 空白 */
