@@ -869,61 +869,51 @@
   z-index: 2;
 }
 
-/* Abu — layout A */
+/* Abu — layout A（手機：取消窄光柱，改柔和頂光 + 底部漸層保文字可讀） */
 #eg-mobile-experience .egm-abu__photo {
   position: absolute;
   inset: 0;
 }
 
 #eg-mobile-experience .egm-abu__photo img {
-  filter: brightness(0.78);
+  filter: brightness(0.9);
+  object-position: center 32%;
   transition: filter 1.2s var(--egm-ease);
 }
 
 #eg-mobile-experience .egm-abu.is-lit .egm-abu__photo img {
-  filter: brightness(0.95);
+  filter: brightness(1);
 }
 
 #eg-mobile-experience .egm-abu__veil {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(
-    180deg,
-    rgba(22, 63, 74, 0.22) 0%,
-    rgba(14, 42, 56, 0.35) 50%,
-    rgba(14, 42, 56, 0.58) 100%
-  );
+  background:
+    radial-gradient(ellipse 95% 55% at 50% 8%, rgba(255, 228, 170, 0.14) 0%, transparent 62%),
+    linear-gradient(
+      180deg,
+      rgba(22, 63, 74, 0.08) 0%,
+      rgba(14, 42, 56, 0.12) 42%,
+      rgba(14, 42, 56, 0.48) 100%
+    );
   transition: opacity 1.2s var(--egm-ease);
 }
 
 #eg-mobile-experience .egm-abu.is-lit .egm-abu__veil {
-  opacity: 0.55;
+  opacity: 0.82;
+  background:
+    radial-gradient(ellipse 95% 55% at 50% 8%, rgba(255, 232, 180, 0.22) 0%, transparent 62%),
+    linear-gradient(
+      180deg,
+      rgba(22, 63, 74, 0.04) 0%,
+      rgba(14, 42, 56, 0.1) 42%,
+      rgba(14, 42, 56, 0.46) 100%
+    );
 }
 
 #eg-mobile-experience .egm-abu__beam {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  z-index: 2;
-  width: 120px;
-  height: 100%;
-  margin-left: -60px;
-  background: linear-gradient(180deg, rgba(255, 230, 160, 0) 0%, rgba(255, 220, 140, 0.45) 35%, rgba(255, 210, 120, 0.12) 70%, transparent 100%);
-  opacity: 0;
-  transform: scaleY(0.2);
-  transform-origin: top center;
-  pointer-events: none;
-}
-
-#eg-mobile-experience .egm-abu.is-lit .egm-abu__beam {
-  animation: egm-abu-beam 1.6s var(--egm-ease) forwards;
-}
-
-@keyframes egm-abu-beam {
-  0% { opacity: 0; transform: scaleY(0.15); }
-  40% { opacity: 1; }
-  100% { opacity: 0.75; transform: scaleY(1); }
+  display: none;
 }
 
 #eg-mobile-experience .egm-abu__copy {
@@ -1319,6 +1309,10 @@
   max-width: none !important;
   height: 100% !important;
   object-fit: cover !important;
+}
+
+#travelview .wrap .feature .content #eg-mobile-experience .egm-abu__photo img {
+  object-position: center 32% !important;
 }
 
 #travelview .wrap .feature .content #eg-mobile-experience .egm-museum__hero img {
