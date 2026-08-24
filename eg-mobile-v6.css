@@ -60,7 +60,7 @@
 }
 
 #eg-mobile-experience .egm-main {
-  padding-top: var(--egm-top);
+  padding-top: 0;
 }
 
 /* ── Scene base ── */
@@ -123,7 +123,7 @@
 
 /* ── Layout types ── */
 #eg-mobile-experience .egm-layout--hero {
-  min-height: calc(100svh - var(--egm-top));
+  min-height: 100svh;
 }
 
 #eg-mobile-experience .egm-layout--card {
@@ -334,7 +334,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: calc(100svh - var(--egm-top));
+  min-height: 100svh;
   padding: 2rem var(--egm-pad-x) calc(var(--egm-bot) + 2rem);
 }
 
@@ -577,7 +577,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: calc(100svh - var(--egm-top));
+  min-height: 100svh;
   padding: 2rem var(--egm-pad-x) calc(var(--egm-bot) + 1.5rem);
 }
 
@@ -804,7 +804,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: calc(100svh - var(--egm-top));
+  min-height: 100svh;
   padding: 2.5rem var(--egm-pad-x) calc(var(--egm-bot) + 1.5rem);
 }
 
@@ -832,7 +832,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: calc(100svh - var(--egm-top));
+  min-height: 100svh;
   padding: 2.5rem var(--egm-pad-x) calc(var(--egm-bot) + 1.5rem);
 }
 
@@ -1201,4 +1201,23 @@
   max-width: 100% !important;
   height: auto !important;
   object-fit: cover !important;
+}
+
+/* 官網 CMS 外殼：手機隱藏重複「行程特色」標題與區塊 padding，避免 hero 上方 beige 空白 */
+@media (max-width: 767px) {
+  #travelview #feature.feature {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  #travelview #feature .h4.reset {
+    display: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #travelview #feature .content {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
 }
