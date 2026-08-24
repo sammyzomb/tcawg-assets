@@ -1205,6 +1205,15 @@
 
 /* 官網 CMS 外殼：手機隱藏重複「行程特色」標題與區塊 padding，避免 hero 上方 beige 空白 */
 @media (max-width: 767px) {
+  /* 突破官網 .container 左右 padding（同桌機 #eg-experience 策略） */
+  #eg-mobile-experience {
+    --egm-vw: 100vw;
+    margin-left: calc(50% - var(--egm-vw) / 2);
+    margin-right: calc(50% - var(--egm-vw) / 2);
+    width: var(--egm-vw);
+    max-width: var(--egm-vw);
+  }
+
   #travelview #feature.feature {
     padding: 0 !important;
     margin: 0 !important;
@@ -1219,5 +1228,31 @@
   #travelview #feature .content {
     padding: 0 !important;
     margin: 0 !important;
+  }
+
+  #travelview .container.width-1430,
+  #travelview .container.width-1430 > .wrap {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* 卡片／圖文區大圖：左右貼齊螢幕，文字仍保留 --egm-pad-x */
+  #eg-mobile-experience .egm-nile__media,
+  #eg-mobile-experience .egm-luxor__media,
+  #eg-mobile-experience .egm-pyramids__card {
+    margin-left: calc(-1 * var(--egm-pad-x));
+    margin-right: calc(-1 * var(--egm-pad-x));
+    width: calc(100% + 2 * var(--egm-pad-x));
+    max-width: none;
+    border-radius: 0;
+  }
+
+  #eg-mobile-experience .egm-museum__hero,
+  #eg-mobile-experience .egm-timeline__hero {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    max-width: none;
+    border-radius: 0;
   }
 }
