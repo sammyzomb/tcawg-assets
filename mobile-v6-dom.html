@@ -3,8 +3,8 @@
 <ol class="egm-nav__list" id="egm-nav-panel" hidden></ol>
 </nav>
 <main class="egm-main">
-<section class="egm-scene egm-hero" id="egm-hero" aria-labelledby="egm-hero-title">
-<div class="egm-hero__media"><img class="egm-hero__img" src="/data/images/202608/CAI12A/sphinx.jpg" alt="" width="1920" height="1280" decoding="async" fetchpriority="high"></div>
+<section class="egm-scene egm-hero egm-layout--hero" id="egm-hero" aria-labelledby="egm-hero-title">
+<div class="egm-hero__media egm-media egm-media--hero"><img class="egm-hero__img" src="/data/images/202608/CAI12A/sphinx.jpg" alt="" width="1920" height="1280" decoding="async" fetchpriority="high"></div>
 <div class="egm-hero__veil"></div>
 <div class="egm-hero__copy egm-reveal">
 <p class="egm-kicker">01 / 12 · EGYPT</p>
@@ -13,19 +13,24 @@
 <p class="egm-body">從開羅出發，以五星尼羅河遊輪串起吉薩高原、路克索神殿群與阿布辛貝，十二天走完埃及神話古文明。</p>
 </div>
 </section>
-<section class="egm-scene egm-nile" id="egm-nile" aria-labelledby="egm-nile-title">
-<div class="egm-nile__photo"><img src="/data/images/202608/CAI12A/cruise-1.jpg" alt="" loading="lazy" decoding="async"></div>
+<section class="egm-scene egm-nile egm-layout--card" id="egm-nile" aria-labelledby="egm-nile-title">
+<div class="egm-nile__frame">
+<div class="egm-nile__media egm-media egm-media--45">
+<img src="/data/images/202608/CAI12A/cruise-1.jpg" alt="" loading="lazy" decoding="async">
 <div class="egm-nile__river" aria-hidden="true">
 <svg viewBox="0 0 400 600" preserveAspectRatio="xMidYMid slice"><path class="egm-nile__path" d="M198 580 C210 520 185 460 205 400 S220 280 200 220 190 120 205 60"/></svg>
 </div>
-<div class="egm-nile__copy egm-reveal">
+<div class="egm-nile__veil"></div>
+</div>
+<div class="egm-nile__copy egm-card egm-card--navy egm-reveal">
 <p class="egm-kicker">02 / 12 · THE NILE</p>
 <h2 class="egm-title" id="egm-nile-title">尼羅河與古埃及文明</h2>
 <p class="egm-lead">沒有尼羅河，就沒有埃及。</p>
 <p class="egm-body">河流到哪裡，生命就出現在哪裡。尼羅河把開羅、亞斯文與路克索連成同一條文明走廊。</p>
 </div>
+</div>
 </section>
-<section class="egm-scene egm-pyramids" id="egm-pyramids" aria-labelledby="egm-pyramids-title">
+<section class="egm-scene egm-pyramids egm-layout--graphic" id="egm-pyramids" aria-labelledby="egm-pyramids-title">
 <div class="egm-pyramids__head egm-reveal">
 <p class="egm-kicker">03 / 12 · PYRAMIDS</p>
 <h2 class="egm-title" id="egm-pyramids-title">埃及金字塔與吉薩古文明</h2>
@@ -33,9 +38,9 @@
 <div class="egm-pyramids__card egm-reveal">
 <div class="egm-pyramids__visual">
 <img class="egm-pyramids__photo is-on" data-stage="1" src="/data/images/202608/CAI12A/sphinx.jpg" alt="" loading="lazy" decoding="async">
-<img class="egm-pyramids__photo" data-stage="2" src="/data/images/202608/CAI12A/sphinx.jpg" alt="" loading="lazy" decoding="async" hidden>
+<img class="egm-pyramids__photo" data-stage="2" src="https://cdn.jsdelivr.net/gh/sammyzomb/tcawg-assets@main/tour/tr-01.jpg" alt="" loading="lazy" decoding="async" hidden>
 <img class="egm-pyramids__photo" data-stage="3" src="/data/images/202608/CAI12A/sphinx.jpg" alt="" loading="lazy" decoding="async" hidden>
-<img class="egm-pyramids__photo" data-stage="4" src="/data/images/202608/CAI12A/sphinx.jpg" alt="" loading="lazy" decoding="async" hidden>
+<img class="egm-pyramids__photo" data-stage="4" src="https://cdn.jsdelivr.net/gh/sammyzomb/tcawg-assets@main/tour/tr-02.jpg" alt="" loading="lazy" decoding="async" hidden>
 <div class="egm-pyramids__overlay" aria-hidden="true">
 <svg class="egm-pyr-svg is-on" data-stage="1" viewBox="0 0 200 120"><path d="M70 20h60v20H70zM55 40h90v20H55zM40 60h120v20H40zM25 80h150v20H25z"/></svg>
 <svg class="egm-pyr-svg" data-stage="2" viewBox="0 0 200 120" hidden><path d="M100 15 L175 105 H25 Z"/></svg>
@@ -65,7 +70,7 @@
 </div>
 </div>
 </section>
-<section class="egm-scene egm-museum" id="egm-museum" aria-labelledby="egm-museum-title">
+<section class="egm-scene egm-museum egm-layout--editorial" id="egm-museum" aria-labelledby="egm-museum-title">
 <div class="egm-museum__hero egm-reveal">
 <img src="https://cdn.jsdelivr.net/gh/sammyzomb/tcawg-assets@main/04-museum-mask.jpg" alt="" loading="lazy" decoding="async">
 </div>
@@ -85,8 +90,8 @@
 </div>
 </div>
 </section>
-<section class="egm-scene egm-journey" id="egm-journey" aria-labelledby="egm-journey-title">
-<div class="egm-journey__photo"><img src="/data/images/202608/CAI12A/11-nile-cruise.jpg" alt="" loading="lazy" decoding="async"></div>
+<section class="egm-scene egm-journey egm-layout--hero" id="egm-journey" aria-labelledby="egm-journey-title">
+<div class="egm-journey__photo egm-media egm-media--hero"><img src="/data/images/202608/CAI12A/11-nile-cruise.jpg" alt="" loading="lazy" decoding="async"></div>
 <div class="egm-journey__veil"></div>
 <div class="egm-journey__copy">
 <p class="egm-kicker egm-reveal">05 / 12 · NILE JOURNEY</p>
@@ -96,59 +101,88 @@
 <p class="egm-line egm-reveal" data-line="3">文明沿著它發生。</p>
 </div>
 </section>
-<section class="egm-scene egm-gods" id="egm-gods" aria-labelledby="egm-gods-title">
+<section class="egm-scene egm-gods egm-layout--graphic" id="egm-gods" aria-labelledby="egm-gods-title">
 <div class="egm-gods__head egm-reveal">
 <p class="egm-kicker">06 / 12 · GODS</p>
 <h2 class="egm-title" id="egm-gods-title">費萊、埃德夫與考姆翁布神殿</h2>
 </div>
 <div class="egm-gods__carousel" id="egm-gods-carousel">
 <article class="egm-god-card is-active" data-god="isis">
+<div class="egm-god-card__inner">
+<div class="egm-god-card__media">
 <img class="egm-god-card__photo" src="https://cdn.jsdelivr.net/gh/sammyzomb/tcawg-assets@main/temple-philae.jpg" alt="" loading="lazy">
 <img class="egm-god-card__fig" src="https://cdn.jsdelivr.net/gh/sammyzomb/tcawg-assets@main/god-isis.png" alt="" loading="lazy">
+</div>
+<div class="egm-god-card__text">
 <h3 class="egm-god-card__en">Isis</h3>
 <p class="egm-god-card__zh">伊西斯</p>
 <p class="egm-god-card__site">費萊神殿 Philae</p>
 <p class="egm-god-card__note">費萊神殿祭祀伊西斯，象徵守護與復生。</p>
+</div>
+</div>
 </article>
 <article class="egm-god-card" data-god="horus" hidden>
+<div class="egm-god-card__inner">
+<div class="egm-god-card__media">
 <img class="egm-god-card__photo" src="https://cdn.jsdelivr.net/gh/sammyzomb/tcawg-assets@main/temple-edfu.jpg" alt="" loading="lazy">
 <img class="egm-god-card__fig" src="https://cdn.jsdelivr.net/gh/sammyzomb/tcawg-assets@main/god-horus.png" alt="" loading="lazy">
+</div>
+<div class="egm-god-card__text">
 <h3 class="egm-god-card__en">Horus</h3>
 <p class="egm-god-card__zh">荷魯斯</p>
 <p class="egm-god-card__site">埃德夫神殿 Edfu</p>
 <p class="egm-god-card__note">埃德夫神殿獻給鷹首神荷魯斯，象徵天空與王權。</p>
+</div>
+</div>
 </article>
 <article class="egm-god-card" data-god="sobek" hidden>
+<div class="egm-god-card__inner">
+<div class="egm-god-card__media">
 <img class="egm-god-card__photo" src="https://cdn.jsdelivr.net/gh/sammyzomb/tcawg-assets@main/temple-komombo.jpg" alt="" loading="lazy">
 <img class="egm-god-card__fig" src="https://cdn.jsdelivr.net/gh/sammyzomb/tcawg-assets@main/god-sobek.png" alt="" loading="lazy">
+</div>
+<div class="egm-god-card__text">
 <h3 class="egm-god-card__en">Sobek</h3>
 <p class="egm-god-card__zh">索貝克</p>
 <p class="egm-god-card__site">考姆翁布 Kom Ombo</p>
 <p class="egm-god-card__note">考姆翁布雙神殿分祀索貝克與哈羅里斯。</p>
+</div>
+</div>
 </article>
 </div>
 <div class="egm-gods__dots" id="egm-gods-dots" aria-hidden="true">
 <button type="button" class="is-on" data-god="isis"></button><button type="button" data-god="horus"></button><button type="button" data-god="sobek"></button>
 </div>
 </section>
-<section class="egm-scene egm-luxor egm-luxor--east" id="egm-luxor-east" aria-labelledby="egm-luxor-east-title">
-<div class="egm-luxor__photo"><img src="/data/images/202608/CAI12A/14-karnak-columns.jpg" alt="" loading="lazy" decoding="async"></div>
-<div class="egm-luxor__card egm-reveal">
+<section class="egm-scene egm-luxor egm-luxor--east egm-layout--card" id="egm-luxor-east" aria-labelledby="egm-luxor-east-title">
+<div class="egm-luxor__frame">
+<div class="egm-luxor__media egm-media egm-media--58">
+<img src="/data/images/202608/CAI12A/14-karnak-columns.jpg" alt="" loading="lazy" decoding="async">
+<div class="egm-luxor__veil"></div>
+</div>
+<div class="egm-luxor__card egm-card egm-card--warm egm-reveal">
 <p class="egm-kicker">07 / 12 · EAST BANK</p>
 <h2 class="egm-title" id="egm-luxor-east-title">路克索東岸：卡納克與王權神殿</h2>
 <p class="egm-body">日出所在的東岸屬於生者：卡納克神殿以石柱大廳承接祭儀，路克索神殿沿河展開王權舞台。</p>
 </div>
+</div>
 </section>
-<section class="egm-scene egm-luxor egm-luxor--west" id="egm-luxor-west" aria-labelledby="egm-luxor-west-title">
-<div class="egm-luxor__photo"><img src="https://cdn.jsdelivr.net/gh/sammyzomb/tcawg-assets@main/15-hatshepsut-valley.jpg" alt="" loading="lazy" decoding="async"></div>
-<div class="egm-luxor__card egm-reveal">
+<section class="egm-scene egm-luxor egm-luxor--west egm-layout--card" id="egm-luxor-west" aria-labelledby="egm-luxor-west-title">
+<div class="egm-luxor__frame">
+<div class="egm-luxor__media egm-media egm-media--58">
+<img src="https://cdn.jsdelivr.net/gh/sammyzomb/tcawg-assets@main/15-hatshepsut-valley.jpg" alt="" loading="lazy" decoding="async">
+<div class="egm-luxor__veil"></div>
+</div>
+<div class="egm-luxor__card egm-card egm-card--cool egm-reveal">
 <p class="egm-kicker">08 / 12 · WEST BANK</p>
 <h2 class="egm-title" id="egm-luxor-west-title">路克索西岸：帝王谷與來世信仰</h2>
 <p class="egm-body">日落所在的西岸屬於亡者：帝王谷把陵墓鑿進山腹，哈姬蘇神殿以層層柱廊貼近峭壁。</p>
 </div>
+</div>
 </section>
-<section class="egm-scene egm-abu" id="egm-abu" aria-labelledby="egm-abu-title">
-<div class="egm-abu__photo"><img src="/data/images/202608/CAI12A/abusimbel-1.jpg" alt="" loading="lazy" decoding="async"></div>
+<section class="egm-scene egm-abu egm-layout--hero" id="egm-abu" aria-labelledby="egm-abu-title">
+<div class="egm-abu__photo egm-media egm-media--hero"><img src="/data/images/202608/CAI12A/abusimbel-1.jpg" alt="" loading="lazy" decoding="async"></div>
+<div class="egm-abu__veil"></div>
 <div class="egm-abu__beam" aria-hidden="true"></div>
 <div class="egm-abu__copy egm-reveal">
 <p class="egm-kicker">09 / 12 · ABU SIMBEL</p>
@@ -157,8 +191,8 @@
 <p class="egm-body">拉美西斯二世把神殿鑿進山壁，一年兩次陽光走進最深處。</p>
 </div>
 </section>
-<section class="egm-scene egm-redsea" id="egm-redsea" aria-labelledby="egm-redsea-title">
-<div class="egm-redsea__photo"><img src="/data/images/202608/CAI12A/redsea-1.jpg" alt="" loading="lazy" decoding="async"></div>
+<section class="egm-scene egm-redsea egm-layout--hero" id="egm-redsea" aria-labelledby="egm-redsea-title">
+<div class="egm-redsea__photo egm-media egm-media--hero"><img src="/data/images/202608/CAI12A/redsea-1.jpg" alt="" loading="lazy" decoding="async"></div>
 <div class="egm-redsea__grad"></div>
 <div class="egm-redsea__copy">
 <p class="egm-kicker egm-reveal">10 / 12 · RED SEA</p>
@@ -169,7 +203,7 @@
 <p class="egm-body egm-reveal">然後，埃及突然變成藍色。珊瑚礁與熱帶魚群讓節奏慢下來。</p>
 </div>
 </section>
-<section class="egm-scene egm-timeline" id="egm-timeline" aria-labelledby="egm-timeline-title">
+<section class="egm-scene egm-timeline egm-layout--graphic" id="egm-timeline" aria-labelledby="egm-timeline-title">
 <div class="egm-timeline__hero egm-reveal">
 <img class="egm-timeline__photo" src="https://cdn.jsdelivr.net/gh/sammyzomb/tcawg-assets@main/10-break-nile-sunset.jpg" alt="" loading="lazy" decoding="async">
 <div class="egm-timeline__hero-grad"></div>
@@ -197,7 +231,7 @@
 </div>
 </div>
 </section>
-<section class="egm-scene egm-route" id="egm-route" aria-labelledby="egm-route-title">
+<section class="egm-scene egm-route egm-layout--editorial" id="egm-route" aria-labelledby="egm-route-title">
 <div class="egm-route__head egm-reveal">
 <p class="egm-kicker">12 / 12 · ALL INCLUDED</p>
 <h2 class="egm-title" id="egm-route-title">埃及自費項目太多，我們都包含起來了</h2>
