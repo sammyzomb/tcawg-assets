@@ -602,37 +602,60 @@
 }
 
 #eg-mobile-experience .egm-museum__copy {
-  padding: 1.25rem var(--egm-pad-x) 0;
+  padding: 1.25rem var(--egm-pad-x) 0.75rem;
 }
 
 #eg-mobile-experience .egm-museum__gallery {
-  margin-top: 1.25rem;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding-bottom: 4px;
-}
-
-#eg-mobile-experience .egm-museum__gallery::-webkit-scrollbar {
-  display: none;
+  margin-top: 0;
+  overflow: hidden;
+  height: clamp(88px, 24vw, 124px);
+  border-top: 1px solid rgba(201, 169, 98, 0.35);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
 }
 
 #eg-mobile-experience .egm-museum__track {
   display: flex;
-  gap: 12px;
-  padding: 0 var(--egm-pad-x);
   width: max-content;
+  height: 100%;
+  gap: 8px;
+  padding: 0 8px;
+  animation: egm-mus-slide 42s linear infinite;
+}
+
+#eg-mobile-experience .egm-museum__gallery:active .egm-museum__track,
+#eg-mobile-experience .egm-museum__gallery:hover .egm-museum__track {
+  animation-play-state: paused;
+}
+
+#eg-mobile-experience .egm-museum__track figure {
+  flex: 0 0 auto;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
 }
 
 #eg-mobile-experience .egm-museum__track img {
-  width: clamp(120px, 36vw, 148px);
-  aspect-ratio: 4 / 5;
-  height: auto;
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 0;
   flex-shrink: 0;
-  box-shadow: 0 6px 20px rgba(26, 21, 16, 0.1);
+  box-shadow: none;
+}
+
+@keyframes egm-mus-slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #eg-mobile-experience .egm-museum__track {
+    animation: none;
+  }
 }
 
 /* Journey — layout A */
@@ -1283,7 +1306,13 @@
   object-position: center center !important;
 }
 
-#travelview .wrap .feature .content #eg-mobile-experience .egm-museum__track img,
+#travelview .wrap .feature .content #eg-mobile-experience .egm-museum__track img {
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
 #travelview .wrap .feature .content #eg-mobile-experience .egm-route__track img,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-god-card__fig {
   width: auto !important;
