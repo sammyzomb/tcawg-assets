@@ -418,35 +418,39 @@
       return;
     }
     root.classList.add(V5);
+    try {
+      injectPyramidBeats();
+      markAnim(root);
+      measureSafe(root);
+      if (!global.__EG_V5_LISTENERS__) {
+        global.__EG_V5_LISTENERS__ = true;
+        markAllowed(function onOrient() { measureSafe(root); });
+        global.addEventListener('orientationchange', onOrient, { passive: true });
+        global.addEventListener('resize', markAllowed(function onResize() {
+          if (global.matchMedia(MQ).matches) measureSafe(root);
+        }), { passive: true });
+      }
 
-    injectPyramidBeats();
-    markAnim(root);
-    measureSafe(root);
-    markAllowed(function onOrient() { measureSafe(root); });
-    global.addEventListener('orientationchange', onOrient, { passive: true });
-    global.addEventListener('resize', markAllowed(function onResize() {
-      if (global.matchMedia(MQ).matches) measureSafe(root);
-    }), { passive: true });
+      setupNavIO(root);
+      setupGate(root);
+      setupNile();
+      setupPyramids();
+      setupNileJourney();
+      setupGods();
+      setupMuseum();
+      setupFeature('eg-luxor-east');
+      setupFeature('eg-luxor-west');
+      setupFeature('eg-route');
+      setupAbu();
+      setupRedSea();
+      setupTimeline();
 
-    setupNavIO(root);
-    setupGate(root);
-    setupNile();
-    setupPyramids();
-    setupNileJourney();
-    setupGods();
-    setupMuseum();
-    setupFeature('eg-luxor-east');
-    setupFeature('eg-luxor-west');
-    setupFeature('eg-route');
-    setupAbu();
-    setupRedSea();
-    setupTimeline();
-
-    Array.prototype.forEach.call(root.querySelectorAll('.scene'), function (sc) {
-      sc.classList.add('is-in');
-    });
-
-    global.__EG_V5_READY__ = true;
+      Array.prototype.forEach.call(root.querySelectorAll('.scene'), function (sc) {
+        sc.classList.add('is-in');
+      });
+    } finally {
+      global.__EG_V5_READY__ = true;
+    }
   }
 
   if (document.readyState === 'loading') {
