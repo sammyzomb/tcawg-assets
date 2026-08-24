@@ -223,12 +223,9 @@
   box-shadow: 0 8px 28px rgba(14, 42, 56, 0.06);
 }
 
-/* Nav */
+/* Nav — removed on mobile (no floating scene menu) */
 #eg-mobile-experience .egm-nav {
-  position: fixed;
-  top: calc(var(--egm-top) + 8px);
-  right: 12px;
-  z-index: 30;
+  display: none !important;
 }
 
 #eg-mobile-experience .egm-nav__toggle {
