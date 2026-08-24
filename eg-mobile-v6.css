@@ -49,7 +49,6 @@
 #eg-mobile-experience .egm-hero__poster,
 #eg-mobile-experience .egm-pyramids__bg,
 #eg-mobile-experience .egm-timeline__photo,
-#eg-mobile-experience .egm-route__highlights img,
 #eg-mobile-experience .egm-journey__photo img,
 #eg-mobile-experience .egm-abu__photo img,
 #eg-mobile-experience .egm-redsea__photo img {
@@ -139,11 +138,13 @@
   color: var(--egm-ink);
 }
 
-#eg-mobile-experience .egm-layout--card .egm-kicker {
+#eg-mobile-experience .egm-layout--card .egm-kicker,
+#eg-mobile-experience .egm-layout--editorial .egm-kicker {
   color: #8a6d2f;
 }
 
-#eg-mobile-experience .egm-layout--card .egm-body {
+#eg-mobile-experience .egm-layout--card .egm-body,
+#eg-mobile-experience .egm-layout--editorial .egm-body {
   color: var(--egm-muted-dark);
 }
 
@@ -151,14 +152,6 @@
   padding: var(--egm-gap-y) 0;
   background: var(--egm-sand);
   color: var(--egm-ink);
-}
-
-#eg-mobile-experience .egm-layout--editorial .egm-kicker {
-  color: #8a6d2f;
-}
-
-#eg-mobile-experience .egm-layout--editorial .egm-body {
-  color: var(--egm-muted-dark);
 }
 
 #eg-mobile-experience .egm-layout--graphic {
@@ -195,12 +188,6 @@
   border-radius: var(--egm-radius);
 }
 
-#eg-mobile-experience .egm-card--sand {
-  background: rgba(244, 239, 228, 0.96);
-  border: 1px solid rgba(196, 181, 154, 0.45);
-  box-shadow: 0 10px 32px rgba(22, 63, 74, 0.08);
-}
-
 #eg-mobile-experience .egm-card--navy {
   background: linear-gradient(145deg, rgba(22, 63, 74, 0.94), rgba(14, 42, 56, 0.97));
   border: 1px solid rgba(201, 169, 98, 0.28);
@@ -221,47 +208,6 @@
   background: rgba(232, 240, 248, 0.94);
   border: 1px solid rgba(100, 140, 180, 0.3);
   box-shadow: 0 8px 28px rgba(14, 42, 56, 0.06);
-}
-
-/* Nav — removed on mobile (no floating scene menu) */
-#eg-mobile-experience .egm-nav {
-  display: none !important;
-}
-
-#eg-mobile-experience .egm-nav__toggle {
-  width: 40px;
-  height: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 50%;
-  background: rgba(22, 63, 74, 0.72);
-  color: #fff;
-  font-size: 1.1rem;
-  backdrop-filter: blur(8px);
-}
-
-#eg-mobile-experience .egm-nav__list {
-  position: absolute;
-  top: 48px;
-  right: 0;
-  min-width: 140px;
-  margin: 0;
-  padding: 8px 0;
-  list-style: none;
-  border-radius: 10px;
-  background: rgba(22, 63, 74, 0.96);
-  border: 1px solid rgba(201, 169, 98, 0.35);
-}
-
-#eg-mobile-experience .egm-nav__list:not([hidden]) {
-  display: block;
-}
-
-#eg-mobile-experience .egm-nav__list a {
-  display: block;
-  padding: 8px 16px;
-  color: #fff;
-  font-size: 0.82rem;
-  text-decoration: none;
 }
 
 /* Hero — layout A */
@@ -433,14 +379,6 @@
   color: #8a6d2f;
 }
 
-#eg-mobile-experience .egm-pyramids__card {
-  margin-top: 1.25rem;
-  border-radius: var(--egm-radius);
-  background: #fff;
-  box-shadow: 0 12px 40px rgba(26, 21, 16, 0.08);
-  overflow: hidden;
-}
-
 #eg-mobile-experience .egm-pyramids__showcase {
   position: relative;
   width: 100%;
@@ -469,31 +407,6 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  pointer-events: none;
-}
-
-#eg-mobile-experience .egm-pyramids__visual {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  min-height: clamp(200px, 52vw, 280px);
-  overflow: hidden;
-  background: var(--egm-warm-gray);
-}
-
-#eg-mobile-experience .egm-pyramids__photo {
-  position: absolute;
-  inset: 0;
-}
-
-#eg-mobile-experience .egm-pyramids__overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding-bottom: 12%;
-  background: linear-gradient(180deg, rgba(22, 63, 74, 0.05), rgba(22, 63, 74, 0.38));
   pointer-events: none;
 }
 
@@ -896,11 +809,6 @@
   background: #0a222c;
 }
 
-#eg-mobile-experience .egm-abu__photo {
-  position: relative;
-  inset: auto;
-}
-
 #eg-mobile-experience .egm-abu__photo::after {
   content: "";
   position: absolute;
@@ -920,14 +828,6 @@
 
 #eg-mobile-experience .egm-abu.is-lit .egm-abu__photo img {
   filter: brightness(1);
-}
-
-#eg-mobile-experience .egm-abu__veil {
-  display: none;
-}
-
-#eg-mobile-experience .egm-abu__beam {
-  display: none;
 }
 
 #eg-mobile-experience .egm-abu__copy {
@@ -1240,10 +1140,6 @@
   font-weight: 700;
 }
 
-#eg-mobile-experience .egm-route__highlights {
-  display: none;
-}
-
 #eg-mobile-experience .egm-route__cap {
   margin: 1.1rem 0 0.65rem;
   font-size: 0.82rem;
@@ -1340,10 +1236,8 @@
  */
 #travelview .wrap .feature .content #eg-mobile-experience .egm-hero__poster,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-media img,
-#travelview .wrap .feature .content #eg-mobile-experience .egm-hero__img,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-pyramids__bg,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-timeline__photo,
-#travelview .wrap .feature .content #eg-mobile-experience .egm-route__highlights img,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-journey__photo img,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-abu__photo img,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-redsea__photo img,
