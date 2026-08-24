@@ -1339,6 +1339,22 @@
     padding-right: 0 !important;
   }
 
+  #eg-mobile-experience .egm-layout--graphic,
+  #eg-mobile-experience .egm-layout--editorial,
+  #eg-mobile-experience .egm-layout--card {
+    padding-top: clamp(24px, 6vw, 36px);
+    padding-bottom: clamp(24px, 6vw, 36px);
+  }
+
+  /* 03 金字塔 → 04 博物館：兩段大圖相接，避免雙倍 gap-y 米白帶 */
+  #eg-mobile-experience .egm-pyramids.egm-layout--graphic {
+    padding-bottom: 0 !important;
+  }
+
+  #eg-mobile-experience .egm-museum.egm-layout--editorial {
+    padding-top: 0 !important;
+  }
+
   #eg-mobile-experience .egm-media:not(.egm-media--hero) {
     border-radius: 0 !important;
   }
