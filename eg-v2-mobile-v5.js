@@ -12,7 +12,9 @@
   var REDUCE = global.matchMedia && global.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function isMobileV5() {
-    return global.matchMedia && global.matchMedia(MQ).matches;
+    var w = global.innerWidth || document.documentElement.clientWidth || 0;
+    if (w && w <= 767) return true;
+    return !!(global.matchMedia && global.matchMedia(MQ).matches);
   }
 
   function markAllowed(fn) {
@@ -411,9 +413,11 @@
   function init() {
     var root = document.getElementById(ROOT_ID);
     if (!root) return;
+    if (!isMobileV5()) {
+      root.classList.remove(V5);
+      return;
+    }
     root.classList.add(V5);
-
-    if (!isMobileV5()) return;
 
     injectPyramidBeats();
     markAnim(root);
