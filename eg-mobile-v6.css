@@ -47,7 +47,7 @@
 
 #eg-mobile-experience .egm-media img,
 #eg-mobile-experience .egm-hero__poster,
-#eg-mobile-experience .egm-pyramids__photo,
+#eg-mobile-experience .egm-pyramids__bg,
 #eg-mobile-experience .egm-timeline__photo,
 #eg-mobile-experience .egm-museum__hero img,
 #eg-mobile-experience .egm-route__highlights img,
@@ -437,6 +437,38 @@
   overflow: hidden;
 }
 
+#eg-mobile-experience .egm-pyramids__showcase {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  min-height: clamp(320px, 112vw, 480px);
+  overflow: hidden;
+  background: linear-gradient(180deg, #2a2218 0%, var(--egm-nile-deep) 100%);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#eg-mobile-experience .egm-pyramids__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.42;
+}
+
+#eg-mobile-experience .egm-pyramids__canvas {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 14%;
+  bottom: 34%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+}
+
 #eg-mobile-experience .egm-pyramids__visual {
   position: relative;
   width: 100%;
@@ -463,16 +495,61 @@
 }
 
 #eg-mobile-experience .egm-pyr-svg {
-  width: min(140px, 40vw);
+  width: min(240px, 68vw);
   height: auto;
-  opacity: 0.82;
+  opacity: 0.92;
 }
 
 #eg-mobile-experience .egm-pyr-svg path {
   fill: none;
-  stroke: rgba(255, 236, 190, 0.92);
-  stroke-width: 2.2;
-  filter: drop-shadow(0 2px 8px rgba(22, 63, 74, 0.35));
+  stroke: rgba(255, 236, 190, 0.95);
+  stroke-width: 2.4;
+  filter: drop-shadow(0 3px 12px rgba(8, 24, 32, 0.45));
+}
+
+#eg-mobile-experience .egm-pyramids__caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 2.5rem var(--egm-pad-x) 1.35rem;
+  background: linear-gradient(180deg, transparent 0%, rgba(14, 42, 56, 0.55) 35%, rgba(14, 42, 56, 0.94) 100%);
+  color: #fff;
+  text-align: center;
+  pointer-events: none;
+}
+
+#eg-mobile-experience .egm-pyramids__caption .egm-pyr-en {
+  color: var(--egm-gold);
+}
+
+#eg-mobile-experience .egm-pyramids__caption .egm-pyr-era {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+#eg-mobile-experience .egm-pyramids__dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.55rem;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+#eg-mobile-experience .egm-pyramids__dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+#eg-mobile-experience .egm-pyramids__dots span.is-on {
+  background: var(--egm-gold);
+  transform: scale(1.15);
 }
 
 #eg-mobile-experience .egm-pyramids__stage {
@@ -1178,7 +1255,7 @@
 #travelview .wrap .feature .content #eg-mobile-experience .egm-hero__poster,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-media img,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-hero__img,
-#travelview .wrap .feature .content #eg-mobile-experience .egm-pyramids__photo,
+#travelview .wrap .feature .content #eg-mobile-experience .egm-pyramids__bg,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-timeline__photo,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-museum__hero img,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-route__highlights img,
@@ -1255,7 +1332,7 @@
 
   #eg-mobile-experience .egm-nile__media,
   #eg-mobile-experience .egm-luxor__media,
-  #eg-mobile-experience .egm-pyramids__card,
+  #eg-mobile-experience .egm-pyramids__showcase,
   #eg-mobile-experience .egm-museum__hero,
   #eg-mobile-experience .egm-timeline__hero {
     margin-left: 0 !important;
