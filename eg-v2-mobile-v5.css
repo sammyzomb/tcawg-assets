@@ -1,0 +1,807 @@
+/* =========================================================
+   CAI12A Mobile V5 — IO 輕動畫沉浸式（≤767px）
+   命名空間：#eg-experience.eg-mobile-v5
+   不修改 eg-v2-20260835.css；Desktop 不載入即零影響。
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+  /* ---------- 0. 安全區與輕動效 ---------- */
+  #eg-experience.eg-mobile-v5 {
+    --eg-v5-ease: cubic-bezier(0.22, 0.68, 0.32, 1);
+    --eg-v5-dur: 0.55s;
+    --eg-site-dock: var(--eg-safe-bot, 68px);
+  }
+
+  #eg-experience.eg-mobile-v5 .eg-v5-anim {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+    transition: opacity var(--eg-v5-dur) var(--eg-v5-ease),
+      transform var(--eg-v5-dur) var(--eg-v5-ease);
+    will-change: transform, opacity;
+  }
+
+  #eg-experience.eg-mobile-v5 .eg-v5-anim.eg-v5-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #eg-experience.eg-mobile-v5 .eg-v5-anim {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* ---------- 1. 取消長 scroll track / sticky ---------- */
+  #eg-experience.eg-mobile-v5 .scene-track {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  #eg-experience.eg-mobile-v5 .scene-track[data-scene="eg-gate"] {
+    min-height: 100svh !important;
+  }
+
+  #eg-experience.eg-mobile-v5 .scene,
+  #eg-experience.eg-mobile-v5 .feature-scene {
+    position: relative !important;
+    top: auto !important;
+    bottom: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding-bottom: calc(1.25rem + var(--eg-safe-bot, 0px)) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-gate.scene--hero {
+    height: 100svh !important;
+    min-height: 100svh !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* 各幕緊湊但完整的最小高度（非 240vh+ track） */
+  #eg-experience.eg-mobile-v5 #eg-nile.scene {
+    min-height: calc(100svh - var(--eg-safe-top, 0px) - var(--eg-safe-bot, 0px)) !important;
+    padding: 0 !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-pyramids.scene {
+    min-height: calc(108svh - var(--eg-safe-top, 0px)) !important;
+    padding: calc(1rem + var(--eg-safe-top, 0px)) var(--gut, 1rem) 0 !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile-journey.scene,
+  #eg-experience.eg-mobile-v5 #eg-gods.scene,
+  #eg-experience.eg-mobile-v5 #eg-red-sea.scene,
+  #eg-experience.eg-mobile-v5 #eg-abusimbel.scene {
+    min-height: calc(96svh - var(--eg-safe-top, 0px) - var(--eg-safe-bot, 0px)) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-timeline.scene {
+    min-height: auto !important;
+    padding: calc(1rem + var(--eg-safe-top, 0px)) var(--gut, 1rem)
+      calc(2rem + var(--eg-safe-bot, 0px)) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-museum.feature-scene,
+  #eg-experience.eg-mobile-v5 #eg-luxor-east.feature-scene,
+  #eg-experience.eg-mobile-v5 #eg-luxor-west.feature-scene,
+  #eg-experience.eg-mobile-v5 #eg-route.feature-scene {
+    min-height: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* ---------- 2. 正文：禁止 clamp / 裁切 / 重疊 ---------- */
+  #eg-experience.eg-mobile-v5 .scene__copy,
+  #eg-experience.eg-mobile-v5 .hero__seo,
+  #eg-experience.eg-mobile-v5 .hero__brand,
+  #eg-experience.eg-mobile-v5 .hero__zh,
+  #eg-experience.eg-mobile-v5 .gods__lede,
+  #eg-experience.eg-mobile-v5 .tl__lede,
+  #eg-experience.eg-mobile-v5 .nil__coda,
+  #eg-experience.eg-mobile-v5 .pyr__coda,
+  #eg-experience.eg-mobile-v5 .njy__line,
+  #eg-experience.eg-mobile-v5 .rs__line,
+  #eg-experience.eg-mobile-v5 .rs__coda,
+  #eg-experience.eg-mobile-v5 .abu__line,
+  #eg-experience.eg-mobile-v5 .abu__coda-zh,
+  #eg-experience.eg-mobile-v5 .tl__brand,
+  #eg-experience.eg-mobile-v5 .tl__journey,
+  #eg-experience.eg-mobile-v5 .tl__brand-zh,
+  #eg-experience.eg-mobile-v5 .tl__coda,
+  #eg-experience.eg-mobile-v5 .feature__body .scene__copy {
+    max-height: none !important;
+    overflow: visible !important;
+    -webkit-line-clamp: unset !important;
+    line-clamp: unset !important;
+    -webkit-box-orient: unset !important;
+    display: block !important;
+    white-space: normal !important;
+  }
+
+  #eg-experience.eg-mobile-v5 .scene__copy + .scene__copy {
+    margin-top: 0.65rem !important;
+  }
+
+  /* ---------- 01 GATE ---------- */
+  #eg-experience.eg-mobile-v5 #eg-gate .hero__frame {
+    padding:
+      calc(4.5rem + var(--eg-safe-top, 0px)) var(--gut, 1rem)
+      calc(5.8rem + var(--eg-safe-bot, 0px)) !important;
+  }
+
+  /* 保留手機 Vimeo；效能差時 base 會 fallback poster */
+  #eg-experience.eg-mobile-v5 #eg-gate .hero__poster {
+    opacity: 0 !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-gate.is-poster .hero__poster,
+  #eg-experience.eg-mobile-v5 #eg-gate:not(.is-video-ready) .hero__poster {
+    opacity: 1 !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-gate .hero__cn,
+  #eg-experience.eg-mobile-v5 #eg-gate .hero__en,
+  #eg-experience.eg-mobile-v5 #eg-gate .hero__zh,
+  #eg-experience.eg-mobile-v5 #eg-gate .hero__brand,
+  #eg-experience.eg-mobile-v5 #eg-gate .hero__seo {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* ---------- 02 NILE：照片 + 河流同一構圖 ---------- */
+  #eg-experience.eg-mobile-v5 #eg-nile {
+    background: var(--papyrus, #f7f0e2) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile .scene__photo,
+  #eg-experience.eg-mobile-v5 #eg-nile .nil__wash {
+    position: absolute !important;
+    inset: 0 0 auto 0 !important;
+    height: 58% !important;
+    min-height: 14rem !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile .scene__photo img {
+    object-position: 54% 44% !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile .nil__canvas,
+  #eg-experience.eg-mobile-v5 #eg-nile .nil__marks {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 58% !important;
+    min-height: 14rem !important;
+    transform: none !important;
+    pointer-events: none;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile .nil__canvas .nil__svg--d,
+  #eg-experience.eg-mobile-v5 #eg-nile .nil__marks .nil__svg--d {
+    display: none !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile .nil__canvas .nil__svg--m,
+  #eg-experience.eg-mobile-v5 #eg-nile .nil__marks .nil__svg--m {
+    display: block !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile .nil__life {
+    opacity: 0;
+    transform: scale(0.88);
+    transition: opacity 0.45s var(--eg-v5-ease), transform 0.45s var(--eg-v5-ease);
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile .nil__life.is-on {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile .scene__frame {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    min-height: calc(100svh - var(--eg-safe-top, 0px) - var(--eg-safe-bot, 0px)) !important;
+    margin-top: 0 !important;
+    padding:
+      calc(42% + 0.5rem) var(--gut, 1rem)
+      calc(1.5rem + var(--eg-safe-bot, 0px)) !important;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(247, 240, 226, 0.08) 18%,
+      rgba(247, 240, 226, 0.92) 38%,
+      var(--papyrus, #f7f0e2) 52%
+    ) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile .nil__head,
+  #eg-experience.eg-mobile-v5 #eg-nile .nil__coda,
+  #eg-experience.eg-mobile-v5 #eg-nile .nil__seo {
+    position: static !important;
+    max-width: 100% !important;
+    text-align: left !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile .nil__coda {
+    margin-top: 0.85rem !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile .nil__seo {
+    margin-top: 0.75rem !important;
+  }
+
+  /* ---------- 03 PYRAMIDS ---------- */
+  #eg-experience.eg-mobile-v5 #eg-pyramids .scene__frame {
+    display: grid !important;
+    grid-template-rows: auto auto minmax(0, 1fr) auto auto !important;
+    height: auto !important;
+    min-height: calc(88svh - var(--eg-safe-top, 0px)) !important;
+    row-gap: 0.55rem !important;
+    position: relative !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-pyramids .pyr__stage {
+    min-height: 5.5rem !important;
+    position: relative !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-pyramids .pyr__canvas {
+    width: min(100%, 380px) !important;
+    aspect-ratio: 16 / 11 !important;
+    margin: 0 auto !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-pyramids .pyr__name:not(.is-on) {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-pyramids .pyr__name.is-on {
+    opacity: 1 !important;
+    transition: opacity 0.4s var(--eg-v5-ease) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-pyramids .pyr__svg:not(.is-on) {
+    opacity: 0 !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-pyramids .pyr__svg.is-on {
+    opacity: 1 !important;
+    transition: opacity 0.45s var(--eg-v5-ease), transform 0.45s var(--eg-v5-ease) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-pyramids:not([data-pyr-stage="4"]) .pyr__coda,
+  #eg-experience.eg-mobile-v5 #eg-pyramids:not([data-pyr-stage="4"]) .pyr__seo {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-pyramids[data-pyr-stage="4"] .pyr__coda,
+  #eg-experience.eg-mobile-v5 #eg-pyramids[data-pyr-stage="4"] .pyr__seo {
+    opacity: 1 !important;
+    transition: opacity 0.5s var(--eg-v5-ease) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 .eg-v5-pyr-beats {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #eg-experience.eg-mobile-v5 .eg-v5-pyr-beat {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1px;
+  }
+
+  #eg-experience.eg-mobile-v5 .eg-v5-pyr-beat:nth-child(1) { top: 22%; }
+  #eg-experience.eg-mobile-v5 .eg-v5-pyr-beat:nth-child(2) { top: 42%; }
+  #eg-experience.eg-mobile-v5 .eg-v5-pyr-beat:nth-child(3) { top: 62%; }
+  #eg-experience.eg-mobile-v5 .eg-v5-pyr-beat:nth-child(4) { top: 82%; }
+
+  /* ---------- 04 MUSEUM ---------- */
+  #eg-experience.eg-mobile-v5 #eg-museum {
+    --mus-strip: auto !important;
+    --mus-note: auto !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-museum .scene__photo {
+    position: relative !important;
+    width: 100% !important;
+    aspect-ratio: 919 / 1300 !important;
+    max-height: min(72svh, 640px) !important;
+    overflow: hidden !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-museum .feature__frame {
+    padding: calc(0.75rem + var(--eg-safe-top, 0px)) var(--gut, 1rem)
+      calc(1rem + var(--eg-safe-bot, 0px)) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-museum .feature__body {
+    width: 100% !important;
+    margin-top: 0.65rem !important;
+    padding: 0 !important;
+    background: none !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-museum .mus-strip {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    margin-top: 0.85rem !important;
+    overflow: hidden !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-museum .mus-strip__track {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.35rem !important;
+    transform: none !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-museum .mus-strip figure {
+    flex: 0 0 38% !important;
+    max-width: 38% !important;
+    scroll-snap-align: start !important;
+    margin: 0 !important;
+    aspect-ratio: 1 !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-museum .mus-note {
+    position: relative !important;
+    margin-top: 0.65rem !important;
+  }
+
+  /* ---------- 05 NILE JOURNEY ---------- */
+  #eg-experience.eg-mobile-v5 #eg-nile-journey {
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile-journey .scene__photo {
+    position: absolute !important;
+    inset: 0 !important;
+    height: 100% !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile-journey .njy__layer {
+    transform: none !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile-journey .scene__frame {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: calc(96svh - var(--eg-safe-top, 0px) - var(--eg-safe-bot, 0px)) !important;
+    padding:
+      calc(1.2rem + var(--eg-safe-top, 0px)) var(--gut, 1rem)
+      calc(1.2rem + var(--eg-safe-bot, 0px)) !important;
+    background: linear-gradient(
+      180deg,
+      rgba(12, 18, 22, 0.55) 0%,
+      rgba(12, 18, 22, 0.35) 45%,
+      rgba(12, 18, 22, 0.72) 100%
+    ) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile-journey .njy__lines {
+    position: relative !important;
+    min-height: 4.2rem !important;
+    margin-top: 0.5rem !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile-journey .njy__line {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    opacity: 0 !important;
+    transform: translate3d(0, 12px, 0) !important;
+    transition: opacity 0.5s var(--eg-v5-ease), transform 0.5s var(--eg-v5-ease) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile-journey .njy__line.eg-v5-in {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-nile-journey .njy__line--1.eg-v5-in { z-index: 3; }
+  #eg-experience.eg-mobile-v5 #eg-nile-journey .njy__line--2.eg-v5-in { z-index: 2; }
+  #eg-experience.eg-mobile-v5 #eg-nile-journey .njy__line--3.eg-v5-in { z-index: 1; }
+
+  #eg-experience.eg-mobile-v5 #eg-nile-journey .njy__seo {
+    margin-top: auto !important;
+    padding-top: 0.65rem !important;
+  }
+
+  /* ---------- 06 GODS：單卡 carousel ---------- */
+  #eg-experience.eg-mobile-v5 #eg-gods .scene__frame {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: calc(96svh - var(--eg-safe-top, 0px) - var(--eg-safe-bot, 0px)) !important;
+    padding:
+      calc(1rem + var(--eg-safe-top, 0px)) var(--gut, 1rem)
+      calc(0.75rem + var(--eg-safe-bot, 0px)) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-gods .gods__doors {
+    position: relative !important;
+    flex: 1 1 auto !important;
+    min-height: min(42svh, 320px) !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 1fr !important;
+    margin: 0.45rem 0 0.35rem !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-gods .gods__door {
+    grid-area: 1 / 1 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: scale(0.96) !important;
+    transition: opacity 0.45s var(--eg-v5-ease), transform 0.45s var(--eg-v5-ease),
+      visibility 0s linear 0.45s !important;
+    pointer-events: none !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-gods .gods__door.eg-v5-god-active,
+  #eg-experience.eg-mobile-v5 #eg-gods[data-gods="isis"] .gods__door[data-god="isis"],
+  #eg-experience.eg-mobile-v5 #eg-gods[data-gods="horus"] .gods__door[data-god="horus"],
+  #eg-experience.eg-mobile-v5 #eg-gods[data-gods="sobek"] .gods__door[data-god="sobek"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    transition: opacity 0.45s var(--eg-v5-ease), transform 0.45s var(--eg-v5-ease),
+      visibility 0s !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-gods .gods__figure {
+    max-width: 58% !important;
+  }
+
+  #eg-experience.eg-mobile-v5 .eg-v5-gods-ui {
+    display: flex;
+    justify-content: center;
+    gap: 0.55rem;
+    margin: 0.35rem 0 0.15rem;
+  }
+
+  #eg-experience.eg-mobile-v5 .eg-v5-gods-dot {
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    border: 1px solid rgba(181, 147, 82, 0.55);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-gods[data-gods="isis"] .eg-v5-gods-ui .eg-v5-gods-dot[data-god="isis"],
+  #eg-experience.eg-mobile-v5 #eg-gods[data-gods="horus"] .eg-v5-gods-ui .eg-v5-gods-dot[data-god="horus"],
+  #eg-experience.eg-mobile-v5 #eg-gods[data-gods="sobek"] .eg-v5-gods-ui .eg-v5-gods-dot[data-god="sobek"] {
+    background: var(--antique-gold, #b59352);
+    border-color: var(--antique-gold, #b59352);
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-gods .gods__seo .scene__copy {
+    display: none !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-gods[data-gods="isis"] #eg-gods-note-isis,
+  #eg-experience.eg-mobile-v5 #eg-gods[data-gods="horus"] #eg-gods-note-horus,
+  #eg-experience.eg-mobile-v5 #eg-gods[data-gods="sobek"] #eg-gods-note-sobek {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* ---------- 07/08 LUXOR east / west ---------- */
+  #eg-experience.eg-mobile-v5 #eg-luxor-east.feature-scene,
+  #eg-experience.eg-mobile-v5 #eg-luxor-west.feature-scene {
+    position: relative !important;
+    min-height: calc(88svh - var(--eg-safe-top, 0px) - var(--eg-safe-bot, 0px)) !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-luxor-east .scene__photo,
+  #eg-experience.eg-mobile-v5 #eg-luxor-west .scene__photo {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: calc(88svh - var(--eg-safe-top, 0px) - var(--eg-safe-bot, 0px)) !important;
+    aspect-ratio: auto !important;
+    overflow: hidden !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-luxor-east .scene__photo img,
+  #eg-experience.eg-mobile-v5 #eg-luxor-west .scene__photo img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-luxor-east .feature__frame,
+  #eg-experience.eg-mobile-v5 #eg-luxor-west .feature__frame {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    padding:
+      0 var(--gut, 1rem)
+      calc(1.25rem + var(--eg-safe-bot, 0px)) !important;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(12, 10, 8, 0.55) 28%,
+      rgba(12, 10, 8, 0.88) 100%
+    ) !important;
+    color: #f5ecd8 !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-luxor-east .feature__head,
+  #eg-experience.eg-mobile-v5 #eg-luxor-west .feature__head {
+    position: static !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-luxor-east .feature__body,
+  #eg-experience.eg-mobile-v5 #eg-luxor-west .feature__body {
+    position: static !important;
+    width: 100% !important;
+    margin: 0.55rem 0 0 !important;
+    padding: 0 !important;
+    background: none !important;
+  }
+
+  /* ---------- 09 ABU SIMBEL ---------- */
+  #eg-experience.eg-mobile-v5 #eg-abusimbel {
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: #120c08 !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-abusimbel .scene__photo {
+    position: absolute !important;
+    inset: 0 !important;
+    height: 100% !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-abusimbel .abu__beam {
+    display: block !important;
+    opacity: 0.75 !important;
+    animation: eg-v5-abu-beam 1.2s var(--eg-v5-ease) 0.15s both;
+  }
+
+  @keyframes eg-v5-abu-beam {
+    from {
+      opacity: 0;
+      transform: translateX(-8%) rotate(-9deg) scaleY(0.85);
+    }
+    to {
+      opacity: 0.75;
+      transform: translateX(0) rotate(-9deg) scaleY(1);
+    }
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-abusimbel .scene__frame {
+    position: relative !important;
+    min-height: calc(96svh - var(--eg-safe-top, 0px) - var(--eg-safe-bot, 0px)) !important;
+    padding:
+      calc(1rem + var(--eg-safe-top, 0px)) var(--gut, 1rem)
+      calc(1.25rem + var(--eg-safe-bot, 0px)) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-abusimbel[data-abu-stage="5"] .abu__kicker,
+  #eg-experience.eg-mobile-v5 #eg-abusimbel[data-abu-stage="5"] .abu__copy,
+  #eg-experience.eg-mobile-v5 #eg-abusimbel[data-abu-stage="5"] .abu__coda,
+  #eg-experience.eg-mobile-v5 #eg-abusimbel[data-abu-stage="5"] .abu__seo {
+    opacity: 1 !important;
+  }
+
+  /* ---------- 10 RED SEA ---------- */
+  #eg-experience.eg-mobile-v5 #eg-red-sea {
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-red-sea .rs__wash {
+    display: block !important;
+    opacity: 0.85 !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-red-sea .scene__photo {
+    position: absolute !important;
+    inset: 0 !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-red-sea .scene__frame {
+    position: relative !important;
+    min-height: calc(96svh - var(--eg-safe-top, 0px) - var(--eg-safe-bot, 0px)) !important;
+    padding:
+      calc(1rem + var(--eg-safe-top, 0px)) var(--gut, 1rem)
+      calc(1.25rem + var(--eg-safe-bot, 0px)) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-red-sea .rs__line {
+    opacity: 0 !important;
+    transform: translate3d(0, 14px, 0) !important;
+    transition: opacity 0.5s var(--eg-v5-ease), transform 0.5s var(--eg-v5-ease) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-red-sea .rs__line.eg-v5-in {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-red-sea .rs__coda,
+  #eg-experience.eg-mobile-v5 #eg-red-sea .rs__seo {
+    opacity: 1 !important;
+  }
+
+  /* ---------- 11 TIMELINE ---------- */
+  #eg-experience.eg-mobile-v5 #eg-timeline {
+    background: #0b1014 !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-timeline .scene__frame {
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__head {
+    position: static !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__rail {
+    position: relative !important;
+    top: auto !important;
+    bottom: auto !important;
+    flex: none !important;
+    min-height: 14rem !important;
+    margin: 0.65rem 0 !important;
+    opacity: 1 !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__svg--d {
+    display: none !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__svg--m {
+    display: block !important;
+    left: 4% !important;
+    width: 52px !important;
+    height: 100% !important;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 calc(var(--tl-draw, 1) * 100%),
+      transparent calc(var(--tl-draw, 1) * 100% + 8%)
+    ) !important;
+    mask-image: linear-gradient(
+      to bottom,
+      #000 calc(var(--tl-draw, 1) * 100%),
+      transparent calc(var(--tl-draw, 1) * 100% + 8%)
+    ) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__nodes {
+    position: relative !important;
+    left: auto !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    padding-left: calc(52px + 14px) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__node {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    opacity: 0 !important;
+    transform: translate3d(0, 10px, 0) !important;
+    transition: opacity 0.45s var(--eg-v5-ease), transform 0.45s var(--eg-v5-ease) !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__node.is-on,
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__node.eg-v5-in {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__dot {
+    position: absolute !important;
+    left: calc(-52px - 8px) !important;
+    top: 0.45rem !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__geo,
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__era {
+    position: static !important;
+    width: auto !important;
+    max-width: none !important;
+    white-space: normal !important;
+    opacity: 1 !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__geo-en,
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__era-2 {
+    display: none !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__brand {
+    position: static !important;
+    width: 100% !important;
+    margin-top: 0.85rem !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__cta {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 56px !important;
+    margin-top: 0.75rem !important;
+  }
+
+  #eg-experience.eg-mobile-v5 #eg-timeline .tl__seo {
+    margin-top: 0.65rem !important;
+    padding-right: 3.5rem !important;
+    padding-bottom: calc(0.5rem + var(--eg-safe-bot, 0px)) !important;
+  }
+
+  /* ---------- 12 ROUTE ---------- */
+  #eg-experience.eg-mobile-v5 #eg-route .feature__frame {
+    padding: calc(1rem + var(--eg-safe-top, 0px)) var(--gut, 1rem)
+      calc(2rem + var(--eg-safe-bot, 0px)) !important;
+  }
+
+  /* ---------- 動畫目標預設 class ---------- */
+  #eg-experience.eg-mobile-v5 .nil__head,
+  #eg-experience.eg-mobile-v5 .nil__coda,
+  #eg-experience.eg-mobile-v5 .nil__seo,
+  #eg-experience.eg-mobile-v5 .pyr__head,
+  #eg-experience.eg-mobile-v5 .njy__head,
+  #eg-experience.eg-mobile-v5 .njy__seo,
+  #eg-experience.eg-mobile-v5 .gods__head,
+  #eg-experience.eg-mobile-v5 .gods__lede,
+  #eg-experience.eg-mobile-v5 .gods__door,
+  #eg-experience.eg-mobile-v5 .feature__head,
+  #eg-experience.eg-mobile-v5 .feature__body,
+  #eg-experience.eg-mobile-v5 .mus-strip,
+  #eg-experience.eg-mobile-v5 .mus-note,
+  #eg-experience.eg-mobile-v5 .abu__kicker,
+  #eg-experience.eg-mobile-v5 .abu__copy,
+  #eg-experience.eg-mobile-v5 .abu__coda,
+  #eg-experience.eg-mobile-v5 .abu__seo,
+  #eg-experience.eg-mobile-v5 .rs__head,
+  #eg-experience.eg-mobile-v5 .rs__coda,
+  #eg-experience.eg-mobile-v5 .rs__seo,
+  #eg-experience.eg-mobile-v5 .tl__head,
+  #eg-experience.eg-mobile-v5 .tl__rail,
+  #eg-experience.eg-mobile-v5 .tl__brand,
+  #eg-experience.eg-mobile-v5 .tl__cta,
+  #eg-experience.eg-mobile-v5 .tl__seo,
+  #eg-experience.eg-mobile-v5 .wall {
+    /* 由 JS 加 .eg-v5-anim；此处仅确保可被选中 */
+  }
+}
