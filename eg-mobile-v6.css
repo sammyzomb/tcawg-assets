@@ -49,7 +49,6 @@
 #eg-mobile-experience .egm-hero__poster,
 #eg-mobile-experience .egm-pyramids__bg,
 #eg-mobile-experience .egm-timeline__photo,
-#eg-mobile-experience .egm-museum__hero img,
 #eg-mobile-experience .egm-route__highlights img,
 #eg-mobile-experience .egm-journey__photo img,
 #eg-mobile-experience .egm-abu__photo img,
@@ -57,6 +56,13 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+#eg-mobile-experience .egm-museum__hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
 }
 
 #eg-mobile-experience .egm-main {
@@ -588,12 +594,12 @@
 
 /* Museum — layout C */
 #eg-mobile-experience .egm-museum__hero {
-  margin: 0 var(--egm-pad-x);
-  border-radius: var(--egm-radius);
+  margin: 0;
+  border-radius: 0;
   overflow: hidden;
-  aspect-ratio: 16 / 10;
-  min-height: clamp(220px, 56vw, 320px);
-  background: var(--egm-warm-gray);
+  aspect-ratio: 4 / 5;
+  min-height: clamp(300px, 95vw, 440px);
+  background: linear-gradient(180deg, #1a1510 0%, #2a2218 48%, #1a1510 100%);
 }
 
 #eg-mobile-experience .egm-museum__copy {
@@ -1257,7 +1263,6 @@
 #travelview .wrap .feature .content #eg-mobile-experience .egm-hero__img,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-pyramids__bg,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-timeline__photo,
-#travelview .wrap .feature .content #eg-mobile-experience .egm-museum__hero img,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-route__highlights img,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-journey__photo img,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-abu__photo img,
@@ -1269,6 +1274,14 @@
   max-width: none !important;
   height: 100% !important;
   object-fit: cover !important;
+}
+
+#travelview .wrap .feature .content #eg-mobile-experience .egm-museum__hero img {
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
 }
 
 #travelview .wrap .feature .content #eg-mobile-experience .egm-museum__track img,
