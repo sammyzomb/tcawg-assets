@@ -46,7 +46,7 @@
 }
 
 #eg-mobile-experience .egm-media img,
-#eg-mobile-experience .egm-hero__img,
+#eg-mobile-experience .egm-hero__poster,
 #eg-mobile-experience .egm-pyramids__photo,
 #eg-mobile-experience .egm-timeline__photo,
 #eg-mobile-experience .egm-museum__hero img,
@@ -271,31 +271,66 @@
   overflow: hidden;
 }
 
-#eg-mobile-experience .egm-hero__img {
-  transform: scale(1.08);
-  animation: egm-kenburns 18s ease-in-out infinite alternate;
+#eg-mobile-experience .egm-hero__poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.05);
+  transition: opacity 0.7s var(--egm-ease);
 }
 
-@keyframes egm-kenburns {
-  from { transform: scale(1.05) translate(0, 0); }
-  to { transform: scale(1.14) translate(-1.5%, -1%); }
+#eg-mobile-experience .egm-hero[data-hero-state="playing"] .egm-hero__poster {
+  opacity: 0;
+}
+
+#eg-mobile-experience .egm-hero__stage {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.7s var(--egm-ease);
+  pointer-events: none;
+}
+
+#eg-mobile-experience .egm-hero[data-hero-state="playing"] .egm-hero__stage {
+  opacity: 1;
+}
+
+#eg-mobile-experience .egm-hero__video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  display: block;
+  pointer-events: none;
 }
 
 #eg-mobile-experience .egm-hero__veil {
   position: absolute;
   inset: 0;
-  z-index: 1;
-  background: linear-gradient(
-    180deg,
-    rgba(22, 63, 74, 0.35) 0%,
-    rgba(22, 63, 74, 0.08) 38%,
-    rgba(14, 42, 56, 0.72) 100%
-  );
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg,
+      rgba(28, 22, 14, 0.62) 0%,
+      rgba(28, 22, 14, 0.38) 30%,
+      rgba(28, 22, 14, 0.12) 55%,
+      transparent 75%),
+    linear-gradient(180deg,
+      rgba(22, 18, 12, 0.45) 0%,
+      rgba(22, 18, 12, 0.18) 22%,
+      transparent 42%,
+      rgba(14, 42, 56, 0.52) 78%,
+      rgba(14, 42, 56, 0.88) 100%);
 }
 
 #eg-mobile-experience .egm-hero__copy {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -303,18 +338,31 @@
   padding: 2rem var(--egm-pad-x) calc(var(--egm-bot) + 2rem);
 }
 
+#eg-mobile-experience .egm-hero .egm-kicker {
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.75);
+}
+
 #eg-mobile-experience .egm-hero__title {
   margin: 0 0 0.65rem;
   font-size: clamp(1.55rem, 6.5vw, 2rem);
   font-weight: 700;
   line-height: 1.2;
+  color: #fff;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85);
 }
 
 #eg-mobile-experience .egm-hero__brand {
   margin: 0 0 0.85rem;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--egm-gold);
+  color: #f0d78c;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8);
+}
+
+#eg-mobile-experience .egm-hero .egm-body {
+  color: rgba(255, 255, 255, 0.94);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.78);
 }
 
 /* Nile — layout B */
@@ -1127,6 +1175,7 @@
  * 官網全站有 #travelview .wrap .feature .content img { height:auto !important }
  * 會把 object-fit:cover 的全屏圖壓扁，版面整個垮掉。只反制手機殼內的 cover 圖。
  */
+#travelview .wrap .feature .content #eg-mobile-experience .egm-hero__poster,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-media img,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-hero__img,
 #travelview .wrap .feature .content #eg-mobile-experience .egm-pyramids__photo,
