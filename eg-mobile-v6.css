@@ -450,7 +450,6 @@
   min-height: clamp(320px, 112vw, 480px);
   overflow: hidden;
   background: linear-gradient(180deg, #2a2218 0%, var(--egm-nile-deep) 100%);
-  cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
