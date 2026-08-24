@@ -97,8 +97,16 @@ var EGM_DOM_HTML="<main class=\"egm-main\"><section class=\"egm-scene egm-hero e
         }
       });
       svgs.forEach(function (s, i) {
-        s.hidden = i !== n;
-        s.classList.toggle('is-on', i === n);
+        var active = i === n;
+        s.hidden = !active;
+        s.classList.toggle('is-on', active);
+        if (active) {
+          s.classList.remove('is-in');
+          void s.offsetWidth;
+          s.classList.add('is-in');
+        } else {
+          s.classList.remove('is-in');
+        }
       });
       dots.forEach(function (d, i) {
         d.classList.toggle('is-on', i === n);
