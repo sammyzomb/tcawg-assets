@@ -1247,17 +1247,8 @@
   display: none;
 }
 
-#eg-mobile-experience .egm-route__gallery {
-  overflow: hidden;
-  margin: 1.15rem calc(-1 * var(--egm-pad-x)) 0;
-  padding: 0;
-  height: clamp(148px, 42vw, 196px);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
-}
-
 #eg-mobile-experience .egm-route__cap {
-  margin: 0.75rem 0 0;
+  margin: 1.1rem 0 0.65rem;
   font-size: 0.82rem;
   color: var(--egm-muted-dark);
 }
@@ -1267,6 +1258,15 @@
   color: #8a6d2f;
   font-size: 0.88rem;
   margin-bottom: 0.15rem;
+}
+
+#eg-mobile-experience .egm-route__gallery {
+  overflow: hidden;
+  margin: 0 calc(-1 * var(--egm-pad-x));
+  padding: 0;
+  height: clamp(148px, 42vw, 196px);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
 
 #eg-mobile-experience .egm-route__track {
