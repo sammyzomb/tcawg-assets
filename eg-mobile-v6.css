@@ -635,6 +635,28 @@
 #eg-mobile-experience .egm-line[data-line="2"].is-in { animation-delay: 0.18s; }
 #eg-mobile-experience .egm-line[data-line="3"].is-in { animation-delay: 0.36s; }
 
+#eg-mobile-experience .egm-journey__ship {
+  margin-top: 0.85rem;
+  font-size: clamp(0.95rem, 3.8vw, 1.05rem);
+  font-weight: 500;
+  opacity: 0;
+}
+#eg-mobile-experience .egm-journey__ship.is-in {
+  animation: egm-fade-up 0.7s var(--egm-ease) 0.52s forwards;
+}
+#eg-mobile-experience .egm-journey__ship a {
+  color: var(--egm-gold);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+#eg-mobile-experience .egm-journey__seo {
+  margin: 0.35rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: rgba(241, 231, 208, 0.88);
+}
+
 /* Gods — layout D */
 #eg-mobile-experience .egm-gods {
   background: linear-gradient(180deg, var(--egm-nile-deep) 0%, var(--egm-nile-blue) 100%);
@@ -1165,6 +1187,23 @@
 
 #eg-mobile-experience .egm-route__points + .egm-route__dine {
   margin-top: 1.15rem;
+}
+
+#eg-mobile-experience .egm-route__hit {
+  margin: 0 0 0.85rem;
+}
+
+#eg-mobile-experience .egm-route__hit img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 0.2rem;
+  margin-bottom: 0.45rem;
+}
+
+#eg-mobile-experience .egm-route__hit .egm-route__point {
+  margin: 0;
 }
 
 #eg-mobile-experience .egm-route__cap {
