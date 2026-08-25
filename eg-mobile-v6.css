@@ -1163,6 +1163,10 @@
   font-weight: 700;
 }
 
+#eg-mobile-experience .egm-route__points + .egm-route__dine {
+  margin-top: 1.15rem;
+}
+
 #eg-mobile-experience .egm-route__cap {
   margin: 1.1rem 0 0.65rem;
   font-size: 0.82rem;
