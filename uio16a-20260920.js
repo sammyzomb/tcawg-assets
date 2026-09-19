@@ -1,4 +1,29 @@
 (function () {
+  function prepPrintImages(root) {
+    if (!root) return;
+    var imgs = root.querySelectorAll("img");
+    for (var i = 0; i < imgs.length; i++) {
+      var img = imgs[i];
+      img.loading = "eager";
+      if (img.complete && img.naturalWidth > 0) continue;
+      var src = img.getAttribute("src") || img.currentSrc;
+      if (!src) continue;
+      img.src = src;
+    }
+  }
+  function onPrint() {
+    prepPrintImages(document.getElementById("uio-r"));
+    prepPrintImages(document.getElementById("uio-m"));
+  }
+  window.addEventListener("beforeprint", onPrint);
+  var mql = window.matchMedia && window.matchMedia("print");
+  if (mql) {
+    if (mql.addEventListener) mql.addEventListener("change", function (e) { if (e.matches) onPrint(); });
+    else if (mql.addListener) mql.addListener(function (e) { if (e.matches) onPrint(); });
+  }
+})();
+
+(function () {
   function syncBleed(el) {
     if (!el) return;
     el.style.setProperty("--uio-vw", document.documentElement.clientWidth + "px");
