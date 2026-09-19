@@ -125,7 +125,6 @@
 
 (function () {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  if (typeof IntersectionObserver === "undefined") return;
 
   function attachScrollVideo(root, containerSel, iframeSel) {
     var container = root.querySelector(containerSel);
@@ -134,54 +133,161 @@
 
     var src = iframe.getAttribute("data-vimeo-src");
     if (!src) return;
-
-    var player = null;
-    var loaded = false;
-
-    function ensurePlayer() {
-      if (player) return player.ready();
-      if (!loaded) {
-        iframe.src = src;
-        loaded = true;
-      }
-      if (typeof Vimeo === "undefined") return Promise.reject();
-      player = new Vimeo.Player(iframe);
-      return player.ready();
+    if (src.indexOf("autoplay=1") === -1) {
+      src = src.indexOf("?") >= 0 ? src + "&autoplay=1" : src + "?autoplay=1";
     }
 
-    function playFromStart() {
-      ensurePlayer()
-        .then(function (p) {
-          return p.setCurrentTime(0).catch(function () {}).then(function () {
-            return p.play();
-          });
-        })
-        .catch(function () {});
+    var playing = false;
+
+    function playVideo() {
+      if (playing && iframe.src) return;
+      playing = true;
+      iframe.src = src;
     }
 
     function pauseVideo() {
-      if (!player) return;
-      player.pause().catch(function () {});
+      if (!playing) return;
+      playing = false;
+      iframe.removeAttribute("src");
+    }
+
+    function syncVisibility(isVisible) {
+      if (isVisible) playVideo();
+      else pauseVideo();
+    }
+
+    function isNearViewport() {
+      var rect = container.getBoundingClientRect();
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      return rect.bottom > 0 && rect.top < vh * 0.92;
+    }
+
+    if (typeof IntersectionObserver === "undefined") {
+      playVideo();
+      return;
     }
 
     var observer = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            playFromStart();
-          } else if (loaded) {
-            pauseVideo();
-          }
+          syncVisibility(entry.isIntersecting);
         });
       },
-      { threshold: 0.35, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.12, rootMargin: "0px 0px 5% 0px" }
     );
 
     observer.observe(container);
+    syncVisibility(isNearViewport());
+    window.addEventListener("resize", function () {
+      syncVisibility(isNearViewport());
+    });
   }
 
   var desk = document.getElementById("uio-r");
   if (desk) attachScrollVideo(desk, ".closing-video", ".closing-vimeo");
   var mob = document.getElementById("uio-m");
   if (mob) attachScrollVideo(mob, ".om-close-video", ".om-close-vimeo");
+})();
+
+(function () {
+  var quick = document.getElementById("uio-quick");
+  if (!quick) return;
+  var docEl = document.documentElement;
+  var quickToggle = quick.querySelector(".uio-quick__toggle");
+  var quickTimer;
+  var toastEl;
+
+  function measureSiteDock() {
+    var vh = window.innerHeight;
+    var dock = 0;
+    var nodes = document.querySelectorAll("#index-float-btn,[class*='float'],[id*='float']");
+    for (var i = 0; i < nodes.length; i++) {
+      var el = nodes[i];
+      if (el === quick || quick.contains(el)) continue;
+      var st = getComputedStyle(el);
+      if (st.position !== "fixed" && st.position !== "sticky") continue;
+      if (st.display === "none" || st.visibility === "hidden") continue;
+      var r = el.getBoundingClientRect();
+      if (r.height < 8 || r.width < 8) continue;
+      if (r.top < vh && r.bottom > vh - 140) dock = Math.max(dock, vh - r.top);
+    }
+    docEl.style.setProperty("--uio-site-dock", dock + "px");
+  }
+
+  function closeQuick() {
+    clearTimeout(quickTimer);
+    quick.classList.remove("is-open");
+    if (quickToggle) quickToggle.setAttribute("aria-expanded", "false");
+  }
+
+  function armAutoClose() {
+    clearTimeout(quickTimer);
+    if (quick.classList.contains("is-open")) quickTimer = setTimeout(closeQuick, 3600);
+  }
+
+  function toast(msg) {
+    if (!toastEl) {
+      toastEl = document.createElement("div");
+      toastEl.className = "uio-toast";
+      document.body.appendChild(toastEl);
+    }
+    toastEl.textContent = msg;
+    toastEl.classList.add("is-on");
+    clearTimeout(toastEl.t);
+    toastEl.t = setTimeout(function () { toastEl.classList.remove("is-on"); }, 1900);
+  }
+
+  measureSiteDock();
+  window.addEventListener("resize", measureSiteDock, { passive: true });
+  window.addEventListener("scroll", measureSiteDock, { passive: true });
+
+  if (quickToggle) {
+    quickToggle.addEventListener("click", function () {
+      var open = quick.classList.toggle("is-open");
+      quickToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) armAutoClose(); else clearTimeout(quickTimer);
+    });
+  }
+
+  quick.addEventListener("click", function (e) {
+    if (e.target.closest("a")) closeQuick();
+    else armAutoClose();
+  });
+
+  var shareBtn = quick.querySelector(".uio-quick__share");
+  if (shareBtn) {
+    shareBtn.addEventListener("click", function () {
+      closeQuick();
+      function fallback() {
+        var url = location.href;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(
+            function () { toast("已複製此頁連結"); },
+            function () { window.prompt("複製此頁連結", url); }
+          );
+        } else {
+          window.prompt("複製此頁連結", url);
+        }
+      }
+      if (navigator.share) {
+        try {
+          navigator.share({ title: document.title, url: location.href })["catch"](function (err) {
+            if (!err || err.name !== "AbortError") fallback();
+          });
+        } catch (e) {
+          fallback();
+        }
+      } else {
+        fallback();
+      }
+    });
+  }
+
+  var topBtn = quick.querySelector(".uio-quick__top");
+  if (topBtn) {
+    topBtn.addEventListener("click", function () {
+      closeQuick();
+      window.scrollTo(0, 0);
+    });
+  }
 })();
