@@ -38,8 +38,8 @@ e.addEventListener("click",function(ev){var t=ev.target.closest("[data-zoom]");i
 lb.addEventListener("click",function(){lb.classList.remove("on")});
 addEventListener("keydown",function(k){if(k.key==="Escape")lb.classList.remove("on")});
 /* 列印前把延遲載入的圖片載入 */
-addEventListener("beforeprint",function(){[].forEach.call(e.querySelectorAll("img[loading]"),function(i){i.loading="eager"});[].forEach.call(e.querySelectorAll("details"),function(d){if(!d.open){d.open=true;d.setAttribute("data-pr","")}})});
-addEventListener("afterprint",function(){[].forEach.call(e.querySelectorAll("details[data-pr]"),function(d){d.open=false;d.removeAttribute("data-pr")})});
+addEventListener("beforeprint",function(){[].forEach.call(e.querySelectorAll("img[loading]"),function(i){i.loading="eager"});[].forEach.call(e.querySelectorAll("details"),function(d){if(!d.open){d.open=true;d.setAttribute("data-pr","")}});[].forEach.call(e.querySelectorAll("video[poster]"),function(v){if(v.parentNode.querySelector(".sa-pimg"))return;var m=document.createElement("img");m.className="sa-pimg";m.alt="";m.src=v.getAttribute("poster");v.parentNode.appendChild(m)})});
+addEventListener("afterprint",function(){[].forEach.call(e.querySelectorAll("details[data-pr]"),function(d){d.open=false;d.removeAttribute("data-pr")});[].forEach.call(e.querySelectorAll(".sa-pimg"),function(m){m.remove()})});
 /* 右下角快速工具 */
 var q=document.getElementById("sa-quick");
 if(q){
