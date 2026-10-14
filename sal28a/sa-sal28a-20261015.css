@@ -356,4 +356,3 @@
 #sa-experience .sa-faq details p{padding:0 0 2mm!important}
 }
 @media print{#sa-quick,#sa-experience .sa-toast{display:none!important}#travel-print .schedule :is(.day,.day-food,.day-room){position:static!important;float:none!important;height:auto!important}#travel-print .schedule :is(.day-food,.day-room){order:5!important;flex:1 1 100%!important;margin-left:0!important}}
-
