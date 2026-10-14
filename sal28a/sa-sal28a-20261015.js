@@ -39,6 +39,8 @@ lb.addEventListener("click",function(){lb.classList.remove("on")});
 addEventListener("keydown",function(k){if(k.key==="Escape")lb.classList.remove("on")});
 /* 列印前把延遲載入的圖片載入 */
 function pre(){[].forEach.call(e.querySelectorAll("img"),function(i){i.loading="eager";i.decoding="sync";if(i.decode&&!i.__d){i.__d=1;i.decode()["catch"](function(){})}});[].forEach.call(e.querySelectorAll("video[poster]"),function(v){if(v.parentNode.querySelector(".sa-pimg"))return;var m=document.createElement("img");m.className="sa-pimg";m.alt="";m.src=v.getAttribute("poster");v.parentNode.appendChild(m)})}
+/* 列印行程頁（#travel-print）一解析完就自動 window.print()，所以這裡要立刻把圖改成馬上載入、全部顯示 */
+if(e.closest("#travel-print")){pre();[].forEach.call(e.querySelectorAll(".sa-rv"),function(n){n.classList.add("is-in")})}
 if(document.readyState==="complete")setTimeout(pre,300);else addEventListener("load",function(){setTimeout(pre,500)});addEventListener("scroll",function(){pre()},{once:true,passive:true});
 addEventListener("beforeprint",function(){pre();[].forEach.call(e.querySelectorAll(".sa-rv"),function(n){n.classList.add("is-in")});[].forEach.call(e.querySelectorAll("details"),function(d){if(!d.open){d.open=true;d.setAttribute("data-pr","")}})});
 addEventListener("afterprint",function(){[].forEach.call(e.querySelectorAll("details[data-pr]"),function(d){d.open=false;d.removeAttribute("data-pr")})});
