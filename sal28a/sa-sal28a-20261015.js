@@ -39,7 +39,7 @@ lb.addEventListener("click",function(){lb.classList.remove("on")});
 addEventListener("keydown",function(k){if(k.key==="Escape")lb.classList.remove("on")});
 /* 列印前把延遲載入的圖片載入 */
 function pre(){[].forEach.call(e.querySelectorAll("img[loading]"),function(i){i.loading="eager"});[].forEach.call(e.querySelectorAll("video[poster]"),function(v){if(v.parentNode.querySelector(".sa-pimg"))return;var m=document.createElement("img");m.className="sa-pimg";m.alt="";m.src=v.getAttribute("poster");v.parentNode.appendChild(m)})}
-addEventListener("load",function(){setTimeout(pre,1500)});
+if(document.readyState==="complete")setTimeout(pre,1200);else addEventListener("load",function(){setTimeout(pre,1500)});addEventListener("scroll",function(){pre()},{once:true,passive:true});
 addEventListener("beforeprint",function(){pre();[].forEach.call(e.querySelectorAll("details"),function(d){if(!d.open){d.open=true;d.setAttribute("data-pr","")}})});
 addEventListener("afterprint",function(){[].forEach.call(e.querySelectorAll("details[data-pr]"),function(d){d.open=false;d.removeAttribute("data-pr")})});
 /* 右下角快速工具 */
