@@ -236,3 +236,26 @@
 }
 @media(max-width:1023px){.sa-route img.sa-map{width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;border:1px solid var(--line)}}
 .sa-legs li{padding:10px 0}
+/* v3: site CSS forces "#travelview .content img{height:auto!important}" -> win with higher specificity; bigger, clearer text */
+#travelview #sa-experience .sa-edge .sa-fig>img,
+#travelview #sa-experience .sa-hero__media img,
+#travelview #sa-experience .sa-band>img,
+#travelview #sa-experience .sa-vbox>img,
+#travelview #sa-experience .sa-stage>img,
+#travelview #sa-experience .sa-bgimg{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:cover!important;margin:0!important}
+#travelview #sa-experience .sa-card__img img{width:100%!important;height:100%!important;max-width:none!important;object-fit:cover!important}
+#travelview #sa-experience .sa-card__img{position:relative}
+@media(min-width:1024px){#travelview #sa-experience .sa-route img.sa-map{height:0!important;flex:1 1 auto!important;min-height:420px!important;max-width:none!important}}
+@media(max-width:1023px){#travelview #sa-experience .sa-route img.sa-map{height:auto!important;aspect-ratio:5/4;max-width:100%!important}}
+#sa-experience .sa-fig figcaption,#sa-experience .sa-vcell>.sa-cap,#sa-experience .sa-band>.sa-cap{font-size:16px;letter-spacing:.1em;font-weight:500;padding:56px 24px 18px;text-shadow:0 1px 6px rgba(0,0,0,.7);background:linear-gradient(0deg,rgba(11,20,16,.85),rgba(11,20,16,.4) 60%,transparent)}
+#sa-experience .sa-list h3{font-size:22px;letter-spacing:.06em}
+#sa-experience .sa-list p{font-size:17px;line-height:1.85}
+#sa-experience .sa-th-jade .sa-list p,#sa-experience .sa-th-obs .sa-list p,#sa-experience .sa-th-blood .sa-list p{color:#fbf1d8}
+#sa-experience .sa-th-jade .sa-list h3,#sa-experience .sa-th-obs .sa-list h3,#sa-experience .sa-th-blood .sa-list h3{color:#fff}
+#sa-experience .sa-list li>b{font-size:34px}
+#sa-experience .sa-card p,#sa-experience .sa-more p,#sa-experience .sa-points p{font-size:16.5px;line-height:1.85}
+#sa-experience .sa-legs h3{font-size:20px}
+#sa-experience .sa-legs p{font-size:15.5px}
+#sa-experience .sa-faq details p{font-size:17px;line-height:1.9}
+#sa-experience .sa-hg p{font-size:16px}
+#sa-experience .sa-cap{font-size:14.5px}
