@@ -277,3 +277,83 @@
 #sa-experience .sa-cal .sa-cal__bg{opacity:.62;object-position:center 40%}
 #sa-experience .sa-cal::after{background:radial-gradient(ellipse at center,rgba(24,14,8,.72),rgba(24,14,8,.35) 75%)}
 #sa-experience .sa-cal .sa-wrap{background:none}
+/* print */
+.sa-pimg,.sa-print-cover{display:none}
+@media print{@page{margin:20mm 18mm 22mm 18mm;size:A4}body,html{overflow:visible!important;background:#fff!important;font-size:12pt;height:auto!important;transform:none!important;filter:none!important}#feature h4.h4,#feature>.h4,#flight,#footer,#header,#index-float-btn,#information,#map,#pnote,#print-select,#remark,#schedule,#sidebar,#sidebar-share-btn,#special,#travel-newsletter,#travel-print .btn-box,#travel-print .section>.ti,#travel-print>.banner,#travel-print>.description,#travel-print>.head,#travel-print>.top,#travelview .main>.head,.breadcrumb,.departure,.dvline,.feature>h4.h4,.head,.slider-wrap,.toolsbar,.wrap>.top,a.favorite,body>table{display:none!important}#feature,#travel-print,#travelview,#travelview .container,#travelview .main,#travelview .wrap{padding:0!important;border:0!important;box-shadow:none!important;transform:none!important;filter:none!important;height:auto!important;max-height:none!important}#sa-experience,#feature,#feature .content,#travel-print,#travel-print .inner,#travel-print .section,#travelview,#travelview .container,#travelview .main,#travelview .wrap{background:#fff!important;overflow:visible!important;width:100%!important;max-width:none!important;margin:0!important}#feature .content,#travel-print .inner,#travel-print .section{border:0!important;box-shadow:none!important;transform:none!important;filter:none!important;height:auto!important;max-height:none!important;padding:4mm 5mm!important;box-sizing:border-box!important}#travel-print .inner>img{max-width:100%!important;height:auto!important;width:auto!important}#sa-experience{--paper:#fff;--paper-2:#fff;color:#2c2418!important;font-size:11pt;line-height:1.6}#travel-print:has(.schedule) .x-pfoot{display:none!important}#travel-print .section .inner>.schedule:first-of-type::before{content:"DAILY ITINERARY · 每日行程";display:block!important;font-family:"Cormorant Garamond",Georgia,serif!important;font-size:8pt!important;letter-spacing:.22em!important;color:#8a5a18!important;margin:0 0 3mm!important;padding:0 0 1.5mm!important;border-bottom:2px solid #b87a2a!important;break-after:avoid!important}#travel-print .schedule{display:flex!important;flex-wrap:wrap!important;align-items:baseline!important;gap:1.2mm 3.5mm!important;margin:0!important;padding:3mm 0 3.5mm!important;border-bottom:1px solid #e0d6c8!important;font-size:10.5pt!important;line-height:1.52!important;color:#2c2418!important;break-inside:auto!important;page-break-inside:auto!important;overflow:visible!important}#travel-print .schedule .day{order:1!important;flex:0 0 auto!important;display:inline-block!important;margin:0!important;padding:1.4mm 4.5mm!important;border-radius:1.2mm!important;font-size:13pt!important;font-weight:700!important;color:#fff!important;background:#b87a2a!important;white-space:nowrap!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}#travel-print .schedule .day-ti{order:2!important;flex:1 1 55%!important;font-size:11.5pt!important;font-weight:700!important;color:#2e2418!important}#travel-print .schedule .day-info{order:3!important;flex:1 1 100%!important;width:100%!important;margin:.5mm 0 0!important;font-size:10.5pt!important;line-height:1.52!important;color:#333!important}#travel-print .schedule .day-photos{order:4!important;flex:0 0 100%!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:2.5mm!important;margin:.8mm 0 0!important}#travel-print .schedule .day-photos .item:nth-child(n+5){display:none!important}#travel-print .schedule .day-photos .item{width:100%!important;max-width:none!important;float:none!important;display:block!important}#travel-print .schedule .day-photos img{width:100%!important;max-width:100%!important;min-width:0!important;height:auto!important;max-height:38mm!important;display:block!important;object-fit:cover!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}#travel-print .schedule .day-food,#travel-print .schedule .day-room{margin-top:1.2mm!important;padding:1.5mm 2.5mm!important;background:#faf8f2!important;border:1px solid #e8dcc8!important;border-top:2px solid #b87a2a!important;font-size:9.5pt!important;line-height:1.45!important;color:#444!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+#sa-experience .sa-hero,#sa-experience .sa-nav,#sa-experience .sa-prog,#sa-experience .sa-lb,#sa-experience .sa-btn,#sa-experience .sa-cta,#sa-experience .sa-greca,#sa-experience .sa-bgimg,#sa-experience .sa-bgov,#sa-experience .sa-cal__bg,#sa-experience .sa-cal::after,#sa-experience .sa-stage::after,#sa-experience video,#sa-experience iframe,#sa-experience .sa-tag,#sa-quick{display:none!important}
+#sa-experience *{animation:none!important;transition:none!important;box-shadow:none!important;text-shadow:none!important}
+#sa-experience .sa-rv,#sa-experience .sa-stage__tx{opacity:1!important;transform:none!important}
+#sa-experience img,#sa-experience svg{-webkit-print-color-adjust:exact;print-color-adjust:exact;max-width:100%!important;filter:none!important}
+#sa-experience a{color:#2c2418!important;text-decoration:none!important}
+#sa-experience .sa-pimg{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important}
+#sa-experience .sa-print-cover{display:flex!important;flex-direction:column!important;box-sizing:border-box!important;height:250mm!important;padding:6mm 4mm 2mm!important;overflow:hidden!important;break-after:page!important;margin:0!important;background:#fff!important;color:#2c2418!important}
+#sa-experience .sa-print-cover .x-plogo{display:block!important;width:46mm!important;height:auto!important;margin:0 0 6mm!important}
+#sa-experience .sa-print-cover .x-hctn{display:flex!important;flex-direction:column!important;text-align:center!important;margin:0 0 6mm!important}
+#sa-experience .sa-print-cover .x-hsub{color:#8a5a18!important;font-size:12pt!important;font-weight:700;letter-spacing:.04em;margin:0 0 2.5mm!important}
+#sa-experience .sa-print-cover .x-htt{color:#2e2418!important;font-size:24pt!important;line-height:1.3!important;margin:0!important;font-weight:400!important}
+#sa-experience .sa-print-cover .x-pfig{position:relative!important;display:block!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#sa-experience .sa-print-cover .x-pcov{display:block!important;width:100%!important;height:150mm!important;object-fit:cover!important;object-position:center!important;border:1px solid #d8cdb8!important}
+#sa-experience .sa-print-cover .x-pfig::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,22,18,0) 40%,rgba(12,22,18,.8)),linear-gradient(90deg,rgba(12,22,18,.45),rgba(12,22,18,0) 60%)}
+#sa-experience .sa-print-cover .x-pover{position:absolute!important;left:9mm;right:9mm;bottom:9mm;z-index:1;color:#fff!important}
+#sa-experience .sa-print-cover .x-pover p{margin:0!important;color:#fff!important}
+#sa-experience .sa-print-cover .x-pt{font-size:54pt!important;font-weight:900!important;letter-spacing:.1em!important;line-height:1.05!important}
+#sa-experience .sa-print-cover .x-ps{display:flex!important;align-items:center;gap:4mm;margin:3mm 0 5mm!important;font-size:15pt!important;font-weight:700!important;letter-spacing:.18em!important}
+#sa-experience .sa-print-cover .x-ps::before{content:"";width:12mm;height:.5mm;background:#e0b25f;flex:none}
+#sa-experience .sa-print-cover .x-pc{display:flex!important;flex-wrap:wrap;gap:2mm}
+#sa-experience .sa-print-cover .x-pc span{padding:1.2mm 3mm;border:.3mm solid rgba(255,255,255,.75);background:rgba(10,20,16,.35);font-size:9.5pt;letter-spacing:.1em}
+#sa-experience .sa-print-cover .x-pcorp{display:flex!important;gap:5mm;justify-content:space-between;margin-top:auto!important;padding-top:4mm!important;border-top:1px solid #d8cdb8!important;font-size:8.5pt!important;line-height:1.55!important;color:#444!important}
+#sa-experience .sa-print-cover .x-pco{flex:1 1 0;min-width:0}
+#sa-experience .sa-print-cover .x-pco b{display:block;color:#8a5a18!important;font-size:9.5pt!important;margin-bottom:1mm}
+#sa-experience section,#sa-experience header,#sa-experience .sa-intro,#sa-experience .sa-body,#sa-experience .sa-heritage,#sa-experience .sa-faq,#sa-experience .sa-route,#sa-experience .sa-cal,#sa-experience .sa-scene,#sa-experience .sa-stats{background:#fff!important;color:#2c2418!important;min-height:0!important;padding:5mm 0!important;margin:0!important;border:0!important}
+#sa-experience .sa-print-cover{padding:6mm 4mm 2mm!important}
+#sa-experience section+section,#sa-experience .sa-scene+.sa-scene{border-top:1px solid #e8dcc8!important}
+#sa-experience .sa-wrap{max-width:none!important;padding:0!important;background:none!important}
+#sa-experience .sa-h2,#sa-experience .sa-stage .sa-h2{font-size:18pt!important;line-height:1.3!important;margin:0 0 3mm!important;color:#2e2418!important}
+#sa-experience h3,#sa-experience .sa-card h3,#sa-experience .sa-list h3,#sa-experience .sa-points h3,#sa-experience .sa-legs h3,#sa-experience .sa-hg h3{font-size:13pt!important;color:#2e2418!important;break-after:avoid}
+#sa-experience .sa-kicker,#sa-experience .sa-stage .sa-kicker{font-size:8pt!important;letter-spacing:.22em!important;color:#8a5a18!important}
+#sa-experience li,#sa-experience p,#sa-experience .sa-lead,#sa-experience .sa-stage .sa-lead,#sa-experience .sa-card p,#sa-experience .sa-more p,#sa-experience .sa-points p,#sa-experience .sa-list p,#sa-experience .sa-legs p,#sa-experience .sa-hg p,#sa-experience .sa-faq details p,#sa-experience .sa-cal p,#sa-experience .sa-cal h3{color:#333!important;font-size:10.5pt!important;line-height:1.65!important;orphans:3;widows:3;max-width:none!important;text-wrap:wrap!important}
+#sa-experience .sa-cal h3{color:#2e2418!important;font-size:13pt!important}
+#sa-experience .sa-cl{display:inline!important}
+#sa-experience .sa-intro__grid,#sa-experience .sa-three{display:grid!important;grid-template-columns:1fr 1fr!important;gap:6mm!important;border:0!important}
+#sa-experience .sa-three{grid-template-columns:repeat(3,1fr)!important;gap:3mm!important}
+#sa-experience .sa-card{background:#fff!important;border:1px solid #e8dcc8!important;break-inside:avoid}
+#sa-experience .sa-card__img{aspect-ratio:auto!important;height:38mm!important}
+#sa-experience .sa-card__img img{height:100%!important;width:100%!important;object-fit:cover!important}
+#sa-experience .sa-card__b{padding:3mm!important;border-top:3px solid #b87a2a!important}
+#sa-experience .sa-points b,#sa-experience .sa-list b,#sa-experience .sa-hg b,#sa-experience .sa-stage__no{color:#8a5a18!important;font-size:20pt!important;-webkit-text-stroke:0!important}
+#sa-experience .sa-stage__no{font-size:28pt!important;margin:0 0 1mm!important}
+#sa-experience .sa-points li,#sa-experience .sa-list li,#sa-experience .sa-legs li,#sa-experience .sa-hg li{border-color:#e0d6c8!important;background:none!important;break-inside:avoid;padding:2mm 0!important}
+#sa-experience .sa-hg li{padding:2.5mm!important}
+#sa-experience .sa-hg{border-top:2px solid #b87a2a!important;border-left:1px solid #e0d6c8!important;grid-template-columns:repeat(4,1fr)!important}
+#sa-experience .sa-hg small,#sa-experience .sa-hg p{color:#555!important}
+#sa-experience .sa-list{grid-template-columns:1fr 1fr!important;gap:0 6mm!important}
+#sa-experience .sa-legs b{background:#b87a2a!important;color:#fff!important}
+#sa-experience .sa-route__grid{grid-template-columns:1fr 1fr!important;gap:6mm!important;align-items:start!important}
+#sa-experience .sa-map,#sa-experience img.sa-map{position:static!important;height:auto!important;min-height:0!important;max-height:105mm!important;object-fit:contain!important;aspect-ratio:auto!important;flex:none!important}
+#sa-experience .sa-stage{display:block!important;min-height:0!important;background:#fff!important;overflow:visible!important;color:#2c2418!important}
+#sa-experience .sa-stage>img,#sa-experience .sa-stage .sa-vbox{position:relative!important;inset:auto!important;display:block!important;width:100%!important;height:62mm!important;aspect-ratio:auto!important;object-fit:cover!important;animation:none!important;overflow:hidden!important}
+#sa-experience .sa-stage__tx{position:static!important;padding:3mm 0 0!important;max-width:none!important;color:#2c2418!important}
+#sa-experience .sa-edge{gap:2mm!important;margin:2mm 0!important}
+#sa-experience .sa-edge .sa-fig,#sa-experience .sa-edge .sa-vcell{height:56mm!important;min-height:0!important;break-inside:avoid;overflow:visible!important}
+#sa-experience .sa-edge--3 .sa-fig,#sa-experience .sa-edge--3 .sa-vcell{height:42mm!important}
+#sa-experience .sa-edge .sa-fig>img,#sa-experience .sa-edge .sa-vcell .sa-vbox{position:relative!important;display:block!important;width:100%!important;height:calc(100% - 7mm)!important;object-fit:cover!important;inset:auto!important}
+#sa-experience .sa-band{height:auto!important;background:none!important;overflow:visible!important;break-inside:avoid;margin:2mm 0!important}
+#sa-experience .sa-band>img,#sa-experience .sa-band .sa-vbox{position:relative!important;inset:auto!important;display:block!important;width:100%!important;height:70mm!important;object-fit:cover!important;aspect-ratio:auto!important}
+#sa-experience .sa-fig figcaption,#sa-experience .sa-vcell>.sa-cap,#sa-experience .sa-band>.sa-cap,#sa-experience .sa-cap{position:static!important;font-size:8pt!important;letter-spacing:.04em!important;color:#666!important;background:none!important;padding:1mm 0 0!important;font-weight:400!important}
+#sa-experience figure{break-inside:avoid}
+#sa-experience .sa-stats{display:grid!important;grid-template-columns:repeat(4,1fr)!important;padding:4mm 0!important;margin:4mm 0 0!important;background:#faf8f2!important;border:1px solid #e8dcc8!important}
+#sa-experience .sa-stats>div{padding:2mm!important;text-align:center}
+#sa-experience .sa-stats b{font-size:26pt!important;color:#8a5a18!important}
+#sa-experience .sa-stats small,#sa-experience .sa-stats span{color:#444!important;font-size:9pt!important}
+#sa-experience .sa-stats div+div::before{background:#e0d6c8!important}
+#sa-experience .sa-more{background:#fff!important;border:1px solid #e8dcc8!important;margin-top:3mm!important}
+#sa-experience .sa-more summary{list-style:none;font-size:11pt!important;color:#8a5a18!important;padding:2mm 3mm!important}
+#sa-experience .sa-more summary::-webkit-details-marker,#sa-experience .sa-more summary::marker,#sa-experience .sa-faq summary::marker{display:none!important;content:""!important}
+#sa-experience .sa-more div{padding:0 3mm 3mm!important}
+#sa-experience details::details-content{content-visibility:visible!important;display:block!important}
+#sa-experience .sa-faq details{max-width:none!important;break-inside:avoid;border-bottom:1px solid #e8dcc8!important}
+#sa-experience .sa-faq summary{list-style:none;font-weight:700;font-size:10.5pt!important;padding:2mm 0!important}
+#sa-experience .sa-faq details p{padding:0 0 2mm!important}
+}
+@media print{#sa-quick,#sa-experience .sa-toast{display:none!important}#travel-print .schedule :is(.day,.day-food,.day-room){position:static!important;float:none!important;height:auto!important}#travel-print .schedule :is(.day-food,.day-room){order:5!important;flex:1 1 100%!important;margin-left:0!important}}
+
