@@ -272,3 +272,8 @@
 /* v6: line breaks only after punctuation in the Maya text */
 #sa-experience .sa-cal p{text-wrap:balance}
 #sa-experience .sa-cl{display:inline-block}
+/* v7: classic Chichen Itza El Castillo as the Maya section background */
+#sa-experience .sa-cal{background:#2a1a10}
+#sa-experience .sa-cal .sa-cal__bg{opacity:.62;object-position:center 40%}
+#sa-experience .sa-cal::after{background:radial-gradient(ellipse at center,rgba(24,14,8,.72),rgba(24,14,8,.35) 75%)}
+#sa-experience .sa-cal .sa-wrap{background:none}
