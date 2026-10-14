@@ -208,3 +208,7 @@
 .sa-nav{background:rgba(91,69,53,.92)}
 .sa-cal{background:#6a4a35}
 .sa-card{background:#fffaf0}
+.sa-cal .sa-wrap{max-width:1000px}
+.sa-cal h3{font-size:clamp(30px,4vw,48px)}
+.sa-cal p{font-size:clamp(18px,1.7vw,22px);line-height:2;font-weight:500}
+.sa-cal p+p{margin-top:18px}
