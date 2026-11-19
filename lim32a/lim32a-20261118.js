@@ -1,5 +1,6 @@
 (function(){
 var R=document.getElementById("lim");if(!R)return;
+function setVW(){R.style.setProperty("--vw",document.documentElement.clientWidth+"px")}setVW();addEventListener("resize",setVW);addEventListener("orientationchange",setVW);addEventListener("load",setVW);
 function Q(s){return R.querySelector(s)}
 function QA(s){return Array.prototype.slice.call(R.querySelectorAll(s))}
 var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
