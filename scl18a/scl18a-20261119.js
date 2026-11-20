@@ -4,13 +4,18 @@ function setVW(){R.style.setProperty("--vw",document.documentElement.clientWidth
 function Q(s){return R.querySelector(s)}
 function QA(s){return Array.prototype.slice.call(R.querySelectorAll(s))}
 var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+var VM=[];function vmf(id){var f=document.createElement("iframe");f.className="scl-vm";f.tabIndex=-1;f.setAttribute("aria-hidden","true");f.setAttribute("allow","autoplay");f.src="https://player.vimeo.com/video/"+id+"?background=1&autoplay=1&loop=1&muted=1&dnt=1";VM.push(f);return f}
+function vmc(f,m){try{f.contentWindow.postMessage(JSON.stringify(m),"*")}catch(x){}}
+addEventListener("message",function(e){if(!/vimeo\.com$/.test(e.origin))return;var d=e.data;if(typeof d=="string"){try{d=JSON.parse(d)}catch(x){return}}if(!d)return;
+VM.forEach(function(f){if(f.contentWindow!==e.source)return;if(d.event=="ready"){vmc(f,{method:"addEventListener",value:"timeupdate"});vmc(f,{method:"addEventListener",value:"playProgress"})}
+else if((d.event=="timeupdate"||d.event=="playProgress")&&d.data&&d.data.seconds>0&&!f.vmOn){f.vmOn=1;f.className+=" is-on"}})});
 var hv=Q(".scl-hero__fig video");if(hv&&!reduce){var hb=hv.parentNode,id=hv.getAttribute("data-vm");
-if(id){var fr=document.createElement("iframe");fr.tabIndex=-1;fr.setAttribute("aria-hidden","true");fr.setAttribute("allow","autoplay");fr.src="https://player.vimeo.com/video/"+id+"?background=1&autoplay=1&loop=1&muted=1&dnt=1";hb.appendChild(fr);
+if(id){var fr=vmf(id);hb.appendChild(fr);
 var fit=function(){var w=hb.clientWidth,h=hb.clientHeight,W=Math.max(w,h*16/9),H=W*9/16;fr.style.cssText="position:absolute;border:0;width:"+W+"px;height:"+H+"px;left:"+(w-W)/2+"px;top:"+(h-H)/2+"px"};fit();addEventListener("resize",fit)}
 else if(hv.getAttribute("src")){hv.muted=hv.loop=hv.playsInline=true;var pp=hv.play();pp&&pp["catch"]&&pp["catch"](function(){})}}
 if(!reduce&&"IntersectionObserver" in window)QA(".scl-pin video,.scl-carn__ph video").forEach(function(v){v.muted=v.loop=v.playsInline=true;var id=v.getAttribute("data-vm"),f=null;
 new IntersectionObserver(function(es){var on=es[0].isIntersecting;
-if(id){if(on&&!f){f=document.createElement("iframe");f.tabIndex=-1;f.setAttribute("aria-hidden","true");f.setAttribute("allow","autoplay");f.src="https://player.vimeo.com/video/"+id+"?background=1&autoplay=1&loop=1&muted=1&dnt=1";v.parentNode.insertBefore(f,v.nextSibling)}else if(!on&&f){f.parentNode.removeChild(f);f=null}}
+if(id){if(on&&!f){f=vmf(id);v.parentNode.insertBefore(f,v.nextSibling)}else if(f){vmc(f,{method:on?"play":"pause"})}}
 else if(v.getAttribute("src")){if(on){var p=v.play();p&&p["catch"]&&p["catch"](function(){})}else v.pause()}},{rootMargin:"100px"}).observe(v)});
 var rt=Q(".scl-route");if(rt){var rtGo=function(){
 var box=Q(".scl-route__map"),cam=Q(".scl-route__cam"),svg=Q(".scl-route__svg"),me=Q(".scl-route__me"),legs=QA(".scl-route__leg"),NS="http://www.w3.org/2000/svg",VB=svg.getAttribute("viewBox").split(" "),MW=+VB[2],MH=+VB[3];
@@ -43,6 +48,7 @@ function show(n){S[k].classList.remove("is-on");B[k].removeAttribute("aria-curre
 function play(){if(!tm&&!reduce)tm=setInterval(function(){show(k+1)},4000)}function stop(){clearInterval(tm);tm=null}
 B.forEach(function(b,i){b.addEventListener("click",function(){stop();show(i);if(seen)play()})});
 if("IntersectionObserver" in window)new IntersectionObserver(function(es){seen=es[0].isIntersecting;if(seen)play();else stop()},{threshold:.5}).observe(box)})}
+addEventListener("load",function(){if(!matchMedia("(min-width:1024px) and (pointer:fine)").matches)return;setTimeout(function(){var L2=QA("img[loading=lazy]"),n=0;(function nx(){var i=L2[n++];if(!i)return;i.loading="eager";if(i.complete)nx();else{i.addEventListener("load",nx);i.addEventListener("error",nx)}})()},3000)});
 addEventListener("beforeprint",function(){QA("img").forEach(function(i){i.loading="eager"});QA("details").forEach(function(d){if(!d.open){d.open=true;d.setAttribute("data-pr","")}})});
 addEventListener("afterprint",function(){QA("details[data-pr]").forEach(function(d){d.open=false;d.removeAttribute("data-pr")})});
 var ld=document.createElement("script");ld.type="application/ld+json";ld.textContent=JSON.stringify([{"@context":"https://schema.org","@type":"TouristTrip",name:"南美洲三國 智利 阿根廷 巴西 世界盡頭次南極 18日",description:(Q(".scl-route details p")||Q(".scl-route__t")).textContent.trim(),touristType:"自然景觀與文化",provider:{"@type":"TravelAgency",name:"鄉野旅行社",url:"https://www.tcawg.com/",telephone:"+886-2-7741-5198"}},{"@context":"https://schema.org","@type":"FAQPage",mainEntity:QA(".scl-faq details").map(function(d){return{"@type":"Question",name:d.querySelector("summary").textContent,acceptedAnswer:{"@type":"Answer",text:d.querySelector("p").textContent}}})}]);document.head.appendChild(ld);
