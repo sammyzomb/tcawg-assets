@@ -134,13 +134,6 @@ if (qs || qv.play && qv.className.indexOf('svo-vmw') >= 0) { if (!qv.src) qv.src
 });
 });
 qf.parentNode.insertBefore(qz, qf);
-var mk = document.createElement('div'); mk.className = 'svo-qz svo-qz--m';
-mk.innerHTML = '<div><video data-v="v35" muted loop playsinline preload="none" aria-label="蘇茲達爾草地市集：手織毛線帽、木雕小蘑菇、木砧板與一整攤木碗木匙"></video></div><div><p class="svo-qz__k">花絮｜蘇茲達爾</p>'
-+ '<p class="svo-qz__q">草地上的<br>手作市集</p>'
-+ '<p class="svo-qz__a">領隊在蘇茲達爾遇到的市集：古城邊的草地上搭起一排木頭攤子，有手織毛線帽、木雕小蘑菇、一整桌木砧板，還有堆成小山的木碗木匙，遠處就是古城的白色教堂。</p>'
-+ '<p class="svo-qz__a">市集不是每一團都遇得到，遇上了，就留點時間慢慢逛。</p><p class="svo-credit">影片：隨團領隊 拍攝</p></div>';
-var mv = mk.querySelector('video'); mv.poster = cp.dataset.p + 'v35.jpg'; mv.setAttribute('muted', ''); if (VS.v35) mv.dataset.src = VS.v35; else { mv.setAttribute('poster', mv.poster); mv = vmize(mv); }
-qf.parentNode.insertBefore(mk, qf);
 }
 var snd = function (b, on) {
 var c = b.closest('.svo-shot,.svo-crew__l li'), v = c.querySelector('video,.svo-vmw');
@@ -180,6 +173,8 @@ var paint = function () {
 if (gate) {
 var p = hp, s0 = innerHeight > innerWidth ? 1.7 : 1;
 gate.style.transform = 'scale(' + (s0 * (1 + 17 * Math.pow(cl(p / .8), 2.4))).toFixed(3) + ')';
+gate.style.willChange = 'transform,opacity'; clearTimeout(gate._rt);
+gate._rt = setTimeout(function () { gate.style.willChange = 'auto'; }, 150);
 gate.style.opacity = cl((.86 - p) / .1);
 if (art) art.style.opacity = cl((.62 - p) / .14);   // 彩繪層（含套娃的頭）先淡掉，頭巾不會留在大標題上方
 ta.style.opacity = cl(1 - p / .22);
@@ -310,6 +305,8 @@ address: { '@type': 'PostalAddress', streetAddress: '南京東路三段215號5�
 ]);
 document.head.appendChild(ldj);
 }
+var stx = G('.svo-shot--story .svo-shot__tx');
+if (stx) { var cr = document.createElement('p'); cr.className = 'svo-credit'; cr.textContent = '照片：隨團領隊 拍攝'; stx.appendChild(cr); }
 var loadAll = function () {
 Q('img').forEach(function (i) { i.loading = 'eager'; });
 Q('.svo-faq details').forEach(function (d) { d.open = true; });
