@@ -283,8 +283,36 @@ if (ec) {
 var t0 = ec.querySelector('a[href^="tel:"]'); if (t0) t0.textContent = '台北 ' + TEL[0][1];
 TEL.slice(1).forEach(function (t) { var a = document.createElement('a'); a.href = 'tel:' + t[2]; a.textContent = t[0] + ' ' + t[1]; ec.appendChild(a); });
 }
+var FAQ = [
+['這個行程會走訪哪些世界遺產？', '七項 UNESCO 世界文化遺產：莫斯科克里姆林宮與紅場、卡洛明斯科婭耶穌升天教堂、弗拉基米爾與蘇茲達爾白石古蹟群、雅羅斯拉夫爾歷史中心、謝爾吉耶夫鎮聖三一修道院建築群、大諾夫哥羅德及周邊歷史古蹟、聖彼得堡歷史中心及相關建築群；另外安排葉卡捷琳娜宮與琥珀廳。'],
+['要怎麼飛？需要轉機嗎？', '參考航班為東方航空，去回程都經上海轉機：去程當晚先住上海機場附近的酒店，隔天再飛莫斯科；回程從聖彼得堡經上海回台北。實際航班以出團公告為準。'],
+['住宿安排如何？要常常換飯店嗎？', '莫斯科住 3 晚（Izmailovo Vega 或同級），聖彼得堡連住 4 晚（Cosmos Pulkovskaya 或同級），不必天天整理行李。團費以兩人一室計價，單人參團可指定單人房並補房差。實際入住以行前確認為準。'],
+['團費包含哪些？簽證要自己辦嗎？', '團費包含團體經濟艙機票與燃油附加費、簽證、兩人一室住宿、行程所列餐食、遊覽車與門票、旅遊契約責任險 300 萬與意外醫療險 20 萬，以及領隊、導遊、司機小費。不含護照辦理、飯店床頭與行李小費、網路卡、洗衣與個人開支。'],
+['餐食吃什麼？', '以俄式風味料理搭配中式七菜一湯為主，其中一晚品嚐烏茲別克風味料理。當地的水要煮沸再喝，建議自備保溫瓶，可在飯店餐廳或火車上裝水。'],
+['錢怎麼帶？手機怎麼充電？', '建議在台灣先換好美金或歐元，到當地銀行或飯店兌換盧布，路邊匯兌亭手續費高。信用卡在大城市漸漸普遍，使用前要先向銀行申請信用卡密碼。俄羅斯電壓 220 伏特，插頭為兩孔圓柱型。']
+];
+var vmS = G('.svo-vm') || G('.svo-end');
+if (vmS) {
+var fq = document.createElement('section'); fq.className = 'svo-yt svo-faq';
+fq.innerHTML = '<p class="svo-cap">常見問題</p><h3 class="svo-h">出發前，<wbr>你可能想知道</h3><div class="svo-faq__l">'
++ FAQ.map(function (q, i) { return '<details' + (i ? '' : ' open') + '><summary>' + q[0] + '</summary><p>' + q[1] + '</p></details>'; }).join('') + '</div>'
++ '<p class="svo-faq__n">以上依本行程的團費說明與旅遊須知整理，實際內容以出團公告與行前說明會資料為準。</p>';
+vmS.parentNode.insertBefore(fq, vmS);
+var ldj = document.createElement('script'); ldj.type = 'application/ld+json';
+ldj.textContent = JSON.stringify([
+{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: FAQ.map(function (q) { return { '@type': 'Question', name: q[0], acceptedAnswer: { '@type': 'Answer', text: q[1] } }; }) },
+{ '@context': 'https://schema.org', '@type': 'TouristTrip', name: '莫斯科大金環 聖彼得堡大銀環 古城小資 14日', url: 'https://www.tcawg.com/travel/tours/SVO14E',
+description: '14 天從莫斯科克里姆林宮與紅場出發，走訪弗拉基米爾、蘇茲達爾、雅羅斯拉夫爾等金環古城與大諾夫哥羅德，最後到聖彼得堡與葉卡捷琳娜宮琥珀廳，串聯俄羅斯 7 項 UNESCO 世界文化遺產。莫斯科住 3 晚、聖彼得堡連住 4 晚。',
+touristType: '世界遺產、文化古蹟', image: G('.svo-shot img') ? G('.svo-shot img').src : undefined,
+itinerary: { '@type': 'ItemList', itemListElement: FAQ[0][1].split('：')[1].split('；')[0].replace(/。$/, '').split('、').map(function (n, i) { return { '@type': 'ListItem', position: i + 1, item: { '@type': 'TouristAttraction', name: n } }; }) },
+provider: { '@type': 'TravelAgency', name: '鄉野旅行社（航向世界旅遊）', url: 'https://www.tcawg.com/', telephone: '+886-2-7741-5198',
+address: { '@type': 'PostalAddress', streetAddress: '南京東路三段215號5樓', addressLocality: '台北市中山區', addressCountry: 'TW' } } }
+]);
+document.head.appendChild(ldj);
+}
 var loadAll = function () {
 Q('img').forEach(function (i) { i.loading = 'eager'; });
+Q('.svo-faq details').forEach(function (d) { d.open = true; });
 var qa0 = G('.svo-qz__a'); if (qa0 && !qa0.textContent) qa0.innerHTML = '<b>答案：地上噴出水柱。</b>石頭地底下藏著噴水孔，有人走上去時，水柱會突然從腳邊噴出來。';
 };
 addEventListener('beforeprint', loadAll);
