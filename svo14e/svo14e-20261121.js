@@ -26,10 +26,47 @@ vw(); addEventListener('resize', vw);
 R.classList.add('svo-js');
 var tall = function () { return innerHeight > innerWidth; };
 if (tall()) Q('video[data-pp]').forEach(function (v) { v.poster = v.dataset.pp; });
+var VM = {"v02":["1249959874",426,240],"v01":["1249959875",240,300],"v02p":["1249959877",240,426],"v00":["1249959878",426,240],"v03p":["1249959924",240,426],"v03":["1249959925",426,240],"v04p":["1249959926",240,426],"v04":["1249959927",426,240],"v05p":["1249959949",240,426],"v05":["1249959951",426,240],"v06p":["1249959953",240,426],"v06":["1249959954",426,240],"v07p":["1249959981",240,426],"v07":["1249959982",1280,720],"v08p":["1249959983",240,426],"v08":["1249959984",426,240],"v09":["1249960011",426,240],"v09p":["1249960013",240,426],"v10p":["1249960014",240,426],"v10":["1249960016",426,240],"v11":["1249960032",426,240],"v11p":["1249960033",240,426],"v12":["1249960038",426,240],"v12p":["1249960042",240,426],"v13":["1249960047",426,240],"v13p":["1249960055",240,300],"v20":["1249960062",240,320],"v21":["1249960065",240,320],"v22":["1249960086",240,320],"v23":["1249960103",240,320],"v24":["1249960106",240,320],"v25":["1249960108",240,320],"v26":["1249960129",240,320],"v27":["1249960150",240,320],"v28":["1249960153",240,320],"v29":["1249960166",240,320],"v30":["1249960183",240,320],"v31":["1249960190",240,320],"v14":["1249591159",240,240],"v39":["1250211658",240,320],"v32":["1250217806",240,320],"v33":["1250217807",240,320],"v35":["1250217808",240,320],"v34":["1250217809",240,320],"v36":["1250217821",240,320],"v38":["1250217823",288,240]}, VO = 'https://player.vimeo.com';
+var vmize = function (v, key) {
+var k = key || v.dataset.v, m = (tall() && VM[k + 'p']) || VM[k];
+if (!m || v.dataset.src) return v;
+var w = document.createElement('div'), f = null, st = { p: true, mu: true, t: 0 };
+w.className = (v.getAttribute('class') ? v.getAttribute('class') + ' ' : '') + 'svo-vmw';
+if (v.dataset.v) w.dataset.v = v.dataset.v;
+w.setAttribute('role', 'img'); if (v.getAttribute('aria-label')) w.setAttribute('aria-label', v.getAttribute('aria-label'));
+var tell = function (mt, val) { if (f && f.contentWindow) f.contentWindow.postMessage(JSON.stringify(val === undefined ? { method: mt } : { method: mt, value: val }), VO); };
+w._fit = function () {
+if (!f) return;
+var bw = w.clientWidth, bh = w.clientHeight, ar = m[1] / m[2], W = Math.max(bw, bh * ar), H = W / ar;
+f.style.cssText = 'width:' + W + 'px;height:' + H + 'px;left:' + (bw - W) / 2 + 'px;top:' + (w.closest('.svo-shot--live') ? 0 : (bh - H) / 2) + 'px';
+};
+w._ready = function () { tell('setVolume', st.mu ? 0 : 1); if (st.t) tell('setCurrentTime', st.t); if (st.p) tell('pause'); };
+Object.defineProperty(w, 'poster', { get: function () { return ''; }, set: function (u) { if (u) w.style.backgroundImage = 'url("' + u + '")'; } });
+Object.defineProperty(w, 'src', { get: function () { return 'vimeo'; }, set: function () {} });
+Object.defineProperty(w, 'paused', { get: function () { return st.p; } });
+Object.defineProperty(w, 'muted', { get: function () { return st.mu; }, set: function (x) { st.mu = !!x; tell('setVolume', x ? 0 : 1); } });
+Object.defineProperty(w, 'currentTime', { get: function () { return st.t; }, set: function (x) { st.t = x; tell('setCurrentTime', x); } });
+w.play = function () {
+st.p = false;
+if (!f) {
+f = document.createElement('iframe'); f.tabIndex = -1; f.setAttribute('aria-hidden', 'true'); f.title = '';
+f.allow = 'autoplay; fullscreen; picture-in-picture';
+f.src = VO + '/video/' + m[0] + '?background=1&autoplay=1&loop=1&muted=1&autopause=0&dnt=1';
+w.appendChild(f); w._fit();
+} else tell('play');
+return Promise.resolve();
+};
+w.pause = function () { st.p = true; tell('pause'); };
+w.poster = (tall() && v.dataset.pp) || v.getAttribute('poster');
+if (v.parentNode) v.parentNode.replaceChild(w, v);
+return w;
+};
+Q('video[data-v]').forEach(function (v) { vmize(v); });
+addEventListener('resize', function () { Q('.svo-vmw').forEach(function (w) { w._fit(); }); });
 var b0 = G('.svo-snd');
 var hush = function (k) {
 Q('.svo-yt__v iframe').forEach(function (f) { var a = f.parentNode; if (a != k) { a.replaceChild(a._im, f); a.classList.remove('on'); } });
-var q = G('.svo-qz video:not([data-v])'); if (q && q != k && !q.paused) q.pause();
+var q = G('.svo-qzv'); if (q && q != k && !q.paused) q.pause();
 Q('.svo-snd[aria-pressed="true"]').forEach(function (o) { if (o != k) snd(o, false); });
 };
 var CREW = [
@@ -48,8 +85,8 @@ v.poster = cp.dataset.p + c[0] + '.jpg';
 v.muted = true; v.loop = true; v.preload = 'none'; v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
 v.dataset.v = c[0]; if (src) v.dataset.src = src;
 v.setAttribute('aria-label', c[1] + '，' + c[2] + (f ? '拍的影片' : '，在現場拍的影片'));
-li.insertBefore(v, li.firstChild);
-if (src && b0) { var b = b0.cloneNode(true); b.lastChild.textContent = f ? '聽現場聲音' : '聽現場講解'; li.appendChild(b); }
+li.insertBefore(v, li.firstChild); v = vmize(v);
+if ((src || v._fit) && b0) { var b = b0.cloneNode(true); b.lastChild.textContent = f ? '聽現場聲音' : '聽現場講解'; li.appendChild(b); }
 ul.appendChild(li);
 });
 });
@@ -81,18 +118,19 @@ end.insertBefore(eb, end.firstChild);
 var qf = G('.svo-crew__l--f');
 if (qf && cp) {
 var qz = document.createElement('div'); qz.className = 'svo-qz';
-qz.innerHTML = '<div><video playsinline preload="none" aria-label="女孩走上彼得夏宮花園的石頭地，水柱突然從地面噴出"></video></div><div><p class="svo-qz__k">謎題｜彼得夏宮花園</p>'
+qz.innerHTML = '<div><video class="svo-qzv" playsinline preload="none" aria-label="女孩走上彼得夏宮花園的石頭地，水柱突然從地面噴出"></video></div><div><p class="svo-qz__k">謎題｜彼得夏宮花園</p>'
 + '<p class="svo-qz__q">她正走上這片石頭地，<br>下一秒會發生什麼事？</p><div class="svo-qz__o">'
 + '<button type="button"><b>A</b>什麼事都沒有</button><button type="button"><b>B</b>石頭會發出音樂</button><button type="button"><b>C</b>地上噴出水柱</button></div>'
 + '<p class="svo-qz__a" aria-live="polite"></p><p class="svo-credit">影片：領隊 張文譯 拍攝</p></div>';
 var qv = qz.querySelector('video'), qa = qz.querySelector('.svo-qz__a'), qs = VS.v39;
 qv.poster = cp.dataset.p + 'v39.jpg';
+if (!qs) { qv.setAttribute('poster', qv.poster); qv = vmize(qv, 'v39'); }
 qz.querySelectorAll('button').forEach(function (bt, i) {
 bt.addEventListener('click', function () {
 qz.querySelectorAll('button').forEach(function (o, j) { o.className = j == 2 ? 'ok' : j == i ? 'no' : ''; });
 qa.innerHTML = (i == 2 ? '<b>答對了！</b>' : '<b>答案是 C。</b>') + '石頭地底下藏著噴水孔，有人走上去時，水柱會突然從腳邊噴出來。彼得夏宮的花園裡還藏著好幾座這種捉弄人的「惡作劇噴泉」，走過時記得留意腳下。';
 hush(qv);
-if (qs) { if (!qv.src) qv.src = qs; qv.muted = false; qv.currentTime = 0; var p = qv.play(); if (p && p.catch) p.catch(function () {}); }
+if (qs || qv.play && qv.className.indexOf('svo-vmw') >= 0) { if (!qv.src) qv.src = qs; qv.muted = false; qv.currentTime = 0; var p = qv.play(); if (p && p.catch) p.catch(function () {}); }
 });
 });
 qf.parentNode.insertBefore(qz, qf);
@@ -101,11 +139,11 @@ mk.innerHTML = '<div><video data-v="v35" muted loop playsinline preload="none" a
 + '<p class="svo-qz__q">草地上的<br>手作市集</p>'
 + '<p class="svo-qz__a">領隊在蘇茲達爾遇到的市集：古城邊的草地上搭起一排木頭攤子，有手織毛線帽、木雕小蘑菇、一整桌木砧板，還有堆成小山的木碗木匙，遠處就是古城的白色教堂。</p>'
 + '<p class="svo-qz__a">市集不是每一團都遇得到，遇上了，就留點時間慢慢逛。</p><p class="svo-credit">影片：隨團領隊 拍攝</p></div>';
-var mv = mk.querySelector('video'); mv.poster = cp.dataset.p + 'v35.jpg'; mv.setAttribute('muted', ''); if (VS.v35) mv.dataset.src = VS.v35;
+var mv = mk.querySelector('video'); mv.poster = cp.dataset.p + 'v35.jpg'; mv.setAttribute('muted', ''); if (VS.v35) mv.dataset.src = VS.v35; else { mv.setAttribute('poster', mv.poster); mv = vmize(mv); }
 qf.parentNode.insertBefore(mk, qf);
 }
 var snd = function (b, on) {
-var c = b.closest('.svo-shot,.svo-crew__l li'), v = c.querySelector('video');
+var c = b.closest('.svo-shot,.svo-crew__l li'), v = c.querySelector('video,.svo-vmw');
 if (!b.dataset.l) b.dataset.l = b.lastChild.textContent;
 if (on && c.tagName == 'LI') {   // 一次只聽一位領隊：其他卡片關聲音，這支從頭講
 Q('.svo-crew .svo-snd[aria-pressed="true"]').forEach(function (o) { if (o != b) snd(o, false); });
@@ -124,7 +162,7 @@ var hero = G('.svo-hero'), gate = G('.svo-gate'), art = gate && gate.querySelect
 var hp = 0, ht = 0;
 var scenes = Q('.svo-scene').map(function (sc) {
 var shots = [].slice.call(sc.querySelectorAll('.svo-shot'));
-return { el: sc, shots: shots, img: shots.map(function (s) { return s.querySelector(':scope>img,:scope>video'); }), tx: shots.map(function (s) { return s.querySelector('.svo-shot__tx'); }),
+return { el: sc, shots: shots, img: shots.map(function (s) { return s.querySelector(':scope>img,:scope>video,:scope>.svo-vmw'); }), tx: shots.map(function (s) { return s.querySelector('.svo-shot__tx'); }),
 n: sc.querySelector('.svo-hud b'), bar: sc.querySelector('.svo-hud__bar i'), last: -1, x: 0, t: 0, p: 0 };
 });
 var measure = function () {
@@ -160,7 +198,7 @@ if (cur != s.last) {
 if (s.n) s.n.textContent = cur + 1;
 s.shots.forEach(function (sh, i) {
 sh.classList[i == cur ? 'add' : 'remove']('on');
-var v = sh.querySelector(':scope>video');
+var v = sh.querySelector(':scope>video,:scope>.svo-vmw');
 if (v) {
 if ((i == cur || i == cur + 1) && !v.src && v.dataset.src) v.src = (tall() && v.dataset.srcp) || v.dataset.src;
 if (i == cur && !still && v.src) { var pp = v.play(); if (pp && pp.catch) pp.catch(function () {}); } else v.pause();
@@ -245,6 +283,21 @@ if (ec) {
 var t0 = ec.querySelector('a[href^="tel:"]'); if (t0) t0.textContent = '台北 ' + TEL[0][1];
 TEL.slice(1).forEach(function (t) { var a = document.createElement('a'); a.href = 'tel:' + t[2]; a.textContent = t[0] + ' ' + t[1]; ec.appendChild(a); });
 }
+var loadAll = function () {
+Q('img').forEach(function (i) { i.loading = 'eager'; });
+var qa0 = G('.svo-qz__a'); if (qa0 && !qa0.textContent) qa0.innerHTML = '<b>答案：地上噴出水柱。</b>石頭地底下藏著噴水孔，有人走上去時，水柱會突然從腳邊噴出來。';
+};
+addEventListener('beforeprint', loadAll);
+if (/action=print/.test(location.search) || R.closest('#travel-print')) {
+loadAll();
+var op = window.print;
+window.print = function () {
+var w = Q('img').filter(function (i) { return !i.complete; }), n = w.length, go = function () { op.call(window); }, tm;
+if (!n) return go();
+tm = setTimeout(go, 20000);
+w.forEach(function (i) { var d = function () { if (--n <= 0) { clearTimeout(tm); go(); } }; i.addEventListener('load', d); i.addEventListener('error', d); });
+};
+}
 Q('.svo-crew__l,.svo-yt__l').forEach(function (ul) {
 var h = document.createElement('p'); h.className = 'svo-swipe'; h.setAttribute('aria-hidden', 'true'); h.textContent = '左右滑動，看更多 →';
 ul.parentNode.insertBefore(h, ul.nextSibling);
@@ -269,8 +322,18 @@ addEventListener('message', function (e) {
 if (!/youtube-nocookie\.com|vimeo\.com/.test(e.origin)) return;
 var d; try { d = typeof e.data == 'string' ? JSON.parse(e.data) : e.data; } catch (x) { return; }
 if (d && d.event == 'ready' && /vimeo/.test(e.origin)) {
+var bw = Q('.svo-vmw iframe').filter(function (f) { return f.contentWindow === e.source; })[0];
+if (bw) {
+bw.parentNode._ready();
+['play', 'playing', 'timeupdate'].forEach(function (x) { e.source.postMessage(JSON.stringify({ method: 'addEventListener', value: x }), e.origin); });
+return;
+}
 e.source.postMessage('{"method":"addEventListener","value":"ended"}', e.origin);
 e.source.postMessage('{"method":"addEventListener","value":"finish"}', e.origin);
+return;
+}
+if (d && /^(play|playing|timeupdate)$/.test(d.event)) {
+Q('.svo-vmw iframe').forEach(function (f) { if (f.contentWindow === e.source) { f.parentNode.classList.add('is-on'); f.contentWindow.postMessage('{"method":"removeEventListener","value":"timeupdate"}', e.origin); } });
 return;
 }
 if (!d || !(d.info && d.info.playerState === 0 || d.event == 'ended' || d.event == 'finish')) return;
@@ -367,6 +430,6 @@ if (b && !v.muted) snd(b, false);
 }
 });
 }, { threshold: .1 });
-Q('video[data-v]').forEach(function (v) { vo.observe(v); });
+Q('video[data-v],.svo-vmw[data-v]').forEach(function (v) { vo.observe(v); });
 }
 })();
