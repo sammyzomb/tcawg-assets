@@ -10,7 +10,7 @@ var me = document.currentScript, GB = me ? me.src.replace(/\.js(\?.*)?$/, '-') :
 var DL = (function (s, r) { return { s: s, r: r }; })([1,0.78,0.6084,0.4685,0.3514,0.2565,0.1795],[0.487,0.507,0.522,0.535,0.545,0.554,0.561]);
 var dimg = function (k, i, c) { return '<img' + (c ? ' class="' + c + '"' : '') + ' src="' + GB + k + i + '.svg" alt="" width="' + Math.round(100 * DL.r[i]) + '" height="100">'; };
 if (GB) {
-Q('.svo-step').forEach(function (e) {
+if (!matchMedia('(max-width:820px)').matches) Q('.svo-step').forEach(function (e) {
 var n = +e.dataset.n, h = '';
 DL.s.forEach(function (sc, i) { h += '<i' + (i == n - 1 ? ' class="on"' : '') + ' style="--h:' + sc + '">' + dimg(i < n ? 'p' : 'w', i) + '</i>'; });
 e.innerHTML = h;
@@ -25,7 +25,13 @@ var vw = function () { R.style.setProperty('--vw', D.clientWidth + 'px'); };
 vw(); addEventListener('resize', vw);
 R.classList.add('svo-js');
 var tall = function () { return innerHeight > innerWidth; };
-if (tall()) Q('video[data-pp]').forEach(function (v) { v.poster = v.dataset.pp; });
+var mob = matchMedia('(max-width:820px)').matches;
+var later = function (el, fn) {
+if (!mob || !window.IntersectionObserver) return fn();
+var o = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { o.disconnect(); fn(); } }, { rootMargin: '120% 100%' });
+o.observe(el);
+};
+Q('video[data-po]').forEach(function (v) { var u = (tall() && v.dataset.pp) || v.dataset.po; later(v, function () { v.poster = u; }); });
 var VM = {"v02":["1249959874",426,240],"v01":["1249959875",240,300],"v02p":["1249959877",240,426],"v00":["1249959878",426,240],"v03p":["1249959924",240,426],"v03":["1249959925",426,240],"v04p":["1249959926",240,426],"v04":["1249959927",426,240],"v05p":["1249959949",240,426],"v05":["1249959951",426,240],"v06p":["1249959953",240,426],"v06":["1249959954",426,240],"v07p":["1249959981",240,426],"v07":["1249959982",1280,720],"v08p":["1249959983",240,426],"v08":["1249959984",426,240],"v09":["1249960011",426,240],"v09p":["1249960013",240,426],"v10p":["1249960014",240,426],"v10":["1249960016",426,240],"v11":["1249960032",426,240],"v11p":["1249960033",240,426],"v12":["1249960038",426,240],"v12p":["1249960042",240,426],"v13":["1249960047",426,240],"v13p":["1249960055",240,300],"v20":["1249960062",240,320],"v21":["1249960065",240,320],"v22":["1249960086",240,320],"v23":["1249960103",240,320],"v24":["1249960106",240,320],"v25":["1249960108",240,320],"v26":["1249960129",240,320],"v27":["1249960150",240,320],"v28":["1249960153",240,320],"v29":["1249960166",240,320],"v30":["1249960183",240,320],"v31":["1249960190",240,320],"v14":["1249591159",240,240],"v39":["1250211658",240,320],"v32":["1250217806",240,320],"v33":["1250217807",240,320],"v35":["1250217808",240,320],"v34":["1250217809",240,320],"v36":["1250217821",240,320],"v38":["1250217823",288,240]}, VO = 'https://player.vimeo.com';
 var vmize = function (v, key) {
 var k = key || v.dataset.v, m = (tall() && VM[k + 'p']) || VM[k];
@@ -57,8 +63,9 @@ w.appendChild(f); w._fit();
 return Promise.resolve();
 };
 w.pause = function () { st.p = true; tell('pause'); };
-w.poster = (tall() && v.dataset.pp) || v.getAttribute('poster');
+var pu = (tall() && v.dataset.pp) || v.dataset.po || v.getAttribute('poster');
 if (v.parentNode) v.parentNode.replaceChild(w, v);
+later(w, function () { w.poster = pu; });
 return w;
 };
 Q('video[data-v]').forEach(function (v) { vmize(v); });
@@ -81,11 +88,12 @@ var f = ul.dataset.l == '1';
 CREW[+ul.dataset.l].forEach(function (c) {
 var li = document.createElement('li'), v = document.createElement('video'), t = document.createElement('b'), src = VS[c[0]];
 t.textContent = c[1]; li.appendChild(t); li.appendChild(document.createTextNode(c[2]));
-v.poster = cp.dataset.p + c[0] + '.jpg';
+var pu = cp.dataset.p + c[0] + '.jpg';
 v.muted = true; v.loop = true; v.preload = 'none'; v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
 v.dataset.v = c[0]; if (src) v.dataset.src = src;
 v.setAttribute('aria-label', c[1] + '，' + c[2] + (f ? '拍的影片' : '，在現場拍的影片'));
 li.insertBefore(v, li.firstChild); v = vmize(v);
+(function (x) { later(ul, function () { x.poster = pu; }); })(v);   // 整排卡片接近時一起載入封面（左右滑時不會空白）
 if ((src || v._fit) && b0) { var b = b0.cloneNode(true); b.lastChild.textContent = f ? '聽現場聲音' : '聽現場講解'; li.appendChild(b); }
 ul.appendChild(li);
 });
@@ -102,7 +110,7 @@ if (!RT[i] || !cp) return;
 var d = document.createElement('div'); d.className = 'svo-route__ph';
 RT[i].forEach(function (a, j) {
 var im = document.createElement('img');
-im.src = ip + 'rt-' + (i + 1) + 'abc'[j] + '.jpg'; im.alt = a; im.width = 600; im.height = 400; im.loading = 'lazy';
+im.loading = 'lazy'; im.src = ip + 'rt-' + (i + 1) + 'abc'[j] + '.jpg'; im.alt = a; im.width = 600; im.height = 400;
 d.appendChild(im);
 });
 lg.appendChild(d);
@@ -111,7 +119,7 @@ var end = G('.svo-end');
 if (end && cp) {
 var eb = document.createElement('div'); eb.className = 'svo-end__bg'; eb.setAttribute('aria-hidden', 'true');
 ['l1-red-square', 'l2-card-ascension', 'l3-card-vladimir', 'l4-card-elijah', 'l5-card-trinity', 'l6-card-kremlin', 'l7-card-palace-sq'].forEach(function (n) {
-var im = document.createElement('img'); im.src = ip + n + '.jpg'; im.alt = ''; im.loading = 'lazy'; eb.appendChild(im);
+var im = document.createElement('img'); im.loading = 'lazy'; im.src = ip + n + '.jpg'; im.alt = ''; eb.appendChild(im);
 });
 end.insertBefore(eb, end.firstChild);
 }
@@ -123,8 +131,9 @@ qz.innerHTML = '<div><video class="svo-qzv" playsinline preload="none" aria-labe
 + '<button type="button"><b>A</b>什麼事都沒有</button><button type="button"><b>B</b>石頭會發出音樂</button><button type="button"><b>C</b>地上噴出水柱</button></div>'
 + '<p class="svo-qz__a" aria-live="polite"></p><p class="svo-credit">影片：領隊 張文譯 拍攝</p></div>';
 var qv = qz.querySelector('video'), qa = qz.querySelector('.svo-qz__a'), qs = VS.v39;
-qv.poster = cp.dataset.p + 'v39.jpg';
-if (!qs) { qv.setAttribute('poster', qv.poster); qv = vmize(qv, 'v39'); }
+var qpu = cp.dataset.p + 'v39.jpg';
+if (!qs) qv = vmize(qv, 'v39');
+later(qv, function () { qv.poster = qpu; });
 qz.querySelectorAll('button').forEach(function (bt, i) {
 bt.addEventListener('click', function () {
 qz.querySelectorAll('button').forEach(function (o, j) { o.className = j == 2 ? 'ok' : j == i ? 'no' : ''; });
@@ -273,6 +282,14 @@ if (navigator.share) navigator.share({ title: document.title, url: u }).catch(fu
 else { if (navigator.clipboard) navigator.clipboard.writeText(u); prompt('此頁連結', u); }
 });
 qk.querySelector('[data-q="u"]').addEventListener('click', function () { qo(false); scrollTo({ top: 0, behavior: 'smooth' }); });
+if (mob) {
+var qd;
+addEventListener('scroll', function () {
+if (qk.classList.contains('is-open')) return;
+qk.classList.add('is-dim'); clearTimeout(qd);
+qd = setTimeout(function () { qk.classList.remove('is-dim'); }, 700);
+}, { passive: true });
+}
 var ec = G('.svo-end__c');
 if (ec) {
 var t0 = ec.querySelector('a[href^="tel:"]'); if (t0) t0.textContent = '台北 ' + TEL[0][1];
