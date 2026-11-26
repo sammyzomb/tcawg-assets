@@ -497,6 +497,7 @@ var v = x.target;
 if (x.isIntersecting) {
 var sh = v.closest('.svo-shot');
 if (sh && !sh.classList.contains('on')) return;   // 鏡頭裡的影片由上面的鏡頭切換負責
+if (mob && v.closest('.svo-crew__l')) return;   // 手機的實拍／花絮卡片不自動播：左右滑時插入播放器會讓 iPhone 重新對齊而亂跳；按「聽現場講解」才播
 if (!v.src && v.dataset.src) v.src = (tall() && v.dataset.srcp) || v.dataset.src;
 if (!still && v.src) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
 } else {
