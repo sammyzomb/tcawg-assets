@@ -31,6 +31,33 @@ if (!mob || !window.IntersectionObserver) return fn();
 var o = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { o.disconnect(); fn(); } }, { rootMargin: '120% 100%' });
 o.observe(el);
 };
+var topT = 0, measureTop = function () {
+var t = 0;
+if (mob) {
+var el = document.elementFromPoint(innerWidth / 2, 4);
+while (el && el !== document.body && el !== D) {
+if (R.contains(el)) { el = null; break; }
+var ps = getComputedStyle(el).position;
+if (ps == 'fixed' || ps == 'sticky') t = Math.max(t, Math.round(el.getBoundingClientRect().bottom));
+el = el.parentElement;
+}
+if (t > innerHeight / 3) t = 0;
+var bel = document.elementFromPoint(innerWidth / 2, innerHeight - 4), bt = 0;
+while (bel && bel !== document.body && bel !== D) {
+if (R.contains(bel)) { bel = null; break; }
+var bp = getComputedStyle(bel).position;
+if (bp == 'fixed' || bp == 'sticky') bt = Math.max(bt, Math.round(innerHeight - bel.getBoundingClientRect().top));
+bel = bel.parentElement;
+}
+if (bt > innerHeight / 3) bt = 0;
+R.style.setProperty('--svo-bot', bt + 'px');
+}
+if (t != topT) { topT = t; R.style.setProperty('--svo-top', t + 'px'); }
+};
+if (mob) {
+measureTop(); addEventListener('load', measureTop); addEventListener('resize', measureTop);
+var mt; addEventListener('scroll', function () { if (!mt) mt = setTimeout(function () { mt = 0; measureTop(); }, 300); }, { passive: true });
+}
 Q('video[data-po]').forEach(function (v) { var u = (tall() && v.dataset.pp) || v.dataset.po; later(v, function () { v.poster = u; }); });
 var VM = {"v02":["1249959874",426,240],"v01":["1249959875",240,300],"v02p":["1249959877",240,426],"v00":["1249959878",426,240],"v03p":["1249959924",240,426],"v03":["1249959925",426,240],"v04p":["1249959926",240,426],"v04":["1249959927",426,240],"v05p":["1249959949",240,426],"v05":["1249959951",426,240],"v06p":["1249959953",240,426],"v06":["1249959954",426,240],"v07p":["1249959981",240,426],"v07":["1249959982",1280,720],"v08p":["1249959983",240,426],"v08":["1249959984",426,240],"v09":["1249960011",426,240],"v09p":["1249960013",240,426],"v10p":["1249960014",240,426],"v10":["1249960016",426,240],"v11":["1249960032",426,240],"v11p":["1249960033",240,426],"v12":["1249960038",426,240],"v12p":["1249960042",240,426],"v13":["1249960047",426,240],"v13p":["1249960055",240,300],"v20":["1249960062",240,320],"v21":["1249960065",240,320],"v22":["1249960086",240,320],"v23":["1249960103",240,320],"v24":["1249960106",240,320],"v25":["1249960108",240,320],"v26":["1249960129",240,320],"v27":["1249960150",240,320],"v28":["1249960153",240,320],"v29":["1249960166",240,320],"v30":["1249960183",240,320],"v31":["1249960190",240,320],"v14":["1249591159",240,240],"v39":["1250211658",240,320],"v32":["1250217806",240,320],"v33":["1250217807",240,320],"v35":["1250217808",240,320],"v34":["1250217809",240,320],"v36":["1250217821",240,320],"v38":["1250217823",288,240]}, VO = 'https://player.vimeo.com';
 var vmize = function (v, key) {
