@@ -64,6 +64,7 @@ return Promise.resolve();
 };
 w.pause = function () { st.p = true; tell('pause'); };
 var pu = (tall() && v.dataset.pp) || v.dataset.po || v.getAttribute('poster');
+w.dataset.pu = v.dataset.po || v.getAttribute('poster') || '';
 if (v.parentNode) v.parentNode.replaceChild(w, v);
 later(w, function () { w.poster = pu; });
 return w;
@@ -93,7 +94,7 @@ v.muted = true; v.loop = true; v.preload = 'none'; v.setAttribute('muted', ''); 
 v.dataset.v = c[0]; if (src) v.dataset.src = src;
 v.setAttribute('aria-label', c[1] + '，' + c[2] + (f ? '拍的影片' : '，在現場拍的影片'));
 li.insertBefore(v, li.firstChild); v = vmize(v);
-(function (x) { later(ul, function () { x.poster = pu; }); })(v);   // 整排卡片接近時一起載入封面（左右滑時不會空白）
+(function (x) { if (x.dataset) x.dataset.pu = pu; later(ul, function () { x.poster = pu; }); })(v);   // 整排卡片接近時一起載入封面（左右滑時不會空白）
 if ((src || v._fit) && b0) { var b = b0.cloneNode(true); b.lastChild.textContent = f ? '聽現場聲音' : '聽現場講解'; li.appendChild(b); }
 ul.appendChild(li);
 });
@@ -133,7 +134,7 @@ qz.innerHTML = '<div><video class="svo-qzv" playsinline preload="none" aria-labe
 var qv = qz.querySelector('video'), qa = qz.querySelector('.svo-qz__a'), qs = VS.v39;
 var qpu = cp.dataset.p + 'v39.jpg';
 if (!qs) qv = vmize(qv, 'v39');
-later(qv, function () { qv.poster = qpu; });
+qv.dataset.pu = qpu; later(qv, function () { qv.poster = qpu; });
 qz.querySelectorAll('button').forEach(function (bt, i) {
 bt.addEventListener('click', function () {
 qz.querySelectorAll('button').forEach(function (o, j) { o.className = j == 2 ? 'ok' : j == i ? 'no' : ''; });
@@ -327,6 +328,12 @@ if (stx) { var cr = document.createElement('p'); cr.className = 'svo-credit'; cr
 var loadAll = function () {
 Q('img').forEach(function (i) { i.loading = 'eager'; });
 Q('.svo-faq details').forEach(function (d) { d.open = true; });
+Q('.svo-vmw,video').forEach(function (w) {
+var u = w.dataset.pu || w.dataset.po || w.getAttribute('poster');
+if (!u || (w.nextElementSibling && w.nextElementSibling.className == 'svo-pimg') || w.querySelector('.svo-pimg')) return;
+var im = document.createElement('img'); im.className = 'svo-pimg'; im.alt = ''; im.src = u;
+if (w.tagName == 'VIDEO') w.parentNode.insertBefore(im, w.nextSibling); else w.appendChild(im);
+});
 var qa0 = G('.svo-qz__a'); if (qa0 && !qa0.textContent) qa0.innerHTML = '<b>答案：地上噴出水柱。</b>石頭地底下藏著噴水孔，有人走上去時，水柱會突然從腳邊噴出來。';
 };
 addEventListener('beforeprint', loadAll);
