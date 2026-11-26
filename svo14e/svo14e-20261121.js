@@ -31,32 +31,26 @@ if (!mob || !window.IntersectionObserver) return fn();
 var o = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { o.disconnect(); fn(); } }, { rootMargin: '120% 100%' });
 o.observe(el);
 };
-var topT = 0, measureTop = function () {
-var t = 0;
-if (mob) {
-var el = document.elementFromPoint(innerWidth / 2, 4);
+var topT = -1, botT = -1, mW = 0;
+var probe = function (y, bottom) {
+var el = document.elementFromPoint(innerWidth / 2, y), t = 0;
+if (!el || R.contains(el)) return -1;
 while (el && el !== document.body && el !== D) {
-if (R.contains(el)) { el = null; break; }
-var ps = getComputedStyle(el).position;
-if (ps == 'fixed' || ps == 'sticky') t = Math.max(t, Math.round(el.getBoundingClientRect().bottom));
+var ps = getComputedStyle(el).position, rc = el.getBoundingClientRect();
+if (ps == 'fixed' || ps == 'sticky') t = Math.max(t, Math.round(bottom ? innerHeight - rc.top : rc.bottom));
 el = el.parentElement;
 }
-if (t > innerHeight / 3) t = 0;
-var bel = document.elementFromPoint(innerWidth / 2, innerHeight - 4), bt = 0;
-while (bel && bel !== document.body && bel !== D) {
-if (R.contains(bel)) { bel = null; break; }
-var bp = getComputedStyle(bel).position;
-if (bp == 'fixed' || bp == 'sticky') bt = Math.max(bt, Math.round(innerHeight - bel.getBoundingClientRect().top));
-bel = bel.parentElement;
-}
-if (bt > innerHeight / 3) bt = 0;
-R.style.setProperty('--svo-bot', bt + 'px');
-}
-if (t != topT) { topT = t; R.style.setProperty('--svo-top', t + 'px'); }
+return t > innerHeight / 3 ? 0 : t;
+};
+var measureTop = function () {
+if (!mob) return;
+if (mW != innerWidth) { mW = innerWidth; topT = botT = -1; }
+if (topT <= 0) { var a = probe(4); if (a > 0) { topT = a; R.style.setProperty('--svo-top', a + 'px'); } }
+if (botT <= 0) { var b = probe(innerHeight - 4, 1); if (b > 0) { botT = b; R.style.setProperty('--svo-bot', b + 'px'); } }
 };
 if (mob) {
 measureTop(); addEventListener('load', measureTop); addEventListener('resize', measureTop);
-var mt; addEventListener('scroll', function () { if (!mt) mt = setTimeout(function () { mt = 0; measureTop(); }, 300); }, { passive: true });
+var mt, mn = 0; addEventListener('scroll', function () { if ((topT > 0 && botT > 0) || mn > 12 || mt) return; mt = setTimeout(function () { mt = 0; mn++; measureTop(); }, 400); }, { passive: true });
 }
 Q('video[data-po]').forEach(function (v) { var u = (tall() && v.dataset.pp) || v.dataset.po; later(v, function () { v.poster = u; }); });
 var VM = {"v02":["1249959874",426,240],"v01":["1249959875",240,300],"v02p":["1249959877",240,426],"v00":["1249959878",426,240],"v03p":["1249959924",240,426],"v03":["1249959925",426,240],"v04p":["1249959926",240,426],"v04":["1249959927",426,240],"v05p":["1249959949",240,426],"v05":["1249959951",426,240],"v06p":["1249959953",240,426],"v06":["1249959954",426,240],"v07p":["1249959981",240,426],"v07":["1249959982",1280,720],"v08p":["1249959983",240,426],"v08":["1249959984",426,240],"v09":["1249960011",426,240],"v09p":["1249960013",240,426],"v10p":["1249960014",240,426],"v10":["1249960016",426,240],"v11":["1249960032",426,240],"v11p":["1249960033",240,426],"v12":["1249960038",426,240],"v12p":["1249960042",240,426],"v13":["1249960047",426,240],"v13p":["1249960055",240,300],"v20":["1249960062",240,320],"v21":["1249960065",240,320],"v22":["1249960086",240,320],"v23":["1249960103",240,320],"v24":["1249960106",240,320],"v25":["1249960108",240,320],"v26":["1249960129",240,320],"v27":["1249960150",240,320],"v28":["1249960153",240,320],"v29":["1249960166",240,320],"v30":["1249960183",240,320],"v31":["1249960190",240,320],"v14":["1249591159",240,240],"v39":["1250211658",240,320],"v32":["1250217806",240,320],"v33":["1250217807",240,320],"v35":["1250217808",240,320],"v34":["1250217809",240,320],"v36":["1250217821",240,320],"v38":["1250217823",288,240]}, VO = 'https://player.vimeo.com';
@@ -203,12 +197,13 @@ snd(b, b.getAttribute('aria-pressed') != 'true');
 });
 var lb = null, lbList = [], lbI = 0;
 var lbShow = function () {
-var li = lbList[lbI], c = li._c, m = VM[c[0]], box = lb.querySelector('.svo-lb__v');
-box.innerHTML = '';
+var li = lbList[lbI], c = li._lb ? [0, li._lb.title, ''] : li._c, m = li._lb ? [li._lb.id] : VM[c[0]], wide = !!li._lb, box = lb.querySelector('.svo-lb__v');
+box.innerHTML = ''; box.classList.toggle('is-wide', wide);
+lb.querySelector('.svo-lb__h').hidden = !(m && !li._src);   // 只有 Vimeo 播放器需要這行提示（Unmute 是 Vimeo 的字，網頁改不到）
 if (m && !li._src) {
 var f = document.createElement('iframe'); f.title = c[1];
-f.allow = 'autoplay; fullscreen; picture-in-picture';
-f.src = VO + '/video/' + m[0] + '?autoplay=1&muted=0&loop=1&playsinline=1&title=0&byline=0&portrait=0&dnt=1';
+f.allow = 'autoplay; fullscreen; picture-in-picture'; f.allowFullscreen = true;
+f.src = VO + '/video/' + m[0] + '?autoplay=1&muted=0' + (wide ? '' : '&loop=1') + '&playsinline=1&title=0&byline=0&portrait=0&dnt=1' + (wide && li._lb.t ? '#t=' + li._lb.t + 's' : '');
 box.appendChild(f);
 } else if (li._src) {
 var v = document.createElement('video'); v.src = li._src; v.controls = true; v.autoplay = true; v.setAttribute('playsinline', '');
@@ -220,14 +215,14 @@ lb.querySelector('.svo-lb__n').textContent = (lbI + 1) + ' / ' + lbList.length;
 };
 var lbClose = function () {
 if (!lb || lb.hidden) return;
-lb.querySelector('.svo-lb__v').innerHTML = ''; lb.hidden = true; D.style.overflow = '';
-if (lb._from) lb._from.focus();
+lb.querySelector('.svo-lb__v').innerHTML = ''; lb.hidden = true; D.style.overflow = ''; scrollTo(0, lb._y);   // 回到打開前的位置，頁面不跳
+if (lb._from) lb._from.focus({ preventScroll: true });
 };
 var lbOpen = function (li) {
 if (!lb) {
 lb = document.createElement('div'); lb.className = 'svo-lb'; lb.hidden = true;
 lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true'); lb.setAttribute('aria-label', '影片播放');
-lb.innerHTML = '<button type="button" class="svo-lb__x" aria-label="關閉">×</button><div class="svo-lb__v"></div>'
+lb.innerHTML = '<button type="button" class="svo-lb__x" aria-label="關閉">×</button><div class="svo-lb__v"></div><p class="svo-lb__h">沒有聲音時，請點影片上的「Unmute」開啟聲音</p>'
 + '<div class="svo-lb__tx"><b class="svo-lb__t"></b><span class="svo-lb__w"></span></div>'
 + '<div class="svo-lb__nav"><button type="button" class="svo-lb__p" aria-label="上一支">‹</button><span class="svo-lb__n"></span><button type="button" class="svo-lb__q" aria-label="下一支">›</button></div>';
 R.appendChild(lb);
@@ -239,8 +234,8 @@ document.addEventListener('keydown', function (e) { if (e.key == 'Escape') lbClo
 }
 hush(null);
 lbList = [].slice.call(li.parentNode.children); lbI = lbList.indexOf(li);
-lb._from = li.querySelector('.svo-snd'); lb.hidden = false; D.style.overflow = 'hidden';
-lbShow(); lb.querySelector('.svo-lb__x').focus();
+lb._from = li.querySelector('.svo-snd,a'); lb._y = pageYOffset; lb.hidden = false; D.style.overflow = 'hidden';
+lbShow(); lb.querySelector('.svo-lb__x').focus({ preventScroll: true });
 };
 if (mob) Q('.svo-crew__l li').forEach(function (li) {
 var w = li.querySelector('.svo-vmw,video'); if (!w) return;
@@ -345,6 +340,7 @@ VMS.forEach(function (c) {
 var li = document.createElement('li'), a = document.createElement('a'), t = document.createElement('b');
 a.className = 'svo-yt__v'; a.href = 'https://vimeo.com/' + c[0]; a.dataset.p = c[1]; if (c[3]) a.dataset.t = c[3];
 t.textContent = c[2]; a.appendChild(t); li.appendChild(a); ul.appendChild(li);
+li._lb = { id: c[0], title: c[2], t: c[3] };
 });
 });
 var TEL = [['台北', '02-7741-5198', '+886277415198'], ['台中', '04-3509-3955', '+886435093955'], ['高雄', '07-9735-398', '+88679735398']];
@@ -444,6 +440,7 @@ var im = document.createElement('img'); im.src = vm ? a.parentNode.parentNode.da
 im.onerror = function () { im.onerror = null; im.src = "data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27/%3E"; };
 a.insertBefore(im, a.firstChild); a._im = im;
 a.addEventListener('click', function (e) {
+if (mob && vm) { e.preventDefault(); return lbOpen(a.parentNode); }   // 手機：跳出大畫面播放
 if (a.classList.contains('on')) return;
 e.preventDefault(); hush(a); a.classList.add('on');
 var f = document.createElement('iframe');
