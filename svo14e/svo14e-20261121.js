@@ -69,7 +69,7 @@ if (v.dataset.v) w.dataset.v = v.dataset.v;
 w.setAttribute('role', 'img'); if (v.getAttribute('aria-label')) w.setAttribute('aria-label', v.getAttribute('aria-label'));
 var tell = function (mt, val) { if (f && f.contentWindow) f.contentWindow.postMessage(JSON.stringify(val === undefined ? { method: mt } : { method: mt, value: val }), VO); };
 w._fit = function () {
-if (!f) return;
+if (!f || w.classList.contains('is-full')) return;
 var bw = w.clientWidth, bh = w.clientHeight, ar = m[1] / m[2], W = Math.max(bw, bh * ar), H = W / ar;
 f.style.cssText = 'width:' + W + 'px;height:' + H + 'px;left:' + (bw - W) / 2 + 'px;top:' + (w.closest('.svo-shot--live') ? 0 : (bh - H) / 2) + 'px';
 };
@@ -90,6 +90,13 @@ w.appendChild(f); w._fit();
 return Promise.resolve();
 };
 w.pause = function () { st.p = true; tell('pause'); };
+w._full = function () {
+if (f) w.removeChild(f);
+f = document.createElement('iframe'); f.title = w.getAttribute('aria-label') || '';
+f.allow = 'autoplay; fullscreen; picture-in-picture';
+f.src = VO + '/video/' + m[0] + '?autoplay=1&muted=0&loop=1&playsinline=1&title=0&byline=0&portrait=0&dnt=1';
+st.p = false; st.mu = false; w.classList.add('is-on', 'is-full'); w.appendChild(f);
+};
 var pu = (tall() && v.dataset.pp) || v.dataset.po || v.getAttribute('poster');
 w.dataset.pu = v.dataset.po || v.getAttribute('poster') || '';
 if (v.parentNode) v.parentNode.replaceChild(w, v);
@@ -123,6 +130,7 @@ v.setAttribute('aria-label', c[1] + '，' + c[2] + (f ? '拍的影片' : '，在
 li.insertBefore(v, li.firstChild); v = vmize(v);
 (function (x) { if (x.dataset) x.dataset.pu = pu; later(ul, function () { x.poster = pu; }); })(v);   // 整排卡片接近時一起載入封面（左右滑時不會空白）
 if ((src || v._fit) && b0) { var b = b0.cloneNode(true); b.lastChild.textContent = f ? '聽現場聲音' : '聽現場講解'; li.appendChild(b); }
+li._c = c; li._src = src; li._f = f;
 ul.appendChild(li);
 });
 });
@@ -182,10 +190,61 @@ v.currentTime = 0;
 if (on) hush(b);
 v.muted = !on; b.setAttribute('aria-pressed', on ? 'true' : 'false');
 b.lastChild.textContent = on ? '關閉聲音' : b.dataset.l;
-if (on) { if (!v.src && v.dataset.src) v.src = (tall() && v.dataset.srcp) || v.dataset.src; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+if (on) {
+if (mob && v._full) { v._full(); return; }
+if (!v.src && v.dataset.src) v.src = (tall() && v.dataset.srcp) || v.dataset.src; var p = v.play(); if (p && p.catch) p.catch(function () {});
+}
 };
 Q('.svo-snd').forEach(function (b) {
-b.addEventListener('click', function () { snd(b, b.getAttribute('aria-pressed') != 'true'); });
+b.addEventListener('click', function () {
+if (mob && b.closest('.svo-crew__l')) return lbOpen(b.closest('li'));
+snd(b, b.getAttribute('aria-pressed') != 'true');
+});
+});
+var lb = null, lbList = [], lbI = 0;
+var lbShow = function () {
+var li = lbList[lbI], c = li._c, m = VM[c[0]], box = lb.querySelector('.svo-lb__v');
+box.innerHTML = '';
+if (m && !li._src) {
+var f = document.createElement('iframe'); f.title = c[1];
+f.allow = 'autoplay; fullscreen; picture-in-picture';
+f.src = VO + '/video/' + m[0] + '?autoplay=1&muted=0&loop=1&playsinline=1&title=0&byline=0&portrait=0&dnt=1';
+box.appendChild(f);
+} else if (li._src) {
+var v = document.createElement('video'); v.src = li._src; v.controls = true; v.autoplay = true; v.setAttribute('playsinline', '');
+box.appendChild(v); var pp = v.play(); if (pp && pp.catch) pp.catch(function () {});
+}
+lb.querySelector('.svo-lb__t').textContent = c[1];
+lb.querySelector('.svo-lb__w').textContent = c[2];
+lb.querySelector('.svo-lb__n').textContent = (lbI + 1) + ' / ' + lbList.length;
+};
+var lbClose = function () {
+if (!lb || lb.hidden) return;
+lb.querySelector('.svo-lb__v').innerHTML = ''; lb.hidden = true; D.style.overflow = '';
+if (lb._from) lb._from.focus();
+};
+var lbOpen = function (li) {
+if (!lb) {
+lb = document.createElement('div'); lb.className = 'svo-lb'; lb.hidden = true;
+lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true'); lb.setAttribute('aria-label', '影片播放');
+lb.innerHTML = '<button type="button" class="svo-lb__x" aria-label="關閉">×</button><div class="svo-lb__v"></div>'
++ '<div class="svo-lb__tx"><b class="svo-lb__t"></b><span class="svo-lb__w"></span></div>'
++ '<div class="svo-lb__nav"><button type="button" class="svo-lb__p" aria-label="上一支">‹</button><span class="svo-lb__n"></span><button type="button" class="svo-lb__q" aria-label="下一支">›</button></div>';
+R.appendChild(lb);
+lb.querySelector('.svo-lb__x').addEventListener('click', lbClose);
+lb.querySelector('.svo-lb__p').addEventListener('click', function () { lbI = (lbI + lbList.length - 1) % lbList.length; lbShow(); });
+lb.querySelector('.svo-lb__q').addEventListener('click', function () { lbI = (lbI + 1) % lbList.length; lbShow(); });
+lb.addEventListener('click', function (e) { if (e.target === lb) lbClose(); });
+document.addEventListener('keydown', function (e) { if (e.key == 'Escape') lbClose(); });
+}
+hush(null);
+lbList = [].slice.call(li.parentNode.children); lbI = lbList.indexOf(li);
+lb._from = li.querySelector('.svo-snd'); lb.hidden = false; D.style.overflow = 'hidden';
+lbShow(); lb.querySelector('.svo-lb__x').focus();
+};
+if (mob) Q('.svo-crew__l li').forEach(function (li) {
+var w = li.querySelector('.svo-vmw,video'); if (!w) return;
+w.style.cursor = 'pointer'; w.addEventListener('click', function () { lbOpen(li); });
 });
 var cl = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
 var hero = G('.svo-hero'), gate = G('.svo-gate'), art = gate && gate.querySelector('.art'), ta = G('.svo-hero__a'), tb = G('.svo-hero__b');
