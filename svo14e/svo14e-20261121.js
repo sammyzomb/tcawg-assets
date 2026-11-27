@@ -104,7 +104,7 @@ addEventListener('resize', function () { Q('.svo-vmw').forEach(function (w) { w.
 var b0 = G('.svo-snd');
 var hush = function (k) {
 Q('.svo-yt__v iframe').forEach(function (f) { var a = f.parentNode; if (a != k) { a.replaceChild(a._im, f); a.classList.remove('on'); } });
-var q = G('.svo-qzv'); if (q && q != k && !q.paused) q.pause();
+var q = G('.svo-qzv'); if (q && q != k && !q.paused) { if (q._stop) q._stop(); else q.pause(); }
 Q('.svo-snd[aria-pressed="true"]').forEach(function (o) { if (o != k) snd(o, false); });
 };
 var CREW = [
@@ -164,19 +164,28 @@ var qz = document.createElement('div'); qz.className = 'svo-qz';
 qz.innerHTML = '<div><video class="svo-qzv" playsinline preload="none" aria-label="女孩走上彼得夏宮花園的石頭地，水柱突然從地面噴出"></video></div><div><p class="svo-qz__k">謎題｜彼得夏宮花園</p>'
 + '<p class="svo-qz__q">她正走上這片石頭地，<br>下一秒會發生什麼事？</p><div class="svo-qz__o">'
 + '<button type="button"><b>A</b>什麼事都沒有</button><button type="button"><b>B</b>石頭會發出音樂</button><button type="button"><b>C</b>地上噴出水柱</button></div>'
-+ '<p class="svo-qz__a" aria-live="polite"></p><p class="svo-credit">影片：領隊 張文譯 拍攝</p></div>';
++ '<p class="svo-qz__a" aria-live="polite"></p><button type="button" class="svo-qz__x" hidden></button><p class="svo-credit">影片：領隊 張文譯 拍攝</p></div>';
 var qv = qz.querySelector('video'), qa = qz.querySelector('.svo-qz__a'), qs = VS.v39;
+var qx = qz.querySelector('.svo-qz__x');
 var qpu = cp.dataset.p + 'v39.jpg';
 if (!qs) qv = vmize(qv, 'v39');
 qv.dataset.pu = qpu; later(qv, function () { qv.poster = qpu; });
-qz.querySelectorAll('button').forEach(function (bt, i) {
+qz.querySelectorAll('.svo-qz__o button').forEach(function (bt, i) {
 bt.addEventListener('click', function () {
-qz.querySelectorAll('button').forEach(function (o, j) { o.className = j == 2 ? 'ok' : j == i ? 'no' : ''; });
+qz.querySelectorAll('.svo-qz__o button').forEach(function (o, j) { o.className = j == 2 ? 'ok' : j == i ? 'no' : ''; });
 qa.innerHTML = (i == 2 ? '<b>答對了！</b>' : '<b>答案是 C。</b>') + '石頭地底下藏著噴水孔，有人走上去時，水柱會突然從腳邊噴出來。彼得夏宮的花園裡還藏著好幾座這種捉弄人的「惡作劇噴泉」，走過時記得留意腳下。';
+qgo();
+});
+});
+var qset = function (on) { qx.hidden = false; qx.textContent = on ? '■ 停止播放' : '▶ 再看一次'; qx.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+var qgo = function () {
 hush(qv);
-if (qs || qv.play && qv.className.indexOf('svo-vmw') >= 0) { if (!qv.src) qv.src = qs; qv.muted = false; qv.currentTime = 0; var p = qv.play(); if (p && p.catch) p.catch(function () {}); }
-});
-});
+if (qs || qv.play && qv.className.indexOf('svo-vmw') >= 0) { if (!qv.src) qv.src = qs; qv.muted = false; qv.currentTime = 0; var p = qv.play(); if (p && p.catch) p.catch(function () {}); qset(true); }
+};
+var qstop = function () { if (!qv.paused) qv.pause(); if (!qx.hidden) qset(false); };
+qx.addEventListener('click', function () { if (qx.getAttribute('aria-pressed') == 'true') qstop(); else qgo(); });
+qv._stop = qstop;
+if (window.IntersectionObserver) new IntersectionObserver(function (es) { if (!es[0].isIntersecting) qstop(); }, { threshold: .05 }).observe(qz);
 qf.parentNode.insertBefore(qz, qf);
 }
 var snd = function (b, on) {
@@ -471,6 +480,12 @@ if (!vm) f.onload = function () { f.contentWindow.postMessage('{"event":"listeni
 a.replaceChild(f, a._im);
 });
 });
+if (window.IntersectionObserver) {
+var yo = new IntersectionObserver(function (es) {
+es.forEach(function (x) { var a = x.target, f = a.querySelector('iframe'); if (!x.isIntersecting && f) { a.replaceChild(a._im, f); a.classList.remove('on'); } });
+}, { threshold: 0 });
+Q('.svo-yt__v').forEach(function (a) { yo.observe(a); });
+}
 addEventListener('message', function (e) {
 if (!/youtube-nocookie\.com|vimeo\.com/.test(e.origin)) return;
 var d; try { d = typeof e.data == 'string' ? JSON.parse(e.data) : e.data; } catch (x) { return; }
@@ -572,6 +587,7 @@ var vo = new IntersectionObserver(function (es) {
 es.forEach(function (x) {
 var v = x.target;
 if (x.isIntersecting) {
+if (x.intersectionRatio < .1) return;   // 只露出一點點時不開始播；完全離開畫面（下面的 else）才停
 var sh = v.closest('.svo-shot');
 if (sh && !sh.classList.contains('on')) return;   // 鏡頭裡的影片由上面的鏡頭切換負責
 if (v.closest('.svo-crew__l')) return;   // 實拍／花絮卡片不自動播：電腦版滑鼠移上去才播（見下方），手機按「聽現場講解」才播
@@ -583,7 +599,7 @@ var b = v.parentNode.querySelector('.svo-snd');
 if (b && !v.muted) snd(b, false);
 }
 });
-}, { threshold: .1 });
+}, { threshold: [0, .1] });
 Q('video[data-v],.svo-vmw[data-v]').forEach(function (v) { vo.observe(v); });
 }
 })();
