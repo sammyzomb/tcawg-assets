@@ -271,11 +271,30 @@ var w = li.querySelector('.svo-vmw,video'); if (!w) return;
 w.style.cursor = 'pointer'; w.addEventListener('click', function () { lbOpen(li); });
 });
 var cl = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+var HG = [['l9-h1', '莫斯科 Izmailovo Vega', '飯店外觀'], ['l9-h2', '莫斯科 Izmailovo Vega', '標準房'], ['l9-h3', '莫斯科 Izmailovo Vega', '餐廳'],
+['l9-h4', '聖彼得堡 Cosmos Pulkovskaya', '飯店外觀'], ['l9-h5', '聖彼得堡 Cosmos Pulkovskaya', '標準房'], ['l9-h6', '聖彼得堡 Cosmos Pulkovskaya', '酒吧交誼廳']];
+var hgi = G('#svo-l9 .svo-shot>img');
+if (hgi && /l9-h1\.jpg/.test(hgi.getAttribute('src'))) {
+var hgw = document.createElement('div'), hgc = document.createElement('p'), hgb = hgi.getAttribute('src').replace(/l9-h1\.jpg.*$/, ''), hgn = 0, hgs = [hgi];
+hgw.className = 'svo-gal'; hgc.className = 'svo-gal__c'; hgc.setAttribute('aria-hidden', 'true');
+hgi.parentNode.insertBefore(hgw, hgi); hgw.appendChild(hgi); hgi.className = 'on';
+HG.slice(1).forEach(function (h) {
+var im = document.createElement('img'); im.alt = h[1] + ' ' + h[2]; im.loading = 'lazy'; im.width = 1200; im.height = 1200;
+later(hgw, function () { im.src = hgb + h[0] + '.jpg'; }); hgw.appendChild(im); hgs.push(im);
+});
+hgw.appendChild(hgc);
+var hgShow = function (n) {
+hgs[hgn].className = ''; hgn = n; hgs[n].className = 'on';
+hgc.innerHTML = '<b>' + HG[n][1] + '</b>' + HG[n][2] + '<i>' + (n + 1) + ' / ' + HG.length + '</i>';
+};
+hgShow(0);
+setInterval(function () { if (!still && hgw.closest('.svo-shot').classList.contains('on') && !document.hidden) hgShow((hgn + 1) % hgs.length); }, 3600);
+}
 var hero = G('.svo-hero'), gate = G('.svo-gate'), art = gate && gate.querySelector('.art'), ta = G('.svo-hero__a'), tb = G('.svo-hero__b');
 var hp = 0, ht = 0;
 var scenes = Q('.svo-scene').map(function (sc) {
 var shots = [].slice.call(sc.querySelectorAll('.svo-shot'));
-return { el: sc, shots: shots, img: shots.map(function (s) { return s.querySelector(':scope>img,:scope>video,:scope>.svo-vmw'); }), tx: shots.map(function (s) { return s.querySelector('.svo-shot__tx'); }),
+return { el: sc, shots: shots, img: shots.map(function (s) { return s.querySelector(':scope>img,:scope>video,:scope>.svo-vmw,:scope>.svo-gal'); }), tx: shots.map(function (s) { return s.querySelector('.svo-shot__tx'); }),
 n: sc.querySelector('.svo-hud b'), bar: sc.querySelector('.svo-hud__bar i'), last: -1, x: 0, t: 0, p: 0 };
 });
 var measure = function () {
