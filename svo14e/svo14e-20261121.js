@@ -60,12 +60,14 @@ if (!m || v.dataset.src) return v;
 var w = document.createElement('div'), f = null, st = { p: true, mu: true, t: 0 };
 w.className = (v.getAttribute('class') ? v.getAttribute('class') + ' ' : '') + 'svo-vmw';
 if (v.dataset.v) w.dataset.v = v.dataset.v;
+var vy = v.dataset.y && !tall() ? +v.dataset.y : -1;   // 電腦版畫面垂直對齊（0＝上緣），預設置中
+if (vy >= 0) w.style.backgroundPosition = '50% ' + vy * 100 + '%';
 w.setAttribute('role', 'img'); if (v.getAttribute('aria-label')) w.setAttribute('aria-label', v.getAttribute('aria-label'));
 var tell = function (mt, val) { if (f && f.contentWindow) f.contentWindow.postMessage(JSON.stringify(val === undefined ? { method: mt } : { method: mt, value: val }), VO); };
 w._fit = function () {
 if (!f || w.classList.contains('is-full')) return;
 var bw = w.clientWidth, bh = w.clientHeight, ar = m[1] / m[2], W = Math.max(bw, bh * ar), H = W / ar;
-f.style.cssText = 'width:' + W + 'px;height:' + H + 'px;left:' + (bw - W) / 2 + 'px;top:' + (w.closest('.svo-shot--live') ? 0 : (bh - H) / 2) + 'px';
+f.style.cssText = 'width:' + W + 'px;height:' + H + 'px;left:' + (bw - W) / 2 + 'px;top:' + (w.closest('.svo-shot--live') ? 0 : (bh - H) * (vy >= 0 ? vy : .5)) + 'px';
 };
 w._ready = function () { tell('setVolume', st.mu ? 0 : 1); if (st.t) tell('setCurrentTime', st.t); if (st.p) tell('pause'); };
 Object.defineProperty(w, 'poster', { get: function () { return ''; }, set: function (u) { if (u) w.style.backgroundImage = 'url("' + u + '")'; } });
@@ -134,7 +136,7 @@ var RT = [
 ['大諾夫哥羅德的聖索菲亞大教堂', '千年俄羅斯紀念碑與聖索菲亞大教堂', '加特契納大宮殿'],
 ['彼得夏宮大宮殿與大瀑布噴泉，金色雕像沿著水道排開', '什利謝利堡的石牆與圓塔，隔著湖水', '葉卡捷琳娜宮琥珀廳的牆角，琥珀鑲板與金色雕飾']
 ];
-var RTF = ['abd', 'abd', 'abc', 'def'];   // 各段三張圖的檔名字尾（預設 a、b、c；換過圖的用新字尾，避免瀏覽器讀到舊圖）
+var RTF = ['abe', 'abd', 'abc', 'def'];   // 各段三張圖的檔名字尾（預設 a、b、c；換過圖的用新字尾，避免瀏覽器讀到舊圖）
 var ip = cp ? cp.dataset.p.replace('crew-', '') : '';
 var rhd = G('.svo-route__hd');
 if (rhd) { var gn = document.createElement('p'); gn.className = 'svo-route__gr'; gn.innerHTML = '<b>「金環」名稱的由來</b>1967 年，蘇聯記者兼作家尤里・比奇科夫走訪莫斯科周邊的古老城鎮，把沿途見聞寫成系列文章，題為「俄羅斯金環」（<span lang="ru">Золотое кольцо России</span>），後來成為這條旅遊路線的名稱。'; rhd.appendChild(gn); }
@@ -197,6 +199,21 @@ b.addEventListener('click', function () {
 if (mob && b.closest('.svo-crew__l')) return lbOpen(b.closest('li'));
 snd(b, b.getAttribute('aria-pressed') != 'true');
 });
+});
+if (!mob) Q('.svo-crew__l li').forEach(function (li) {
+var vid = function () { return li.querySelector('video,.svo-vmw'); };
+var on = function () {
+var v = vid(); if (!v) return;
+if (!v.src && v.dataset.src) v.src = v.dataset.src;
+var p = v.play(); if (p && p.catch) p.catch(function () {});
+};
+var off = function () {
+var v = vid(), b = li.querySelector('.svo-snd');
+if (!v || (b && b.getAttribute('aria-pressed') == 'true')) return;
+v.pause();
+};
+li.addEventListener('mouseenter', on); li.addEventListener('mouseleave', off);
+li.addEventListener('focusin', on); li.addEventListener('focusout', function (e) { if (!li.contains(e.relatedTarget)) off(); });
 });
 var lb = null, lbList = [], lbI = 0;
 var lbShow = function () {
@@ -557,7 +574,7 @@ var v = x.target;
 if (x.isIntersecting) {
 var sh = v.closest('.svo-shot');
 if (sh && !sh.classList.contains('on')) return;   // 鏡頭裡的影片由上面的鏡頭切換負責
-if (mob && v.closest('.svo-crew__l')) return;   // 手機的實拍／花絮卡片不自動播：左右滑時插入播放器會讓 iPhone 重新對齊而亂跳；按「聽現場講解」才播
+if (v.closest('.svo-crew__l')) return;   // 實拍／花絮卡片不自動播：電腦版滑鼠移上去才播（見下方），手機按「聽現場講解」才播
 if (!v.src && v.dataset.src) v.src = (tall() && v.dataset.srcp) || v.dataset.src;
 if (!still && v.src) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
 } else {
